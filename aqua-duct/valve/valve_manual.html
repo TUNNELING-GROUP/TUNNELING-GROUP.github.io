@@ -7,22 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Valve manual &#8212; Aqua-Duct 0.5.14 documentation</title>
-    <link rel="stylesheet" href="../static/bizstyle.css" type="text/css" />
-    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../static/documentation_options.js"></script>
-    <script type="text/javascript" src="../static/jquery.js"></script>
-    <script type="text/javascript" src="../static/underscore.js"></script>
-    <script type="text/javascript" src="../static/doctools.js"></script>
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="../static/bizstyle.js"></script>
-    <link rel="shortcut icon" href="../static/ficon.ico"/>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../_static/ficon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Configuration file options" href="valve_config.html" />
     <link rel="prev" title="Aqua-Duct installation guide" href="../aquaduct_install.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -46,7 +46,7 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
-              <img class="logo" src="../static/AQUADUCT_LOGO.png" alt="Logo"/>
+              <img class="logo" src="../_static/AQUADUCT_LOGO.png" alt="Logo"/>
             </a></p>
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -289,7 +289,7 @@
 <p>AQ uses quickhull algorithm for convex hulls calculations (via SciPy class <code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.spatial.ConvexHull</span></code>, see also <a class="reference external" href="http://www.qhull.org/">http://www.qhull.org/</a> and original publication <a class="reference external" href="http://dx.doi.org/10.1145/235815.235821">The quickhull algorithm for convex hulls</a>).</p>
 <p>Convex hull concept is used to check if traced molecules are inside of the macromolecule. Convex hull can be considered as rough approximation of molecular surface. Following picture shows schematic comparison of convex hull and solvent excluded surface (SES):</p>
 <div class="figure align-center">
-<img alt="../images/ch_vs_ses.png" src="../images/ch_vs_ses.png" />
+<img alt="../_images/ch_vs_ses.png" src="../_images/ch_vs_ses.png" />
 </div>
 <p>Convex hull (red shape) of atoms (blue dots with VdW spheres) and SES (blue line): a) convex hull and SES cover roughly the same area, convex hull approximates SES; b) movement of one atom dramatically changes SES, however, interior of the molecule as approximated by convex hull remains stable.</p>
 <p>No doubts, convex hull is a very rough approximation of SES. It has, however, one very important property when it is used to approximate interior of molecules: its interior does not considerably depend on the molecular conformation of a molecule (or molecular entity) in question.</p>
@@ -693,7 +693,7 @@ Results of the analysis are displayed on the screen or can be saved to text file
 <p>In addition to general summary Aqua-Duct calculates frames dependent parameters. Two types of values are calculated: number of traced paths, and <em>Object</em> and <em>Scope</em> sizes. Results are saved in the additional CSV file or are printed on the screen.</p>
 <p>Calculated numbers of traced paths can be used to visualize behavior of the system in question. For example, one can analyze number of paths is two different clusters:</p>
 <div class="figure align-center">
-<img alt="../images/figure_16_6.png" src="../images/figure_16_6.png" />
+<img alt="../_images/figure_16_6.png" src="../_images/figure_16_6.png" />
 </div>
 <p>The above plot shows number of water molecules (or paths) in cluster 16 and 6 throughout the simulation. One can observe that number of molecules in cluster 6 diminishes approximately in the middle. This kind of plot can be easily generated with additional CSV data.</p>
 <div class="section" id="number-of-traced-paths">
