@@ -1,0 +1,236 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Aqua-Duct changelog &#8212; Aqua-Duct 0.5.14 documentation</title>
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="_static/ficon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="aquaduct.visual.quickplot module" href="aquaduct.visual.quickplot.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="aquaduct.visual.quickplot.html" title="aquaduct.visual.quickplot module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/AQUADUCT_LOGO.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aquaduct.visual.quickplot.html"
+                        title="previous chapter">aquaduct.visual.quickplot module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="aqua-duct-changelog">
+<h1>Aqua-Duct changelog<a class="headerlink" href="#aqua-duct-changelog" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>0.5.14 (26.09.2018)</dt>
+<dd><ul class="first last">
+<li>Fixed problems with calculation convex hull shapes for empty selections.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0.5.9 (12.03.2018)</dt>
+<dd><ul class="first last">
+<li>Rewritten module for MD data access. Sandwich mode added.</li>
+<li>Coordinates can be stored in cache directory, in memory or generated on demand.</li>
+<li>Support for long trajectories.</li>
+<li>Passing through paths are supported.</li>
+<li>Improvements in visualization script.</li>
+<li>Coordinates of residues are calculated as center of geometry.</li>
+<li>Recommended MDAnalysis is set to &gt;=0.16 and &lt;0.17. Version 0.17 is supported but not recommended.</li>
+<li>Bug fixes and code cleanup.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0.4.0 - 0.4.14 (20.11.2017) unofficial</dt>
+<dd><ul class="first last">
+<li>Uses newest MDAnalysis (0.16.2).</li>
+<li>Steady improvement of documentation (including API).</li>
+<li>Names of traced molecules are returned in the result file and tables are split appropriately.</li>
+<li>Tables in the result file are split in regard to Object and Passing paths.</li>
+<li>Passing through paths are being introduced, WIP.</li>
+<li>Additional tables in the result file.</li>
+<li>CRD is enabled as topology/trajectory format.</li>
+<li>Traced residues are identified by resindices instead of resids; this allows to use weak topologies such as PDB.</li>
+<li>Removed roman dependency.</li>
+<li>In addition to histograms approximate (ConvexHull approximation) areas and volumes of the scope and object can be calculated.</li>
+<li>Bug fixes and reliability fixes.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0.3.7 (18.07.2017)</dt>
+<dd><ul class="first last">
+<li>Enable XTC trajectory format.</li>
+<li>Reliability fix in progress bar display.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0.3.6 (28.06.2017)</dt>
+<dd><ul class="first last">
+<li>AQ can be run for given part of trajectory.</li>
+<li>Fixed bug in passing options to Barber clusterization method.</li>
+<li>Recursive threshold can be defined as range; no disjoint ranges are supported.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0.3.5 (18.04.2017)</dt>
+<dd><ul class="first last">
+<li>As for now, the only supported version of MDAnalysis is 0.15.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0.3.4 (14.04.2017)</dt>
+<dd><ul class="first last">
+<li>Fixed bug in progress bar updating method causing critical error in some specific circumstances.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0.3.3 (20.03.2017)</dt>
+<dd><ul class="first last">
+<li>AutoBarber default values of maxcut_level and mincut_level changed to True.</li>
+<li>Improved template configuration file.</li>
+<li>Number of small improvements in documentation.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0.3.2 (24.02.2017)</dt>
+<dd><ul class="first last">
+<li>Major improvement: new auto_barber based clustering method.</li>
+<li>Clusterization history displayed as simple ascii tree.</li>
+<li>AutoBarber min and max cut level options added.</li>
+<li>Barber moved to separate module.</li>
+<li>Fixed bug in visualization script; if no molecule is kept do not set style and color.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0.3.1 (04.02.2017)</dt>
+<dd><ul class="first last">
+<li>AutoBarber tovdw option.</li>
+<li>AutoBarber minimal and maximal cut options.</li>
+<li>Fixed bug in AutoBarber: some areas were sometimes not cut.</li>
+<li>Documentation improvements.</li>
+<li>Valve driver simplified. Most of the functionality moved to separate module.</li>
+<li>Option for single precision storage.</li>
+<li>Added Savitzky-Golay smoothing; AQ requires SciPy &gt;= 0.14 now.</li>
+<li>Improved sorting of CTypes.</li>
+<li>Raw and Separate paths uses SmartRanges. This allowed for excellent performance improvement of Separate paths calculation.</li>
+<li>Default display of molecule changed to silver cartoon.</li>
+<li>Object shape displayed in orange.</li>
+<li>Fixed several small bugs.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0.2.26 (21.01.2017)</dt>
+<dd><ul class="first last">
+<li>Stage execution time debug messages.</li>
+<li>Total execution time debug message.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0.2.25 (18.01.2017)</dt>
+<dd><ul class="first last">
+<li>initial public release</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="aquaduct.visual.quickplot.html" title="aquaduct.visual.quickplot module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+    </div>
+  </body>
+</html>

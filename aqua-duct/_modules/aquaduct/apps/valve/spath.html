@@ -1,0 +1,517 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>aquaduct.apps.valve.spath &#8212; Aqua-Duct 0.5.14 documentation</title>
+    <link rel="stylesheet" href="../../../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/ficon.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../../aquaduct.html" accesskey="U">aquaduct</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/AQUADUCT_LOGO.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for aquaduct.apps.valve.spath</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># Aqua-Duct, a tool facilitating analysis of the flow of solvent molecules in molecular dynamic simulations</span>
+<span class="c1"># Copyright (C) 2016-2018  Tomasz Magdziarz, Alicja Płuciennik, Michał Stolarczyk &lt;info@aquaduct.pl&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">wraps</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">aquaduct.geom</span> <span class="k">import</span> <span class="n">traces</span>
+<span class="kn">from</span> <span class="nn">aquaduct.traj.paths</span> <span class="k">import</span> <span class="n">PassingPath</span>
+
+
+<div class="viewcode-block" id="SpathIdHeader"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.SpathIdHeader">[docs]</a><span class="k">class</span> <span class="nc">SpathIdHeader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;ID&#39;</span>
+    <span class="nb">format</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%9s</span><span class="s1">&#39;</span>
+
+<div class="viewcode-block" id="SpathIdHeader.__call__"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.SpathIdHeader.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div></div>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">]</span>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">def spath_id_header():</span>
+<span class="sd">    return [&#39;ID&#39;], [&#39;%9s&#39;]</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="n">spath_id_header</span> <span class="o">=</span> <span class="n">SpathIdHeader</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="spath_name_header"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_name_header">[docs]</a><span class="k">def</span> <span class="nf">spath_name_header</span><span class="p">():</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;RES&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">%4s</span><span class="s1">&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="add_path_id_head"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.add_path_id_head">[docs]</a><span class="k">def</span> <span class="nf">add_path_id_head</span><span class="p">(</span><span class="n">gen</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">patched</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">sph</span><span class="p">,</span> <span class="n">splt</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">spath_id_header</span><span class="p">(),</span> <span class="n">spath_name_header</span><span class="p">())</span>
+        <span class="n">sph</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">sph</span><span class="p">]</span>
+        <span class="n">splt</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">splt</span><span class="p">]</span>
+
+        <span class="n">add_id</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="s1">&#39;add_id&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">add_id</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;add_id&#39;</span><span class="p">)</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">lt</span> <span class="o">=</span> <span class="n">gen</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">add_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">sph</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">splt</span> <span class="o">+</span> <span class="n">lt</span>
+        <span class="k">return</span> <span class="n">h</span><span class="p">,</span> <span class="n">lt</span>
+</div>
+    <span class="k">return</span> <span class="n">patched</span>
+
+
+<div class="viewcode-block" id="add_path_id"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.add_path_id">[docs]</a><span class="k">def</span> <span class="nf">add_path_id</span><span class="p">(</span><span class="n">gen</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">patched</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">add_id</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="s1">&#39;add_id&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">add_id</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;add_id&#39;</span><span class="p">)</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">gen</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">add_id</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="n">spath</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">spath</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">+</span> <span class="n">line</span>
+        <span class="k">return</span> <span class="n">line</span>
+</div>
+    <span class="k">return</span> <span class="n">patched</span>
+
+
+<div class="viewcode-block" id="size_header"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.size_header">[docs]</a><span class="k">def</span> <span class="nf">size_header</span><span class="p">():</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;Size&#39;</span><span class="p">,</span> <span class="s1">&#39;Size%&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">%7d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%6.2f</span><span class="s1">&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="add_size_head"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.add_size_head">[docs]</a><span class="k">def</span> <span class="nf">add_size_head</span><span class="p">(</span><span class="n">gen</span><span class="p">):</span>
+    <span class="n">sph</span><span class="p">,</span> <span class="n">splt</span> <span class="o">=</span> <span class="n">size_header</span><span class="p">()</span>
+
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">patched</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">lt</span> <span class="o">=</span> <span class="n">gen</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sph</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">splt</span> <span class="o">+</span> <span class="n">lt</span>
+</div>
+    <span class="k">return</span> <span class="n">patched</span>
+
+
+<div class="viewcode-block" id="add_size"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.add_size">[docs]</a><span class="k">def</span> <span class="nf">add_size</span><span class="p">(</span><span class="n">gen</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">patched</span><span class="p">(</span><span class="n">spaths</span><span class="p">,</span> <span class="n">add_size</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">add_size_p100</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">gen</span><span class="p">(</span><span class="n">spaths</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">add_size_p100</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">spaths</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">add_size_p100</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">]</span> <span class="o">+</span> <span class="n">line</span>
+        <span class="k">if</span> <span class="n">add_size</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">spaths</span><span class="p">)]</span> <span class="o">+</span> <span class="n">line</span>
+        <span class="k">return</span> <span class="n">line</span>
+</div>
+    <span class="k">return</span> <span class="n">patched</span>
+
+
+<div class="viewcode-block" id="ctype_id_header"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.ctype_id_header">[docs]</a><span class="k">def</span> <span class="nf">ctype_id_header</span><span class="p">():</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;CType&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">%7s</span><span class="s1">&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="add_ctype_id_head"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.add_ctype_id_head">[docs]</a><span class="k">def</span> <span class="nf">add_ctype_id_head</span><span class="p">(</span><span class="n">gen</span><span class="p">):</span>
+    <span class="n">sph</span><span class="p">,</span> <span class="n">splt</span> <span class="o">=</span> <span class="n">ctype_id_header</span><span class="p">()</span>
+
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">patched</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">lt</span> <span class="o">=</span> <span class="n">gen</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sph</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">splt</span> <span class="o">+</span> <span class="n">lt</span>
+</div>
+    <span class="k">return</span> <span class="n">patched</span>
+
+
+<div class="viewcode-block" id="add_ctype_id"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.add_ctype_id">[docs]</a><span class="k">def</span> <span class="nf">add_ctype_id</span><span class="p">(</span><span class="n">gen</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">patched</span><span class="p">(</span><span class="n">ctype</span><span class="p">,</span> <span class="n">something</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">gen</span><span class="p">(</span><span class="n">ctype</span><span class="p">,</span> <span class="n">something</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">add_id</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">ctype</span><span class="p">)]</span> <span class="o">+</span> <span class="n">line</span>
+        <span class="k">return</span> <span class="n">line</span>
+</div>
+    <span class="k">return</span> <span class="n">patched</span>
+
+
+<div class="viewcode-block" id="spath_basic_info_header"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_basic_info_header">[docs]</a><span class="nd">@add_path_id_head</span>
+<span class="k">def</span> <span class="nf">spath_basic_info_header</span><span class="p">():</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="s1">&#39;BeginF InpF ObjF ObjFS OutF EndF&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">line_template</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">%7d</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">header</span><span class="p">,</span> <span class="n">line_template</span>
+
+
+<div class="viewcode-block" id="spath_basic_info"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_basic_info">[docs]</a><span class="nd">@add_path_id</span>
+<span class="k">def</span> <span class="nf">spath_basic_info</span><span class="p">(</span><span class="n">spath</span><span class="p">):</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="n">spath</span><span class="o">.</span><span class="n">begins</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">PassingPath</span><span class="p">):</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="p">(</span><span class="n">spath</span><span class="o">.</span><span class="n">path_in</span><span class="p">,</span> <span class="n">spath</span><span class="o">.</span><span class="n">path_object</span><span class="p">)))</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spath</span><span class="o">.</span><span class="n">path_object_strict_len</span><span class="p">)</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spath</span><span class="o">.</span><span class="n">path_out</span><span class="p">))</span>
+        <span class="c1"># line.extend(map(len, (spath.path_in, spath.path_object, spath.path_out)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spath</span><span class="o">.</span><span class="n">ends</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">line</span>
+
+
+<div class="viewcode-block" id="spath_lenght_total_info_header"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_lenght_total_info_header">[docs]</a><span class="nd">@add_path_id_head</span>
+<span class="k">def</span> <span class="nf">spath_lenght_total_info_header</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="s1">&#39;InpL ObjL OutL&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">total</span><span class="p">:</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;TotL&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">header</span>
+    <span class="n">line_template</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">%9.1f</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">header</span><span class="p">,</span> <span class="n">line_template</span>
+
+
+<div class="viewcode-block" id="spath_lenght_total_info"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_lenght_total_info">[docs]</a><span class="nd">@add_path_id</span>
+<span class="k">def</span> <span class="nf">spath_lenght_total_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">totalonly</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># total and totalonly are internal flags</span>
+    <span class="c1"># to calculate: total len, in len, obj len, out len call:</span>
+    <span class="c1"># total=True (this will calculate total)</span>
+    <span class="c1"># to skip calculation of total call:</span>
+    <span class="c1"># total=False, totalonly=False (this will calculate in, obj, and out lens)</span>
+    <span class="c1"># to calculate total len call:</span>
+    <span class="c1"># total=False, totalonly=True</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">total</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">totalonly</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">traces</span><span class="o">.</span><span class="n">midpoints</span><span class="p">(</span><span class="n">spath</span><span class="o">.</span><span class="n">coords</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># traces.length_step_std requires at least 2 points</span>
+                    <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traces</span><span class="o">.</span><span class="n">length_step_std</span><span class="p">(</span><span class="n">t</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">line</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">traces</span><span class="o">.</span><span class="n">midpoints</span><span class="p">((</span><span class="n">spath</span><span class="o">.</span><span class="n">coords_cont</span><span class="p">,)):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># traces.length_step_std requires at least 2 points</span>
+                    <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traces</span><span class="o">.</span><span class="n">length_step_std</span><span class="p">(</span><span class="n">t</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">line</span>
+    <span class="n">line</span> <span class="o">+=</span> <span class="n">spath_lenght_total_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">totalonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">PassingPath</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">+=</span> <span class="n">spath_lenght_total_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">totalonly</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span></div>
+    <span class="k">return</span> <span class="n">line</span>
+
+
+<div class="viewcode-block" id="spath_frames_total_info"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_frames_total_info">[docs]</a><span class="nd">@add_path_id</span>
+<span class="k">def</span> <span class="nf">spath_frames_total_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">totalonly</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># total and totalonly are internal flags</span>
+    <span class="c1"># to calculate: total len, in len, obj len, out len call:</span>
+    <span class="c1"># total=True (this will calculate total)</span>
+    <span class="c1"># to skip calculation of total call:</span>
+    <span class="c1"># total=False, totalonly=False (this will calculate in, obj, and out lens)</span>
+    <span class="c1"># to calculate total len call:</span>
+    <span class="c1"># total=False, totalonly=True</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">total</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">totalonly</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">spath</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">line</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">(</span><span class="n">spath</span><span class="o">.</span><span class="n">coords_cont</span><span class="p">,):</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">line</span>
+    <span class="n">line</span> <span class="o">+=</span> <span class="n">spath_frames_total_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">totalonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">PassingPath</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">+=</span> <span class="n">spath_frames_total_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">totalonly</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span></div>
+    <span class="k">return</span> <span class="n">line</span>
+
+
+<div class="viewcode-block" id="spath_steps_info_header"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_steps_info_header">[docs]</a><span class="nd">@add_path_id_head</span>
+<span class="k">def</span> <span class="nf">spath_steps_info_header</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="s1">&#39;InpS InpStdS ObjS ObjStdS OutS OutStdS&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">total</span><span class="p">:</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;TotS&#39;</span><span class="p">,</span> <span class="s1">&#39;TotStdS&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">header</span>
+    <span class="n">line_template</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">%8.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%8.3f</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">header</span><span class="p">,</span> <span class="n">line_template</span>
+
+
+<div class="viewcode-block" id="spath_steps_info"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_steps_info">[docs]</a><span class="nd">@add_path_id</span>
+<span class="k">def</span> <span class="nf">spath_steps_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">total</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">PassingPath</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">traces</span><span class="o">.</span><span class="n">midpoints</span><span class="p">(</span><span class="n">spath</span><span class="o">.</span><span class="n">coords</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">line</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">traces</span><span class="o">.</span><span class="n">length_step_std</span><span class="p">(</span><span class="n">t</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">line</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">3</span>
+        <span class="k">return</span> <span class="n">line</span>
+    <span class="n">line</span> <span class="o">+=</span> <span class="n">spath_steps_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">traces</span><span class="o">.</span><span class="n">midpoints</span><span class="p">((</span><span class="n">spath</span><span class="o">.</span><span class="n">coords_cont</span><span class="p">,))</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">traces</span><span class="o">.</span><span class="n">length_step_std</span><span class="p">(</span><span class="n">t</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">+</span> <span class="n">line</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)]</span> <span class="o">+</span> <span class="n">line</span></div>
+    <span class="k">return</span> <span class="n">line</span>
+
+
+<div class="viewcode-block" id="spath_frames_info"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_frames_info">[docs]</a><span class="nd">@add_path_id</span>
+<span class="k">def</span> <span class="nf">spath_frames_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">total</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">spath</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">line</span>
+    <span class="n">line</span> <span class="o">+=</span> <span class="n">spath_steps_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">PassingPath</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">spath</span><span class="o">.</span><span class="n">coords_cont</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)]</span> <span class="o">+</span> <span class="n">line</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)]</span> <span class="o">+</span> <span class="n">line</span></div>
+    <span class="k">return</span> <span class="n">line</span>
+
+
+<div class="viewcode-block" id="spath_ctype_header"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_ctype_header">[docs]</a><span class="nd">@add_path_id_head</span>
+<span class="k">def</span> <span class="nf">spath_ctype_header</span><span class="p">():</span>
+    <span class="n">header</span><span class="p">,</span> <span class="n">line_template</span> <span class="o">=</span> <span class="n">ctype_id_header</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">header</span><span class="p">,</span> <span class="n">line_template</span>
+
+
+<div class="viewcode-block" id="spath_ctype"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_ctype">[docs]</a><span class="nd">@add_path_id</span>
+<span class="k">def</span> <span class="nf">spath_ctype</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">ctype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">ctype</span><span class="p">)]</span></div>
+    <span class="k">return</span> <span class="n">line</span>
+
+
+<div class="viewcode-block" id="spath_full_info_header"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_full_info_header">[docs]</a><span class="nd">@add_path_id_head</span>
+<span class="k">def</span> <span class="nf">spath_full_info_header</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">line_template</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">h</span><span class="p">,</span> <span class="n">lt</span> <span class="ow">in</span> <span class="p">(</span><span class="n">spath_basic_info_header</span><span class="p">(</span><span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                  <span class="n">spath_lenght_total_info_header</span><span class="p">(</span><span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="p">),</span>
+                  <span class="n">spath_steps_info_header</span><span class="p">(</span><span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="p">),</span>
+                  <span class="n">spath_ctype_header</span><span class="p">(</span><span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">)):</span>
+        <span class="n">header</span> <span class="o">+=</span> <span class="n">h</span>
+        <span class="n">line_template</span> <span class="o">+=</span> <span class="n">lt</span></div>
+    <span class="k">return</span> <span class="n">header</span><span class="p">,</span> <span class="n">line_template</span>
+
+
+<div class="viewcode-block" id="spath_full_info"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spath_full_info">[docs]</a><span class="nd">@add_path_id</span>
+<span class="k">def</span> <span class="nf">spath_full_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">ctype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="p">(</span><span class="n">spath_basic_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+              <span class="n">spath_lenght_total_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="p">),</span>
+              <span class="n">spath_steps_info</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="p">),</span>
+              <span class="n">spath_ctype</span><span class="p">(</span><span class="n">spath</span><span class="p">,</span> <span class="n">ctype</span><span class="o">=</span><span class="n">ctype</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">)):</span>
+        <span class="n">line</span> <span class="o">+=</span> <span class="n">l</span></div>
+    <span class="k">return</span> <span class="n">line</span>
+
+
+<div class="viewcode-block" id="spaths_lenght_total_header"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spaths_lenght_total_header">[docs]</a><span class="nd">@add_size_head</span>
+<span class="k">def</span> <span class="nf">spaths_lenght_total_header</span><span class="p">():</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="s1">&#39;Tot TotStd Inp InpStd Obj ObjStd Out OutStd&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">line_template</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">%9.1f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%9.2f</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">header</span><span class="p">,</span> <span class="n">line_template</span>
+
+
+<div class="viewcode-block" id="spaths_length_total"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spaths_length_total">[docs]</a><span class="nd">@add_size</span>
+<span class="k">def</span> <span class="nf">spaths_length_total</span><span class="p">(</span><span class="n">spaths</span><span class="p">):</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">d4s</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">spaths</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">PassingPath</span><span class="p">):</span>
+            <span class="n">d4s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spath_lenght_total_info</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">d4s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">d4s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">d4s</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">d4s</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">d4s</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">6</span>
+    <span class="c1"># total</span>
+    <span class="n">d4s</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">spaths</span><span class="p">:</span>
+        <span class="n">d4s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spath_lenght_total_info</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">totalonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">d4s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">d4s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">d4s</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">d4s</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">d4s</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span>
+</div>
+    <span class="k">return</span> <span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">5</span><span class="p">]]</span>
+
+
+<div class="viewcode-block" id="spaths_frames_total"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.spaths_frames_total">[docs]</a><span class="nd">@add_size</span>
+<span class="k">def</span> <span class="nf">spaths_frames_total</span><span class="p">(</span><span class="n">spaths</span><span class="p">):</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">d4s</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">spaths</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">PassingPath</span><span class="p">):</span>
+            <span class="n">d4s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spath_frames_total_info</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">d4s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">d4s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">d4s</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">d4s</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">d4s</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">6</span>
+    <span class="c1"># total</span>
+    <span class="n">d4s</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">spaths</span><span class="p">:</span>
+        <span class="n">d4s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spath_frames_total_info</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">totalonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">add_id</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">d4s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">d4s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">d4s</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">d4s</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">line</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">d4s</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span>
+</div>
+    <span class="k">return</span> <span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">5</span><span class="p">]]</span>
+
+
+<div class="viewcode-block" id="ctypes_spaths_info_header"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.ctypes_spaths_info_header">[docs]</a><span class="nd">@add_ctype_id_head</span>
+<span class="k">def</span> <span class="nf">ctypes_spaths_info_header</span><span class="p">():</span>
+    <span class="n">header</span><span class="p">,</span> <span class="n">line_template</span> <span class="o">=</span> <span class="n">spaths_lenght_total_header</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">header</span><span class="p">,</span> <span class="n">line_template</span>
+
+
+<div class="viewcode-block" id="ctypes_spaths_info"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.ctypes_spaths_info">[docs]</a><span class="nd">@add_ctype_id</span>
+<span class="k">def</span> <span class="nf">ctypes_spaths_info</span><span class="p">(</span><span class="n">ctype</span><span class="p">,</span> <span class="n">spaths</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="s1">&#39;len&#39;</span><span class="p">,</span> <span class="n">add_size_p100</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># show could be len or frames</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">show</span> <span class="o">==</span> <span class="s1">&#39;len&#39;</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">+=</span> <span class="n">spaths_length_total</span><span class="p">(</span><span class="n">spaths</span><span class="p">,</span> <span class="n">add_size_p100</span><span class="o">=</span><span class="n">add_size_p100</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show</span> <span class="o">==</span> <span class="s1">&#39;frames&#39;</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">+=</span> <span class="n">spaths_frames_total</span><span class="p">(</span><span class="n">spaths</span><span class="p">,</span> <span class="n">add_size_p100</span><span class="o">=</span><span class="n">add_size_p100</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">line</span>
+
+
+<div class="viewcode-block" id="plot_spaths_traces"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.plot_spaths_traces">[docs]</a><span class="k">def</span> <span class="nf">plot_spaths_traces</span><span class="p">(</span><span class="n">spaths</span><span class="p">,</span> <span class="n">spp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">separate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">states</span> <span class="ow">or</span> <span class="n">separate</span><span class="p">:</span>
+        <span class="n">spaths_iter</span> <span class="o">=</span> <span class="n">spaths</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">spaths_iter</span> <span class="o">=</span> <span class="p">[</span><span class="n">spaths</span><span class="p">]</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">name_separate</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">nr</span><span class="p">,</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spaths_iter</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">states</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">nr</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">separate</span><span class="p">:</span>
+            <span class="n">name_separate</span> <span class="o">=</span> <span class="s1">&#39;_</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">states</span> <span class="ow">or</span> <span class="n">separate</span><span class="p">:</span>
+            <span class="n">sp</span> <span class="o">=</span> <span class="p">[</span><span class="n">sp</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">split</span><span class="p">:</span>
+            <span class="c1"># FIXME: if path(s) is empty this will probably produce CGO_END without CGO_BEGIN</span>
+            <span class="n">spp</span><span class="o">.</span><span class="n">paths_trace</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_in&#39;</span> <span class="o">+</span> <span class="n">name_separate</span><span class="p">,</span> <span class="n">plot_walk</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_object</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_out</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="n">smooth</span><span class="p">)</span>
+            <span class="n">spp</span><span class="o">.</span><span class="n">paths_trace</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_obj&#39;</span> <span class="o">+</span> <span class="n">name_separate</span><span class="p">,</span> <span class="n">plot_walk</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_in</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_out</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="n">smooth</span><span class="p">)</span>
+            <span class="n">spp</span><span class="o">.</span><span class="n">paths_trace</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_out&#39;</span> <span class="o">+</span> <span class="n">name_separate</span><span class="p">,</span> <span class="n">plot_walk</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_in</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_object</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="n">smooth</span><span class="p">)</span>
+            <span class="n">spp</span><span class="o">.</span><span class="n">paths_trace</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_walk&#39;</span> <span class="o">+</span> <span class="n">name_separate</span><span class="p">,</span> <span class="n">plot_in</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_object</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_out</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="n">smooth</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span></div>
+            <span class="n">spp</span><span class="o">.</span><span class="n">paths_trace</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="o">+</span> <span class="n">name_separate</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="n">smooth</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="plot_spaths_inlets"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.spath.html#aquaduct.apps.valve.spath.plot_spaths_inlets">[docs]</a><span class="k">def</span> <span class="nf">plot_spaths_inlets</span><span class="p">(</span><span class="n">spaths</span><span class="p">,</span> <span class="n">spp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">separate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">states</span> <span class="ow">or</span> <span class="n">separate</span><span class="p">:</span>
+        <span class="n">spaths_iter</span> <span class="o">=</span> <span class="n">spaths</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">spaths_iter</span> <span class="o">=</span> <span class="p">[</span><span class="n">spaths</span><span class="p">]</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">name_separate</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">nr</span><span class="p">,</span> <span class="n">sp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spaths_iter</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">states</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">nr</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">separate</span><span class="p">:</span>
+            <span class="n">name_separate</span> <span class="o">=</span> <span class="s1">&#39;_</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">states</span> <span class="ow">or</span> <span class="n">separate</span><span class="p">:</span>
+            <span class="n">sp</span> <span class="o">=</span> <span class="p">[</span><span class="n">sp</span><span class="p">]</span></div>
+        <span class="n">spp</span><span class="o">.</span><span class="n">paths_inlets</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="o">+</span> <span class="n">name_separate</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="n">smooth</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../../aquaduct.html" >aquaduct</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+    </div>
+  </body>
+</html>
