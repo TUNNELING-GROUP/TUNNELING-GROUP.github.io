@@ -7,22 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Configuration file options &#8212; Aqua-Duct 0.5.14 documentation</title>
-    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="stylesheet" href="../static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../static/documentation_options.js"></script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="../_static/bizstyle.js"></script>
-    <link rel="shortcut icon" href="../_static/ficon.ico"/>
+    <script type="text/javascript" src="../static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../static/ficon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Valve tutorial" href="valve_tutorial.html" />
     <link rel="prev" title="Valve manual" href="valve_manual.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -46,7 +46,7 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/AQUADUCT_LOGO.png" alt="Logo"/>
+              <img class="logo" src="../static/AQUADUCT_LOGO.png" alt="Logo"/>
             </a></p>
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -393,7 +393,7 @@ be met to discard path.</td>
 <td>None</td>
 <td>This option allows to select molecular entity used in Auto
 Barber procedure. See also <a class="reference internal" href="valve_manual.html#auto-barber-procedure"><span class="std std-ref">Auto Barber</span></a> and
-<a class="reference internal" href="../aquaduct.traj.paths.html#aquaduct.traj.paths.GenericPaths.barber_with_spheres" title="aquaduct.traj.paths.GenericPaths.barber_with_spheres"><code class="xref py py-meth docutils literal notranslate"><span class="pre">barber_with_spheres()</span></code></a>.</td>
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">barber_with_spheres()</span></code>.</td>
 </tr>
 <tr class="row-even"><td>auto_barber_mincut</td>
 <td>None</td>
@@ -755,7 +755,7 @@ are submitted to reclusterization.</td>
 <td>str</td>
 <td>This option allows to select molecular entity used in Auto
 Barber procedure. See also <a class="reference internal" href="valve_manual.html#auto-barber-procedure"><span class="std std-ref">Auto Barber</span></a> and
-<a class="reference internal" href="../aquaduct.traj.paths.html#aquaduct.traj.paths.GenericPaths.barber_with_spheres" title="aquaduct.traj.paths.GenericPaths.barber_with_spheres"><code class="xref py py-meth docutils literal notranslate"><span class="pre">barber_with_spheres()</span></code></a>.</td>
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">barber_with_spheres()</span></code>.</td>
 </tr>
 <tr class="row-odd"><td>auto_barber_mincut</td>
 <td>float</td>
@@ -1027,14 +1027,14 @@ convergence.</td>
 <td>str</td>
 <td><p class="first">Smoothing method. Can be one of the following:</p>
 <ul class="last simple">
-<li><code class="docutils literal notranslate"><span class="pre">window</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.WindowSmooth" title="aquaduct.geom.smooth.WindowSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSmooth</span></code></a>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">mss</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.MaxStepSmooth" title="aquaduct.geom.smooth.MaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxStepSmooth</span></code></a>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">window_mss</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.WindowOverMaxStepSmooth" title="aquaduct.geom.smooth.WindowOverMaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowOverMaxStepSmooth</span></code></a>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">awin</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.ActiveWindowSmooth" title="aquaduct.geom.smooth.ActiveWindowSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowSmooth</span></code></a>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">awin_mss</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.ActiveWindowOverMaxStepSmooth" title="aquaduct.geom.smooth.ActiveWindowOverMaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowOverMaxStepSmooth</span></code></a>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">dwin</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.DistanceWindowSmooth" title="aquaduct.geom.smooth.DistanceWindowSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowSmooth</span></code></a>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">dwin_mss</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.DistanceWindowOverMaxStepSmooth" title="aquaduct.geom.smooth.DistanceWindowOverMaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowOverMaxStepSmooth</span></code></a>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">savgol</span></code>. (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.SavgolSmooth" title="aquaduct.geom.smooth.SavgolSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">SavgolSmooth</span></code></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">window</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSmooth</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">mss</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">MaxStepSmooth</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">window_mss</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowOverMaxStepSmooth</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">awin</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowSmooth</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">awin_mss</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowOverMaxStepSmooth</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">dwin</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowSmooth</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">dwin_mss</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowOverMaxStepSmooth</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">savgol</span></code>. (see <code class="xref py py-class docutils literal notranslate"><span class="pre">SavgolSmooth</span></code>)</li>
 </ul>
 </td>
 </tr>
