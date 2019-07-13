@@ -6,14 +6,15 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>aquaduct.traj.dumps &#8212; Aqua-Duct 0.5.14 documentation</title>
+    <title>aquaduct.traj.dumps &#8212; Aqua-Duct 1.0.0b1 documentation</title>
     <link rel="stylesheet" href="../../../static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../../../static/documentation_options.js"></script>
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../static/jquery.js"></script>
     <script type="text/javascript" src="../../../static/underscore.js"></script>
     <script type="text/javascript" src="../../../static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../../static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../../../static/ficon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -32,7 +33,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../../aquaduct.html" accesskey="U">aquaduct</a> &#187;</li> 
       </ul>
@@ -67,6 +68,7 @@
 
 <span class="c1"># Aqua-Duct, a tool facilitating analysis of the flow of solvent molecules in molecular dynamic simulations</span>
 <span class="c1"># Copyright (C) 2016-2018  Tomasz Magdziarz, Alicja Płuciennik, Michał Stolarczyk &lt;info@aquaduct.pl&gt;</span>
+<span class="c1"># Copyright (C) 2019  Tomasz Magdziarz &lt;info@aquaduct.pl&gt;</span>
 <span class="c1">#</span>
 <span class="c1"># This program is free software: you can redistribute it and/or modify</span>
 <span class="c1"># it under the terms of the GNU General Public License as published by</span>
@@ -81,43 +83,132 @@
 <span class="c1"># You should have received a copy of the GNU General Public License</span>
 <span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">unlink</span>
-
-<span class="kn">import</span> <span class="nn">MDAnalysis</span> <span class="k">as</span> <span class="nn">mda</span>
-
-<span class="kn">from</span> <span class="nn">aquaduct.utils</span> <span class="k">import</span> <span class="n">clui</span>
-<span class="kn">from</span> <span class="nn">aquaduct.utils.helpers</span> <span class="k">import</span> <span class="n">create_tmpfile</span>
+<span class="kn">from</span> <span class="nn">aquaduct</span> <span class="k">import</span> <span class="n">logger</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
 
-<div class="viewcode-block" id="TmpDumpWriterOfMDA"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.TmpDumpWriterOfMDA">[docs]</a><span class="k">class</span> <span class="nc">TmpDumpWriterOfMDA</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<div class="viewcode-block" id="TmpDumpWriterOfMDA.__init__"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.TmpDumpWriterOfMDA.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WriteMOL2"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WriteMOL2">[docs]</a><span class="k">class</span> <span class="nc">WriteMOL2</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-        <span class="c1"># creates tmp file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pdbfile</span> <span class="o">=</span> <span class="n">create_tmpfile</span><span class="p">(</span><span class="n">ext</span><span class="o">=</span><span class="s1">&#39;pdb&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="WriteMOL2.__init__"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WriteMOL2.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mol2file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">):</span>
 
-        <span class="c1"># create mda writer</span></div>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mdawriter</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Writer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pdbfile</span><span class="p">,</span> <span class="n">multiframe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">mol2file</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TmpDumpWriterOfMDA.dump_frames"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.TmpDumpWriterOfMDA.dump_frames">[docs]</a>    <span class="k">def</span> <span class="nf">dump_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">,</span> <span class="n">frames</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;protein&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="WriteMOL2.print_atom_line"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WriteMOL2.print_atom_line">[docs]</a>    <span class="k">def</span> <span class="nf">print_atom_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">bf</span><span class="p">):</span>
+        <span class="n">atom</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%7d</span><span class="s2">  H         </span><span class="si">%3.4f</span><span class="s2">   </span><span class="si">%3.4f</span><span class="s2">    </span><span class="si">%3.4f</span><span class="s2"> H       1  FIL1        </span><span class="si">%3.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span><span class="p">,</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">bf</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">atom</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span></div>
 
-        <span class="n">to_dump</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">parse_selection</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
+<div class="viewcode-block" id="WriteMOL2.print_bond_line"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WriteMOL2.print_bond_line">[docs]</a>    <span class="k">def</span> <span class="nf">print_bond_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bid</span><span class="p">,</span> <span class="n">ba</span><span class="p">,</span> <span class="n">bb</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="p">):</span>
+        <span class="n">bond</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%6d%6d%6d%6s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">bid</span><span class="p">,</span> <span class="n">ba</span><span class="p">,</span> <span class="n">bb</span><span class="p">,</span> <span class="n">btype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bond</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span></div>
 
-        <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">frames</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">frame</span> <span class="o">&lt;</span> <span class="n">reader</span><span class="o">.</span><span class="n">number_of_frames</span><span class="p">:</span>
-                <span class="n">reader</span><span class="o">.</span><span class="n">set_real_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">mdawriter</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">to_dump</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span></div>
-                    <span class="s1">&#39;Requested frame </span><span class="si">%d</span><span class="s1"> exceeded available number of frames </span><span class="si">%d</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">reader</span><span class="o">.</span><span class="n">number_of_frames</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<div class="viewcode-block" id="WriteMOL2.write_scatter"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WriteMOL2.write_scatter">[docs]</a>    <span class="k">def</span> <span class="nf">write_scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scatter</span><span class="p">,</span> <span class="n">bf</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;@&lt;TRIPOS&gt;MOLECULE&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;pocket&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">((</span><span class="s2">&quot; </span><span class="si">%d</span><span class="s2"> 0 0 0&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">scatter</span><span class="p">))</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;SMALL&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;GASTEIGER&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;@&lt;TRIPOS&gt;ATOM&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">scatter</span><span class="p">,</span> <span class="n">bf</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">print_atom_line</span><span class="p">(</span><span class="n">xyz</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;@&lt;TRIPOS&gt;BOND&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span> <span class="o">=</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="TmpDumpWriterOfMDA.close"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.TmpDumpWriterOfMDA.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mdawriter</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdbfile</span>
+<div class="viewcode-block" id="WriteMOL2.write_connected"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WriteMOL2.write_connected">[docs]</a>    <span class="k">def</span> <span class="nf">write_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scatter</span><span class="p">,</span> <span class="n">bf</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;@&lt;TRIPOS&gt;MOLECULE&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;pocket&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">((</span><span class="s2">&quot; </span><span class="si">%d</span><span class="s2"> </span><span class="si">%d</span><span class="s2"> 0 0&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scatter</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">scatter</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;SMALL&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;GASTEIGER&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;@&lt;TRIPOS&gt;ATOM&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">scatter</span><span class="p">,</span> <span class="n">bf</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">print_atom_line</span><span class="p">(</span><span class="n">xyz</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;@&lt;TRIPOS&gt;BOND&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">scatter</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">print_bond_line</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">b</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span> <span class="o">=</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="TmpDumpWriterOfMDA.__del__"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.TmpDumpWriterOfMDA.__del__">[docs]</a>    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div></div>
-        <span class="n">unlink</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pdbfile</span><span class="p">)</span>
+<div class="viewcode-block" id="WriteMOL2.__enter__"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WriteMOL2.__enter__">[docs]</a>    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="WriteMOL2.__exit__"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WriteMOL2.__exit__">[docs]</a>    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typ</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">typ</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__del__</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WriteMOL2.__del__"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WriteMOL2.__del__">[docs]</a>    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="WritePDB"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WritePDB">[docs]</a><span class="k">class</span> <span class="nc">WritePDB</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="WritePDB.__init__"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WritePDB.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pdbfile</span><span class="p">,</span> <span class="n">csvfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale_bf</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale_bf</span> <span class="o">=</span> <span class="n">scale_bf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_model</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">pdbfile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh_csv</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">csvfile</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fh_csv</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WritePDB.print_atom_line"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WritePDB.print_atom_line">[docs]</a>    <span class="k">def</span> <span class="nf">print_atom_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">bf</span><span class="p">):</span>
+        <span class="n">atom</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%5d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">%0.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">])[:</span><span class="mi">8</span><span class="p">])[</span><span class="o">-</span><span class="mi">8</span><span class="p">:]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">%0.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">])[:</span><span class="mi">8</span><span class="p">])[</span><span class="o">-</span><span class="mi">8</span><span class="p">:]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">%0.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">])[:</span><span class="mi">8</span><span class="p">])[</span><span class="o">-</span><span class="mi">8</span><span class="p">:]</span>
+        <span class="c1"># x = (&quot;        %0.3f&quot; % xyz[0])[-8:]</span>
+        <span class="c1"># y = (&quot;        %0.3f&quot; % xyz[1])[-8:]</span>
+        <span class="c1"># z = (&quot;        %0.3f&quot; % xyz[2])[-8:]</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">%0.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">bf</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_bf</span><span class="p">))[:</span><span class="mi">4</span><span class="p">])[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;ATOM  </span><span class="si">%s</span><span class="s2">  H   FIL T   1    </span><span class="si">%s%s%s</span><span class="s2">        </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">atom</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span></div>
+
+<div class="viewcode-block" id="WritePDB.print_conect_line"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WritePDB.print_conect_line">[docs]</a>    <span class="k">def</span> <span class="nf">print_conect_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">):</span>
+        <span class="n">atom1</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%5d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">a1</span>
+        <span class="n">atom2</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%5d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">a2</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;CONECT</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">atom1</span><span class="p">,</span> <span class="n">atom2</span><span class="p">))</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span></div>
+
+<div class="viewcode-block" id="WritePDB.write_connected"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WritePDB.write_connected">[docs]</a>    <span class="k">def</span> <span class="nf">write_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">bf</span><span class="p">):</span>
+        <span class="n">conect</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">bf</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">print_atom_line</span><span class="p">(</span><span class="n">xyz</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">conect</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">print_conect_line</span><span class="p">(</span><span class="n">conect</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">fh_csv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fh_csv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;X,Y,Z&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>  <span class="c1"># header</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fh_csv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fh_csv</span><span class="o">.</span><span class="n">write</span><span class="p">((</span><span class="s2">&quot;</span><span class="si">%f</span><span class="s2">,</span><span class="si">%f</span><span class="s2">,</span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">xyz</span><span class="p">))</span>
+            <span class="n">conect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_model</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;ENDMDL&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WritePDB.next_model"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WritePDB.next_model">[docs]</a>    <span class="k">def</span> <span class="nf">next_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_model</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">((</span><span class="s1">&#39;MODEL     </span><span class="si">%4d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_model</span><span class="p">))</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="WritePDB.write_scatter"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WritePDB.write_scatter">[docs]</a>    <span class="k">def</span> <span class="nf">write_scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scatter</span><span class="p">,</span> <span class="n">bf</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">scatter</span><span class="p">,</span> <span class="n">bf</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">print_atom_line</span><span class="p">(</span><span class="n">xyz</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_atom</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_model</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;ENDMDL&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WritePDB.__enter__"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WritePDB.__enter__">[docs]</a>    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="WritePDB.__exit__"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WritePDB.__exit__">[docs]</a>    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typ</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">typ</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__del__</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WritePDB.__del__"><a class="viewcode-back" href="../../../aquaduct.traj.dumps.html#aquaduct.traj.dumps.WritePDB.__del__">[docs]</a>    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fh_csv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fh_csv</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
 </pre></div>
 
           </div>
@@ -134,14 +225,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../../aquaduct.html" >aquaduct</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
     </div>
   </body>
 </html>

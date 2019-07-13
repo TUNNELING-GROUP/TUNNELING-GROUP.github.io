@@ -6,14 +6,15 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Configuration file options &#8212; Aqua-Duct 0.5.14 documentation</title>
+    <title>Configuration file options &#8212; Aqua-Duct 1.0.0b1 documentation</title>
     <link rel="stylesheet" href="../static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../static/documentation_options.js"></script>
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../static/documentation_options.js"></script>
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../static/ficon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -40,7 +41,8 @@
         <li class="right" >
           <a href="valve_manual.html" title="Valve manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Aqua-Duct’s Valve driver documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -48,18 +50,23 @@
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../static/AQUADUCT_LOGO.png" alt="Logo"/>
             </a></p>
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Configuration file options</a><ul>
-<li><a class="reference internal" href="#section-global">Section <strong>global</strong></a></li>
+<li><a class="reference internal" href="#section-global">Section <strong>global</strong></a><ul>
+<li><a class="reference internal" href="#sandwich">Sandwich</a></li>
+<li><a class="reference internal" href="#cache">Cache</a></li>
+<li><a class="reference internal" href="#single-precision-storage">Single precision storage</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#common-settings-of-stage-sections">Common settings of stage sections</a></li>
 <li><a class="reference internal" href="#stage-traceable-residues">Stage <strong>traceable_residues</strong></a></li>
 <li><a class="reference internal" href="#stage-raw-paths">Stage <strong>raw_paths</strong></a></li>
 <li><a class="reference internal" href="#stage-separate-paths">Stage <strong>separate_paths</strong></a></li>
-<li><a class="reference internal" href="#stage-inlets-clusterization">Stage <strong>inlets_clusterization</strong></a></li>
+<li><a class="reference internal" href="#stage-inlets-clustering">Stage <strong>inlets_clustering</strong></a></li>
 <li><a class="reference internal" href="#stage-analysis">Stage <strong>analysis</strong></a></li>
 <li><a class="reference internal" href="#stage-visualize">Stage <strong>visualize</strong></a></li>
-<li><a class="reference internal" href="#clusterization-sections">Clusterization sections</a><ul>
+<li><a class="reference internal" href="#clustering-sections">Clustering sections</a><ul>
 <li><a class="reference internal" href="#barber">barber</a></li>
 <li><a class="reference internal" href="#dbscan">dbscan</a></li>
 <li><a class="reference internal" href="#affprop">affprop</a></li>
@@ -118,7 +125,7 @@
 <li><strong>traceable_residues</strong></li>
 <li><strong>raw_paths</strong></li>
 <li><strong>separate_paths</strong></li>
-<li><strong>inlets_clusterization</strong></li>
+<li><strong>inlets_clustering</strong></li>
 <li><strong>analysis</strong></li>
 <li><strong>visualize</strong></li>
 </ol>
@@ -129,7 +136,7 @@
 <dt>Methods options:</dt>
 <dd><ul class="first last">
 <li><strong>smooth</strong></li>
-<li><strong>clusterization</strong></li>
+<li><strong>clustering</strong></li>
 <li><strong>reclusteriation</strong></li>
 </ul>
 </dd>
@@ -141,9 +148,9 @@
 <p>This section allows settings of trajectory data and is reserved for other future global options.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="6%" />
-<col width="14%" />
-<col width="80%" />
+<col width="11%" />
+<col width="13%" />
+<col width="76%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Option</th>
@@ -160,12 +167,76 @@
 <td>None</td>
 <td>Path to trajectory file. Aqua-Duct supports NC and DCD trajectory files.</td>
 </tr>
+<tr class="row-even"><td>twoway</td>
+<td>True</td>
+<td>Try to use <em>two-way</em> scanning in the stage II.</td>
+</tr>
+<tr class="row-odd"><td>sandwich</td>
+<td>False</td>
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code> trajectories are read as layers.</td>
+</tr>
+<tr class="row-even"><td>max_frame</td>
+<td>None</td>
+<td>Maximal number of frame to be read from trajectory data. If set <code class="docutils literal notranslate"><span class="pre">None</span></code>
+trajectory is read to the last possible frame.</td>
+</tr>
+<tr class="row-odd"><td>min_frame</td>
+<td>0</td>
+<td>Minimal number of frame to be read from trajectory data.</td>
+</tr>
+<tr class="row-even"><td>step_frame</td>
+<td>1</td>
+<td>Step used in reading trajectory. Default value of 1 stands for reading
+every frame. If it is greater than 1, only every step-value frame is
+read.</td>
+</tr>
+<tr class="row-odd"><td>sps</td>
+<td>True</td>
+<td>Try to store data in single precission storage.</td>
+</tr>
+<tr class="row-even"><td>cache_dir</td>
+<td>None</td>
+<td>Allows to set path to the directory for cache data.</td>
+</tr>
+<tr class="row-odd"><td>cache_mem</td>
+<td>False</td>
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, all data will be cached in RAM.</td>
+</tr>
 </tbody>
 </table>
 <p>Option <strong>trj</strong> can be used to provide list of trajectory files separated by standard path separator ‘<code class="docutils literal notranslate"><span class="pre">:</span></code>’ on POSIX platforms and ‘<code class="docutils literal notranslate"><span class="pre">;</span></code>’ on Windows - see <a class="reference external" href="https://docs.python.org/2/library/os.html#os.pathsep" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">os.pathsep</span></code></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Options <strong>top</strong> and <strong>trj</strong> are mandatory.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Options <strong>min_frame</strong>, <strong>max_frame</strong>, and <strong>step_frame</strong> can be used to limit calculations to a specific part of trajectory. For example, in order to to run calculations for 1000 frames starting from frame 5000 use the following options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">min_frame</span> <span class="o">=</span> <span class="mi">4999</span>
+<span class="n">max_frame</span> <span class="o">=</span> <span class="mi">5999</span>
+</pre></div>
+</div>
+<p>To run calculations for every 5th frame use:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">step_frame</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sandwich">
+<span id="sandwich-option"></span><h3>Sandwich<a class="headerlink" href="#sandwich" title="Permalink to this headline">¶</a></h3>
+<p>Trajectory data can be provided as several files. By default these files are processed in sequential manner making one long trajectory. If option <strong>sandwich</strong> is used trajectory files are read as layers. For each layer, search for traceable residues is done separately (stage I and II) but processing and analysis (stage III, IV, V, and VI) are done for all paths simultaneously. Usage of <strong>sandwich</strong> option is further referenced as <em>sandwich</em> mode.</p>
+</div>
+<div class="section" id="cache">
+<h3>Cache<a class="headerlink" href="#cache" title="Permalink to this headline">¶</a></h3>
+<p>Storage of coordinates for all paths for very long MD trajectories requires huge amount of RAM. User can decide whether <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a> should store coordinates in memory or in separated directory. Option <strong>cache-mem</strong> instruct <em>Valve</em> to store coordinates in RAM; <strong>cache-dir</strong> stores coordinates in selected directory. If neither of both options is selected, coordinates are calculated on demand.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If no cache is used (memory or dir) <a class="reference internal" href="valve_manual.html#master-paths-manual"><span class="std std-ref">Master paths</span></a> cannot be calculated.</p>
+</div>
+</div>
+<div class="section" id="single-precision-storage">
+<h3>Single precision storage<a class="headerlink" href="#single-precision-storage" title="Permalink to this headline">¶</a></h3>
+<p>Most of the calculation in <em>Valve</em> is performed by NumPy. By default, NumPy uses double precision floats.
+<em>Valve</em> does not change this behavior but has special option <strong>sps</strong> which forces to store all data (both internal data stored in RAM and on the disk) in single precision. This spares a lot of RAM and is recommended when you perform calculation for long trajectories and your amount of RAM is limited.</p>
 </div>
 </div>
 <div class="section" id="common-settings-of-stage-sections">
@@ -188,12 +259,12 @@
 <td>runonce</td>
 <td>Option controls stage execution. It can have one of three possible
 values: <code class="docutils literal notranslate"><span class="pre">run</span></code>, <code class="docutils literal notranslate"><span class="pre">runonce</span></code>, and <code class="docutils literal notranslate"><span class="pre">skip</span></code>. If it is set to <code class="docutils literal notranslate"><span class="pre">run</span></code>
-calculations are always performed and if <strong>dump</strong> is set dump file
-is saved. If it is set to <code class="docutils literal notranslate"><span class="pre">runonce</span></code> calculations are performed
-if there is no dump file specified by <strong>dump</strong> option. If it is
-present calculations are skipped and data is loaded from the file.
-If it is set to <code class="docutils literal notranslate"><span class="pre">skip</span></code> calculations are skip and if <strong>dump</strong>
-is set data is loaded from the file.</td>
+calculations are always performed and if <strong>dump</strong> is set, dump file
+is saved. If it is set to <code class="docutils literal notranslate"><span class="pre">runonce</span></code>, calculations are performed
+when there is no dump file specified by <strong>dump</strong> option. If it is
+present, calculations are skipped and data is loaded from the file.
+If it is set to <code class="docutils literal notranslate"><span class="pre">skip</span></code>, calculations are skipped and if <strong>dump</strong>
+is set, data is loaded from the file.</td>
 </tr>
 <tr class="row-odd"><td>dump</td>
 <td>[dump file name]</td>
@@ -205,13 +276,13 @@ stages 1 to 4 is one of the following (listed in order):</p>
 <li>1_traceable_residues_data.dump</li>
 <li>2_raw_paths_data.dump</li>
 <li>3_separate_paths_data.dump</li>
-<li>4_inlets_clusterization_data.dump</li>
+<li>4_inlets_clustering_data.dump</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>Stages 5-6 also uses <strong>execute</strong> option, however, since they do not perform calculations <cite>per se</cite> in stead of <strong>dump</strong> option they use <strong>save</strong>.</p>
+<p>Stages 5-6 also use <strong>execute</strong> option, however, since they do not perform calculations <cite>per se</cite>, instead of <strong>dump</strong> option, they use <strong>save</strong>.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="9%" />
@@ -229,8 +300,8 @@ stages 1 to 4 is one of the following (listed in order):</p>
 <td>run</td>
 <td>Option controls stage execution. It can have one of three possible
 values: <code class="docutils literal notranslate"><span class="pre">run</span></code>, <code class="docutils literal notranslate"><span class="pre">runonce</span></code>, and <code class="docutils literal notranslate"><span class="pre">skip</span></code>. If it is set to <code class="docutils literal notranslate"><span class="pre">run</span></code>
-or <code class="docutils literal notranslate"><span class="pre">runonce</span></code> stage is executed and results is saved according to
-<strong>save</strong> option. If it is set to <code class="docutils literal notranslate"><span class="pre">skip</span></code> stage is skipped.</td>
+or <code class="docutils literal notranslate"><span class="pre">runonce</span></code>, stage is executed and results are saved according to
+the <strong>save</strong> option. If it is set to <code class="docutils literal notranslate"><span class="pre">skip</span></code>, stage is skipped.</td>
 </tr>
 <tr class="row-odd"><td>save</td>
 <td>[save file name]</td>
@@ -241,7 +312,7 @@ on the stage and for stages 1 to 4 is one of the following
 <li>5_analysis_results.txt &amp; 5_analysis_results.txt.csv</li>
 <li>6_visualize_results.py &amp; 6_visualize_results.tar.gz</li>
 </ul>
-<p>Stage 5 saves <code class="docutils literal notranslate"><span class="pre">.txt</span></code> file with analysis results and, if
+<p>Stage 5 saves <code class="docutils literal notranslate"><span class="pre">.txt</span></code> file with analysis of results and, if
 requested, it saves additional <code class="docutils literal notranslate"><span class="pre">.csv</span></code> with various counts of
 traced molecules.</p>
 <p>Stage 6 can save results in two different ways:</p>
@@ -259,9 +330,9 @@ traced molecules.</p>
 <h2>Stage <strong>traceable_residues</strong><a class="headerlink" href="#stage-traceable-residues" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
-<col width="18%" />
-<col width="15%" />
-<col width="67%" />
+<col width="24%" />
+<col width="14%" />
+<col width="62%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Option</th>
@@ -282,13 +353,23 @@ traced molecules.</p>
 <tr class="row-even"><td>scope_everyframe</td>
 <td>False</td>
 <td>Flag to set <em>Scope</em> evaluation mode. If set <code class="docutils literal notranslate"><span class="pre">True</span></code> <em>Scope</em> is
-evaluated in every frame. This make sense if the definition is
+evaluated in every frame. This makes sense if the definition is
 complex and depends on distances between molecular entities.</td>
 </tr>
-<tr class="row-odd"><td>object</td>
+<tr class="row-odd"><td>scope_convexhull_inflate</td>
+<td>None</td>
+<td>Increase (or if negative - decrease) size of the scope convex
+hull.</td>
+</tr>
+<tr class="row-even"><td>object</td>
 <td>None</td>
 <td>Definition of <em>Object</em> of interest. See also
 <a class="reference internal" href="valve_manual.html#object-definition"><span class="std std-ref">Object definition</span></a>.</td>
+</tr>
+<tr class="row-odd"><td>add_passing</td>
+<td>None</td>
+<td>Definition of molecules that should be added to traced molecules
+even if they were not present in <em>Object</em>.</td>
 </tr>
 </tbody>
 </table>
@@ -302,9 +383,9 @@ complex and depends on distances between molecular entities.</td>
 <p>This stage also requires definition of the <em>Scope</em> and <em>Object</em>. If appropriate settings are not given, settings from the previous stage are used.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="21%" />
+<col width="24%" />
 <col width="14%" />
-<col width="65%" />
+<col width="62%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Option</th>
@@ -316,7 +397,7 @@ complex and depends on distances between molecular entities.</td>
 <tr class="row-even"><td>scope</td>
 <td>None</td>
 <td>Definition of <em>Scope</em> of interest. See also
-<a class="reference internal" href="valve_manual.html#scope-definition"><span class="std std-ref">Scope definition</span></a>. If <code class="docutils literal notranslate"><span class="pre">None</span></code> value form previous stage
+<a class="reference internal" href="valve_manual.html#scope-definition"><span class="std std-ref">Scope definition</span></a>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, value from previous stage
 is used.</td>
 </tr>
 <tr class="row-odd"><td>scope_convexhull</td>
@@ -326,22 +407,35 @@ is used.</td>
 <tr class="row-even"><td>scope_everyframe</td>
 <td>False</td>
 <td>Flag to set <em>Scope</em> evaluation mode. If set <code class="docutils literal notranslate"><span class="pre">True</span></code> <em>Scope</em> is
-evaluated in every frame. This make sense if the definition is
+evaluated in every frame. This makes sense if the definition is
 complex and depends on distances between molecular entities.
-If <code class="docutils literal notranslate"><span class="pre">None</span></code> value from previous stage is used.</td>
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, value from previous stage is used.</td>
 </tr>
-<tr class="row-odd"><td>object</td>
+<tr class="row-odd"><td>scope_convexhull_inflate</td>
+<td>None</td>
+<td>Increase (or if negative - decrease) size of the scope convex
+hull. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, value from previous stage is used.</td>
+</tr>
+<tr class="row-even"><td>object</td>
 <td>None</td>
 <td>Definition of <em>Object</em> of interest. See also
-<a class="reference internal" href="valve_manual.html#object-definition"><span class="std std-ref">Object definition</span></a>. If <code class="docutils literal notranslate"><span class="pre">None</span></code> value from the previous
+<a class="reference internal" href="valve_manual.html#object-definition"><span class="std std-ref">Object definition</span></a>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, value from previous
 stage is used</td>
 </tr>
-<tr class="row-even"><td>clear_in_object_info</td>
+<tr class="row-odd"><td>clear_in_object_info</td>
 <td>False</td>
-<td>If it is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> information on occupation of <em>Object</em>
+<td>If it is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, information on occupation of <em>Object</em>
 site by traceable residues calculated in the previous stage is
-cleared and have to be recalculated. This is useful if
+cleared and has to be recalculated. This is useful if
 definition of <em>Object</em> was changed.</td>
+</tr>
+<tr class="row-even"><td>discard_singletons</td>
+<td>1</td>
+<td>If <code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">0</span></code>, discards paths of given lenght.</td>
+</tr>
+<tr class="row-odd"><td>discard_empty_paths</td>
+<td>True</td>
+<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, empty paths are discarded.</td>
 </tr>
 </tbody>
 </table>
@@ -363,77 +457,85 @@ definition of <em>Object</em> was changed.</td>
 <tbody valign="top">
 <tr class="row-even"><td>discard_empty_paths</td>
 <td>True</td>
-<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code> empty paths are discarded.</td>
+<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, empty paths are discarded.</td>
 </tr>
 <tr class="row-odd"><td>sort_by_id</td>
 <td>True</td>
-<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code> separate paths are sorted by ID. Otherwise
+<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, separate paths are sorted by ID. Otherwise
 they are sorted in order of appearance.</td>
 </tr>
 <tr class="row-even"><td>discard_short_paths</td>
 <td>20</td>
 <td>This option allows to discard paths which are shorter than the
-threshold which is defined as total number of frames.</td>
+threshold, which is defined as the total number of frames.</td>
 </tr>
 <tr class="row-odd"><td>discard_short_object</td>
 <td>2.0</td>
-<td>This option allows to discard paths which objects are shorter
-than the threshold which is defined as total length in metric
+<td>This option allows to discard paths whose objects are shorter
+than the threshold, which is defined as total length in metric
 units.</td>
 </tr>
 <tr class="row-even"><td>discard_short_logic</td>
 <td>or</td>
 <td>If both <code class="docutils literal notranslate"><span class="pre">discard_short_paths</span></code> and <code class="docutils literal notranslate"><span class="pre">discard_short_object</span></code>
 options are used, this option allows to set combination logic.
-If it is set <code class="docutils literal notranslate"><span class="pre">or</span></code> a path is discarded if any of discard
-criterion is met. If it is set <code class="docutils literal notranslate"><span class="pre">and</span></code> both criteria have to
+If it is set to <code class="docutils literal notranslate"><span class="pre">or</span></code>, a path is discarded if any of discard
+criterion is met. If it is set <code class="docutils literal notranslate"><span class="pre">and</span></code>, both criteria have to
 be met to discard path.</td>
 </tr>
 <tr class="row-odd"><td>auto_barber</td>
 <td>None</td>
 <td>This option allows to select molecular entity used in Auto
 Barber procedure. See also <a class="reference internal" href="valve_manual.html#auto-barber-procedure"><span class="std std-ref">Auto Barber</span></a> and
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">barber_with_spheres()</span></code>.</td>
+<a class="reference internal" href="../aquaduct.traj.paths.html#aquaduct.traj.paths.GenericPaths.barber_with_spheres" title="aquaduct.traj.paths.GenericPaths.barber_with_spheres"><code class="xref py py-meth docutils literal notranslate"><span class="pre">barber_with_spheres()</span></code></a>.</td>
 </tr>
 <tr class="row-even"><td>auto_barber_mincut</td>
 <td>None</td>
 <td>Minimal radius of spheres used in Auto Barber. If a sphere has
-radius smaller then this value it is not used in AutoBarber
+radius smaller than this value, it is not used in AutoBarber
 procedure. This option can be switched off by setting it to
 <code class="docutils literal notranslate"><span class="pre">None</span></code>.</td>
 </tr>
 <tr class="row-odd"><td>auto_barber_maxcut</td>
 <td>2.8</td>
 <td>Maximal radius of spheres used in Auto Barber. If a sphere has
-radius greater then this value it is not used in AutoBarber
+radius greater than this value, it is not used in AutoBarber
 procedure. This option can be switched off by setting it to
 <code class="docutils literal notranslate"><span class="pre">None</span></code>.</td>
 </tr>
 <tr class="row-even"><td>auto_barber_mincut_level</td>
 <td>True</td>
-<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code> spheres of radius smaller than <strong>mincut</strong> are
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, spheres of radius smaller than <strong>mincut</strong> are
 resized to <strong>mincut</strong> value.</td>
 </tr>
 <tr class="row-odd"><td>auto_barber_maxcut_level</td>
 <td>True</td>
-<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code> spheres of radius greater than <strong>maxcut</strong> are
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, spheres of radius greater than <strong>maxcut</strong> are
 resized to <strong>maxcut</strong> value.</td>
 </tr>
 <tr class="row-even"><td>auto_barber_tovdw</td>
 <td>True</td>
-<td>Correct cutting sphere by decreasing its radius by VdW radius
-of the closest atom.</td>
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, cutting of spheres is corrected by decreasing
+its radius by VdW radius of the closest atom.</td>
 </tr>
 <tr class="row-odd"><td>allow_passing_paths</td>
 <td>False</td>
-<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code> paths that do not enter the object are detected
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, paths that do not enter the object are detected
 and added to the rest of paths as ‘passing’ paths.</td>
+</tr>
+<tr class="row-even"><td>separate_barber</td>
+<td>True</td>
+<td>Apply AutoBarber for each type of traced molecules separately.</td>
+</tr>
+<tr class="row-odd"><td>calculate_coo</td>
+<td>False</td>
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, center of the object is calculated.</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="stage-inlets-clusterization">
-<h2>Stage <strong>inlets_clusterization</strong><a class="headerlink" href="#stage-inlets-clusterization" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="stage-inlets-clustering">
+<h2>Stage <strong>inlets_clustering</strong><a class="headerlink" href="#stage-inlets-clustering" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="30%" />
@@ -449,43 +551,86 @@ and added to the rest of paths as ‘passing’ paths.</td>
 <tbody valign="top">
 <tr class="row-even"><td>recluster_outliers</td>
 <td>False</td>
-<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code> reclusterization of outliers is executed
-according to the method defined in <strong>reclusterization</strong> section.</td>
+<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, reclustering of outliers is executed
+according to the method defined in <strong>reclustering</strong> section.</td>
 </tr>
 <tr class="row-odd"><td>detect_outliers</td>
 <td>False</td>
 <td>If set, detection of outliers is executed. It could be set as a
 floating point distance threshold or set to <code class="docutils literal notranslate"><span class="pre">Auto</span></code>. See
-<a class="reference internal" href="valve_manual.html#clusterization-of-inlets"><span class="std std-ref">Clusterization of inlets</span></a> for more details.</td>
+<a class="reference internal" href="valve_manual.html#clustering-of-inlets"><span class="std std-ref">Clustering of inlets</span></a> for more details.</td>
 </tr>
 <tr class="row-even"><td>singletons_outliers</td>
 <td>False</td>
 <td>Maximal size of cluster to be considered as outliers. If set to
 number &gt; 0 clusters of that size are removed and their objects
-are moved to outliers. See <a class="reference internal" href="valve_manual.html#clusterization-of-inlets"><span class="std std-ref">Clusterization of inlets</span></a> for
+are moved to outliers. See <a class="reference internal" href="valve_manual.html#clustering-of-inlets"><span class="std std-ref">Clustering of inlets</span></a> for
 more details.</td>
 </tr>
 <tr class="row-odd"><td>max_level</td>
 <td>5</td>
-<td>Maximal number of recursive clusterization levels.</td>
+<td>Maximal number of recursive clustering levels.</td>
 </tr>
 <tr class="row-even"><td>create_master_paths</td>
 <td>False</td>
-<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code> master paths are created (fast CPU and big
+<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, master paths are created (fast CPU and big
 RAM recommended; 50k frames long simulation may need ca 20GB of
 memory)</td>
 </tr>
-<tr class="row-odd"><td>exclude_passing_in_clusterization</td>
+<tr class="row-odd"><td>master_paths_amount</td>
+<td>None</td>
+<td>Allows to limit number of single paths used for master paths
+calculations.
+If it is a number
+in range <code class="docutils literal notranslate"><span class="pre">(0,1)</span></code>, then it is interpreted as a percent number
+of paths to be used. It is is a integer number <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">1</span></code>
+it is an absoulte number of used paths.</td>
+</tr>
+<tr class="row-even"><td>separate_master</td>
+<td>False</td>
+<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, master mapths are generated for each of
+traced molecules’ types separately.</td>
+</tr>
+<tr class="row-odd"><td>separate_master_all</td>
 <td>True</td>
-<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code> passing paths are not clustered with normal
+<td>If <strong>separate_master</strong> is used and this option is set <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+master paths will be also generated for all traced molecules`
+types as it is done when <strong>separate_master</strong> is set <code class="docutils literal notranslate"><span class="pre">False</span></code>.</td>
+</tr>
+<tr class="row-even"><td>exclude_passing_in_clustering</td>
+<td>True</td>
+<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, passing paths are not clustered with normal
 paths.</td>
 </tr>
-<tr class="row-even"><td>add_passing_to_clusters</td>
+<tr class="row-odd"><td>add_passing_to_clusters</td>
 <td>None</td>
 <td>Allows to run procedure for adding passing paths inlets to
 clusters with Auto Barber method. To enable this the option
 should be set to molecular entity that will be used by Auto
 Barber.</td>
+</tr>
+<tr class="row-even"><td>renumber_clusters</td>
+<td>False</td>
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, clusters have consecutive numbers starting from
+1 (or 0 if outliers are present) starting from the bigest
+cluster.</td>
+</tr>
+<tr class="row-odd"><td>join_clusters</td>
+<td>None</td>
+<td>This option allows to join selected clusters. Clusters’ IDs
+joined with <code class="docutils literal notranslate"><span class="pre">+</span></code> character lists clusters to be joined
+together. Several such blocks separated by space can be used.
+For example, if set to <code class="docutils literal notranslate"><span class="pre">1+3+4</span> <span class="pre">5+6</span></code> clusters 1, 3, and 4 will
+be joined in one cluster and cluster 5, and 6 will be also
+joined in another cluster.</td>
+</tr>
+<tr class="row-even"><td>inlets_center</td>
+<td>cos</td>
+<td>Allows to choose center of inlets points. This central point is
+further used as a reference point in calculations of clusters’
+areas and contours. If set <cite>cos</cite> center of system calculated as
+average center of the scope area is used. Alternatively it can
+be set to <cite>coo</cite>, then center of the object area is used.</td>
 </tr>
 </tbody>
 </table>
@@ -507,13 +652,13 @@ Barber.</td>
 <tbody valign="top">
 <tr class="row-even"><td>dump_config</td>
 <td>True</td>
-<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code> configuration options, as seen by Valve, are
+<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, configuration options, as seen by Valve, are
 added to the head of results.</td>
 </tr>
 <tr class="row-odd"><td>calculate_scope_object_size</td>
 <td>False</td>
-<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code> volumes and areas of object and scope
-approximated by convex hulls will be calculated for each
+<td>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, volumes and areas of object and scope
+approximated by convex hulls are calculated for each of the
 analyzed frames and saved in output CSV file.</td>
 </tr>
 <tr class="row-even"><td>scope_chull</td>
@@ -521,10 +666,34 @@ analyzed frames and saved in output CSV file.</td>
 <td>Scope convex hull definition used in calculating volume and
 area.</td>
 </tr>
-<tr class="row-odd"><td>object_chull</td>
+<tr class="row-odd"><td>scope_chull_inflate</td>
+<td>None</td>
+<td>Increase (or if negative - decrease) size of the scope convex
+hull.</td>
+</tr>
+<tr class="row-even"><td>object_chull</td>
 <td>None</td>
 <td>Object convex hull definition used in calculating volume and
 area.</td>
+</tr>
+<tr class="row-odd"><td>cluster_area</td>
+<td>True</td>
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, clusters’ areas are estimated with kernel
+density estimation method (KDE).</td>
+</tr>
+<tr class="row-even"><td>cluster_area_precision</td>
+<td>20</td>
+<td>Precision of KDE method in clusters’ areas estimation method.
+This options controls number of grid points per one
+square A as used in KDE. Higher values means better precision.
+Number of points can be calculated as $P^{2/3}$.</td>
+</tr>
+<tr class="row-odd"><td>cluster_area_expand</td>
+<td>2</td>
+<td>Space occupied by clusters’ points can be expanded before KDE
+calculation. This option controls amount of A by which the
+cluster space is expanded.
+Average amount of expansion can be calcualted as $E^{2/3}$.</td>
 </tr>
 </tbody>
 </table>
@@ -544,33 +713,50 @@ area.</td>
 </tr>
 </thead>
 <tbody valign="top">
+<tr class="row-even"><td>split_by_type</td>
+<td>False</td>
+<td>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, visulaizations of all objects that correspond to particular types of
+traced molecules are splited. Appropriate molecule name is added to created objects.</td>
+</tr>
+<tr class="row-odd"><td>retain_all_types</td>
+<td>False</td>
+<td>If <code class="docutils literal notranslate"><span class="pre">True</span></code> and <em>split_by_type</em> option is <code class="docutils literal notranslate"><span class="pre">True</span></code> as well, standard visualization for
+all types of traced moelcules will be generated as well.</td>
+</tr>
 <tr class="row-even"><td>all_paths_raw</td>
 <td>False</td>
-<td>If True produces one object in PyMOL that holds all paths
+<td>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, produces one object in PyMOL that holds all paths
 visualized by raw coordinates.</td>
 </tr>
 <tr class="row-odd"><td>all_paths_smooth</td>
 <td>False</td>
-<td>If True produces one object in PyMOL that holds all paths
+<td>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, produces one object in PyMOL that holds all paths
 visualized by smooth coordinates.</td>
 </tr>
 <tr class="row-even"><td>all_paths_split</td>
 <td>False</td>
-<td>If is set True objects produced by <strong>all_paths_raw</strong> and
+<td>If is set <code class="docutils literal notranslate"><span class="pre">True</span></code>, objects produced by <strong>all_paths_raw</strong> and
 <strong>all_paths_smooth</strong> are split into Incoming, Object, and
 Outgoing parts and visualized as three different objects.</td>
 </tr>
 <tr class="row-odd"><td>all_paths_raw_io</td>
 <td>False</td>
-<td>If set True arrows pointing beginning and end of paths are
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, arrows pointing beginning and end of paths are
 displayed oriented accordingly to raw paths orientation.</td>
 </tr>
 <tr class="row-even"><td>all_paths_smooth_io</td>
 <td>False</td>
-<td>If set True arrows pointing beginning and end of paths are
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, arrows pointing beginning and end of paths are
 displayed oriented accordingly to smooth paths orientation.</td>
 </tr>
-<tr class="row-odd"><td>simply_smooths</td>
+<tr class="row-odd"><td>all_paths_amount</td>
+<td>None</td>
+<td>Allows to limit number of visualised paths. If it is a number
+in range <code class="docutils literal notranslate"><span class="pre">(0,1)</span></code>, then it is interpreted as a percent number
+of paths to be visualized. It is is a integer number <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">1</span></code>
+it is total number of all_paths visualized.</td>
+</tr>
+<tr class="row-even"><td>simply_smooths</td>
 <td>RecursiveVector</td>
 <td><p class="first">Option indicates linear simplification method to be used in
 plotting smooth paths. Simplification removes points which do
@@ -591,52 +777,70 @@ Default values work well. This option is not case sensitive.
 It is recommended to use default method or <code class="docutils literal notranslate"><span class="pre">HobbitVector</span></code> method.</p>
 </td>
 </tr>
-<tr class="row-even"><td>paths_raw</td>
+<tr class="row-odd"><td>paths_raw</td>
 <td>False</td>
-<td>If set True raw paths are displayed as separate objects or as
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, raw paths are displayed as separate objects or as
 one object with states corresponding to number of path.</td>
 </tr>
-<tr class="row-odd"><td>paths_smooth</td>
+<tr class="row-even"><td>paths_smooth</td>
 <td>False</td>
-<td>If set True smooth paths are displayed as separate objects or
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, smooth paths are displayed as separate objects or
 as one object with states corresponding to number of path.</td>
 </tr>
-<tr class="row-even"><td>paths_raw_io</td>
+<tr class="row-odd"><td>paths_raw_io</td>
 <td>False</td>
-<td>If set True arrows indicating beginning and end of paths,
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, arrows indicating beginning and end of paths,
 oriented accordingly to raw paths, are displayed as separate
 objects or as one object with states corresponding to number
 of paths.</td>
 </tr>
-<tr class="row-odd"><td>paths_smooth_io</td>
+<tr class="row-even"><td>paths_smooth_io</td>
 <td>False</td>
-<td>If set True arrows indicating beginning and end of paths,
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, arrows indicating beginning and end of paths,
 oriented accordingly to smooth paths, are displayed as separate
 objects or as one object with states corresponding to number
 of paths.</td>
 </tr>
-<tr class="row-even"><td>paths_states</td>
+<tr class="row-odd"><td>paths_states</td>
 <td>False</td>
-<td>If True objects displayed by <strong>paths_raw</strong>, <strong>paths_smooth</strong>,
-<strong>paths_raw_io</strong>, and <strong>paths_smooth_io</strong> are displayed as one
-object with states corresponding to number of paths.
-Otherwise they are displayed as separate objects.</td>
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, objects displayed by <strong>paths_raw</strong>,
+<strong>paths_smooth</strong>, <strong>paths_raw_io</strong>, and <strong>paths_smooth_io</strong> are
+displayed as one object with states corresponding to number of
+paths. Otherwise they are displayed as separate objects.</td>
 </tr>
-<tr class="row-odd"><td>ctypes_raw</td>
+<tr class="row-even"><td>ctypes_raw</td>
 <td>False</td>
 <td>Displays raw paths in a similar manner as non split
-<strong>all_paths_raw</strong> but each cluster type is displayed in
-separate object.</td>
+<strong>all_paths_raw</strong> but each cluster type is displayed as
+a separate object.</td>
 </tr>
-<tr class="row-even"><td>ctypes_smooth</td>
+<tr class="row-odd"><td>ctypes_smooth</td>
 <td>False</td>
 <td>Displays smooth paths in a similar manner as non split
-<strong>all_paths_smooth</strong> but each cluster type is displayed in
-separate object.</td>
+<strong>all_paths_smooth</strong> but each cluster type is displayed as
+a separate object.</td>
+</tr>
+<tr class="row-even"><td>ctypes_amount</td>
+<td>None</td>
+<td>Allows to limit number of visualised ctypes. If it is a number
+in range <code class="docutils literal notranslate"><span class="pre">(0,1)</span></code>, then it is interpreted as percent number
+of ctypes to be visualized. It is is a integer number <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">1</span></code>,
+it is total number of visualized ctypes.</td>
+</tr>
+<tr class="row-odd"><td>inlets_clusters</td>
+<td>False</td>
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, clusters of inlets are visualized.</td>
+</tr>
+<tr class="row-even"><td>inlets_clusters_amount</td>
+<td>None</td>
+<td>Allows to limit number of visualised inlets. If it is a number
+in range <code class="docutils literal notranslate"><span class="pre">(0,1)</span></code> then it is interpreted as percent number
+of inlets to be visualized. It is is a integer number <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">1</span></code>
+it is total number of visualized inlets.</td>
 </tr>
 <tr class="row-odd"><td>show_molecule</td>
 <td>False</td>
-<td>If is set to selection of some molecular object in the system,
+<td>If set to selection of some molecular object in the system,
 for example to <code class="docutils literal notranslate"><span class="pre">protein</span></code>, this object is displayed.</td>
 </tr>
 <tr class="row-even"><td>show_molecule_frames</td>
@@ -648,51 +852,75 @@ states.</td>
 </tr>
 <tr class="row-odd"><td>show_scope_chull</td>
 <td>False</td>
-<td>If is set to selection of some molecular object in the system,
+<td>If set to selection of some molecular object in the system,
 for example to <code class="docutils literal notranslate"><span class="pre">protein</span></code>, convex hull of this object is
 displayed.</td>
 </tr>
-<tr class="row-even"><td>show_scope_chull_frames</td>
+<tr class="row-even"><td>show_scope_chull_inflate</td>
+<td>None</td>
+<td>Increase (or if negative decrease) size of the scope convex
+hull.</td>
+</tr>
+<tr class="row-odd"><td>show_scope_chull_frames</td>
 <td>0</td>
 <td>Allows to indicate for which frames of object defined by
 <strong>show_chull</strong> convex hull should be displayed. It is possible
 to set several frames. In that case frames would be displayed
 as states.</td>
 </tr>
-<tr class="row-odd"><td>show_object_chull</td>
+<tr class="row-even"><td>show_object_chull</td>
 <td>False</td>
-<td>If is set to selection of some molecular object in the system
+<td>If set to selection of some molecular object in the system,
 convex hull of this object is displayed. This works exacly the
 same way as <strong>show_chull</strong> but is meant to mark object shape.
 It can be achieved by using <cite>name * and</cite> molecular object
 definition plus some spatial constrains, for example those
 used in object definition.</td>
 </tr>
-<tr class="row-even"><td>show_object_chull_frames</td>
+<tr class="row-odd"><td>show_object_chull_frames</td>
 <td>0</td>
 <td>Allows to indicate for which frames of object defined by
 <strong>show_object</strong> convex hull should be displayed. It is possible
 to set several frames. In that case frames would be displayed
 as states.</td>
 </tr>
+<tr class="row-even"><td>cluster_area</td>
+<td>True</td>
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, clusters’ areas are estimated with kernel
+density estimation method (KDE) and plotted as countour.</td>
+</tr>
+<tr class="row-odd"><td>cluster_area_precision</td>
+<td>20</td>
+<td>Precision of KDE method in clusters’ areas estimation method.
+This options controls number of grid points per one
+square A as used in KDE. Higher values means better precision.
+Number of points can be calculated as $P^{2/3}$.</td>
+</tr>
+<tr class="row-even"><td>cluster_area_expand</td>
+<td>2</td>
+<td>Space occupied by clusters’ points can be expanded before KDE
+calculation. This option controls amount of A by which the
+cluster space is expanded.
+Average amount of expansion can be calcualted as $E^{2/3}$.</td>
+</tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Possibly due to limitations of <code class="xref py py-mod docutils literal notranslate"><span class="pre">MDAnalysis</span></code> only whole molecules can be displayed. If <strong>show_molecule</strong> is set to <code class="docutils literal notranslate"><span class="pre">backbone</span></code> complete protein will be displayed any way. This may change in future version of <code class="xref py py-mod docutils literal notranslate"><span class="pre">MDAnalysis</span></code> and or <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a>.</p>
+<p class="last">Possibly due to limitations of <code class="xref py py-mod docutils literal notranslate"><span class="pre">MDAnalysis</span></code> only whole molecules can be displayed. If <strong>show_molecule</strong> is set to <code class="docutils literal notranslate"><span class="pre">backbone</span></code> complete protein will be displayed anyway. This may change in future version of <code class="xref py py-mod docutils literal notranslate"><span class="pre">MDAnalysis</span></code> and or <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a>.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If several frames are selected they are displayed as states which may interfere with other PyMOL objects displayed with several states.</p>
+<p class="last">If several frames are selected, they are displayed as states which may interfere with other PyMOL objects displayed with several states.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If several states are displayed protein tertiary structure data might be lost. This seems to be limitation of either <code class="xref py py-mod docutils literal notranslate"><span class="pre">MDAnalysis</span></code> or PyMOL.</p>
+<p class="last">If several states are displayed, protein tertiary structure data might be lost. This seems to be limitation of either <code class="xref py py-mod docutils literal notranslate"><span class="pre">MDAnalysis</span></code> or PyMOL.</p>
 </div>
 </div>
-<div class="section" id="clusterization-sections">
-<span id="clusterization-options"></span><h2>Clusterization sections<a class="headerlink" href="#clusterization-sections" title="Permalink to this headline">¶</a></h2>
-<p>Default section for definition of clusterization method is named <strong>clusterization</strong> and default section for reclusterization method definition is named <strong>reclusterization</strong>. All clusterization sections shares some common options. Other options depends on the method.</p>
+<div class="section" id="clustering-sections">
+<span id="clustering-options"></span><h2>Clustering sections<a class="headerlink" href="#clustering-sections" title="Permalink to this headline">¶</a></h2>
+<p>Default section for definition of clustering method is named <strong>clustering</strong> and default section for reclustering method definition is named <strong>reclustering</strong>. All clustering sections shares some common options. Other options depends on the method.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="24%" />
@@ -709,35 +937,35 @@ as states.</td>
 <tr class="row-even"><td>method</td>
 <td>barber or
 dbscan</td>
-<td>Name of clusterization method. It has to be one of the
+<td>Name of clustering method. It has to be one of the
 following: barber, dbscan, affprop, meanshift, birch, kmeans.
-Default value depends whether it is <strong>clusterization</strong> section
-(barber) or <strong>reclusterization</strong> section (dbscan).</td>
+Default value depends whether it is <strong>clustering</strong> section
+(barber) or <strong>reclustering</strong> section (dbscan).</td>
 </tr>
-<tr class="row-odd"><td>recursive_clusterization</td>
-<td>clusterization
+<tr class="row-odd"><td>recursive_clustering</td>
+<td>clustering
 or None</td>
-<td>If it is set to name of some section that holds clusterization
-method settings this method will be called in the next
+<td>If set to name of some section that holds clustering
+method settings, this method is called in the next
 recursion of clusteriation. Default value for
-<strong>reclusterization</strong> is None.</td>
+<strong>reclustering</strong> is None.</td>
 </tr>
 <tr class="row-even"><td>recursive_threshold</td>
 <td>None</td>
 <td>Allows to set threshold that excludes clusters of certain
-size from reclusterization. Value of this option comprises of
+size from reclustering. Value of this option comprises of
 <cite>operator</cite> and <cite>value</cite>. Operator can be one of the following:
-&gt;, &gt;=, &lt;=, &lt;. Value have to be expressed as floating number and
+&gt;, &gt;=, &lt;=, &lt;. Value has to be expressed as floating number and
 it have to be in the range of 0 to 1. One can use several
 definitions separated by a space character.
 Only clusters of size complying with all thresholds definitions
-are submitted to reclusterization.</td>
+are submitted to reclustering.</td>
 </tr>
 </tbody>
 </table>
 <div class="section" id="barber">
-<span id="clusterization-methods"></span><h3>barber<a class="headerlink" href="#barber" title="Permalink to this headline">¶</a></h3>
-<p id="clusterization-barber">Clusterization by <strong>barber</strong> method bases on <a class="reference internal" href="valve_manual.html#auto-barber-procedure"><span class="std std-ref">Auto Barber</span></a> procedure. For each inlets a sphere is constructed according to Auto Barber <strong>separate_paths</strong> stage settings or according to parameters given in clasterization section. Next, inlets that form coherent clouds of mutually intersecting spheres are grouped in to clusters. Method <strong>barber</strong> supports the same settings as Auto Barber settings:</p>
+<span id="clustering-methods"></span><h3>barber<a class="headerlink" href="#barber" title="Permalink to this headline">¶</a></h3>
+<p id="clustering-barber">Clustering by <strong>barber</strong> method bases on <a class="reference internal" href="valve_manual.html#auto-barber-procedure"><span class="std std-ref">Auto Barber</span></a> procedure. For each inlets a sphere is constructed according to Auto Barber <strong>separate_paths</strong> stage settings or according to parameters given in clustering section. Next, inlets that form coherent clouds of mutually intersecting spheres are grouped into clusters. Method <strong>barber</strong> supports the same settings as Auto Barber settings:</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="24%" />
@@ -755,41 +983,41 @@ are submitted to reclusterization.</td>
 <td>str</td>
 <td>This option allows to select molecular entity used in Auto
 Barber procedure. See also <a class="reference internal" href="valve_manual.html#auto-barber-procedure"><span class="std std-ref">Auto Barber</span></a> and
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">barber_with_spheres()</span></code>.</td>
+<a class="reference internal" href="../aquaduct.traj.paths.html#aquaduct.traj.paths.GenericPaths.barber_with_spheres" title="aquaduct.traj.paths.GenericPaths.barber_with_spheres"><code class="xref py py-meth docutils literal notranslate"><span class="pre">barber_with_spheres()</span></code></a>.</td>
 </tr>
 <tr class="row-odd"><td>auto_barber_mincut</td>
 <td>float</td>
 <td>Minimal radius of spheres used in Auto Barber. If a sphere has
-radius smaller then this value it is not used to cut. This
-option can be switched off by setting it to <cite>None</cite>.</td>
+radius smaller than this value, it is not used to cut. This
+option can be switched off by setting it to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</td>
 </tr>
 <tr class="row-even"><td>auto_barber_maxcut</td>
 <td>float</td>
 <td>Maximal radius of spheres used in Auto Barber. If a sphere has
-radius greater then this value it is not used to cut. This
-option can be switched off by setting it to <cite>None</cite>.</td>
+radius greater than this value, it is not used to cut. This
+option can be switched off by setting it to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</td>
 </tr>
 <tr class="row-odd"><td>auto_barber_mincut_level</td>
 <td>bool</td>
-<td>If set <cite>True</cite> spheres of radius less then <strong>mincut</strong> are
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, spheres of radius less than <strong>mincut</strong> are
 resized to <strong>mincut</strong> value.</td>
 </tr>
 <tr class="row-even"><td>auto_barber_maxcut_level</td>
 <td>bool</td>
-<td>If set <cite>True</cite> spheres of radius greater then <strong>maxcut</strong> are
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, spheres of radius greater than <strong>maxcut</strong> are
 resized to <strong>maxcut</strong> value.</td>
 </tr>
 <tr class="row-odd"><td>auto_barber_tovdw</td>
 <td>bool</td>
-<td>Correct cutting sphere by decreasing its radius by VdW radius
-of the closest atom.</td>
+<td>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, cutting of spheres is corrected by decreasing
+its radius by VdW radius of the closest atom.</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="dbscan">
 <h3>dbscan<a class="headerlink" href="#dbscan" title="Permalink to this headline">¶</a></h3>
-<p>For detailed description look at <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN" title="(in scikit-learn v0.20.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.cluster.DBSCAN</span></code></a> documentation. Following table summarized options available in <cite>Valve</cite> and is a copy of original documentation.</p>
+<p>For detailed description look at <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN" title="(in scikit-learn v0.21.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.cluster.DBSCAN</span></code></a> documentation. The following table summarizes options available in <cite>Valve</cite> and is a copy of original documentation.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="24%" />
@@ -848,7 +1076,7 @@ Can be one of the following:</p>
 </div>
 <div class="section" id="affprop">
 <h3>affprop<a class="headerlink" href="#affprop" title="Permalink to this headline">¶</a></h3>
-<p>For detailed description look at <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.AffinityPropagation.html#sklearn.cluster.AffinityPropagation" title="(in scikit-learn v0.20.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">AffinityPropagation</span></code></a> documentation. Following table summarized options available in <cite>Valve</cite> and is a copy of original documentation.</p>
+<p>For detailed description look at <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AffinityPropagation.html#sklearn.cluster.AffinityPropagation" title="(in scikit-learn v0.21.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">AffinityPropagation</span></code></a> documentation. The following table summarizes options available in <cite>Valve</cite> and is a copy of original documentation.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="24%" />
@@ -885,7 +1113,7 @@ chosen as exemplars.</td>
 </div>
 <div class="section" id="meanshift">
 <h3>meanshift<a class="headerlink" href="#meanshift" title="Permalink to this headline">¶</a></h3>
-<p>For detailed description look at <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.MeanShift.html#sklearn.cluster.MeanShift" title="(in scikit-learn v0.20.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeanShift</span></code></a> documentation. Following table summarized options available in <cite>Valve</cite> and is a copy of original documentation.</p>
+<p>For detailed description look at <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MeanShift.html#sklearn.cluster.MeanShift" title="(in scikit-learn v0.21.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeanShift</span></code></a> documentation. Following table summarized options available in <cite>Valve</cite> and is a copy of original documentation.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="24%" />
@@ -903,7 +1131,7 @@ chosen as exemplars.</td>
 <td>Auto or float</td>
 <td>Bandwidth used in the RBF kernel. If <code class="docutils literal notranslate"><span class="pre">Auto</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code>
 automatic method for bandwidth estimation is used. See
-<a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.estimate_bandwidth.html#sklearn.cluster.estimate_bandwidth" title="(in scikit-learn v0.20.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">estimate_bandwidth()</span></code></a>.</td>
+<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.estimate_bandwidth.html#sklearn.cluster.estimate_bandwidth" title="(in scikit-learn v0.21.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">estimate_bandwidth()</span></code></a>.</td>
 </tr>
 <tr class="row-odd"><td>cluster_all</td>
 <td>bool</td>
@@ -927,7 +1155,7 @@ min_bin_freq points as seeds. If not defined, set to 1.</td>
 </div>
 <div class="section" id="birch">
 <h3>birch<a class="headerlink" href="#birch" title="Permalink to this headline">¶</a></h3>
-<p>For detailed description look at <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch" title="(in scikit-learn v0.20.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Birch</span></code></a> documentation. Following table summarized options available in <cite>Valve</cite> and is a copy of original documentation.</p>
+<p>For detailed description look at <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch" title="(in scikit-learn v0.21.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Birch</span></code></a> documentation. Following table summarized options available in <cite>Valve</cite> and is a copy of original documentation.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="24%" />
@@ -944,7 +1172,7 @@ min_bin_freq points as seeds. If not defined, set to 1.</td>
 <tr class="row-even"><td>threshold</td>
 <td>float</td>
 <td>The radius of the subcluster obtained by merging a new sample
-and the closest subcluster should be lesser than the threshold.
+and the closest subcluster should be smaller than the threshold.
 Otherwise a new subcluster is started.</td>
 </tr>
 <tr class="row-odd"><td>branching_factor</td>
@@ -963,7 +1191,7 @@ subclusters are returned as they are.</td>
 </div>
 <div class="section" id="kmeans">
 <h3>kmeans<a class="headerlink" href="#kmeans" title="Permalink to this headline">¶</a></h3>
-<p>For detailed description look at <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans" title="(in scikit-learn v0.20.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">KMeans</span></code></a> documentation. Following table summarized options available in <cite>Valve</cite> and is a copy of original documentation.</p>
+<p>For detailed description look at <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans" title="(in scikit-learn v0.21.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">KMeans</span></code></a> documentation. The following table summarized options available in <cite>Valve</cite> and is a copy of original documentation.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="24%" />
@@ -989,7 +1217,7 @@ single run.</td>
 </tr>
 <tr class="row-even"><td>n_init</td>
 <td>int</td>
-<td>Number of time the k-means algorithm will be run with different
+<td>Number of times the k-means algorithm will be run with different
 centroid seeds. The final results will be the best output of
 n_init consecutive runs in terms of inertia.</td>
 </tr>
@@ -1009,7 +1237,7 @@ convergence.</td>
 </div>
 <div class="section" id="smooth-section">
 <span id="smoothing-options"></span><h2>Smooth section<a class="headerlink" href="#smooth-section" title="Permalink to this headline">¶</a></h2>
-<p>Section <strong>smooth</strong> supports following options:</p>
+<p>Section <strong>smooth</strong> supports the following options:</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="20%" />
@@ -1027,14 +1255,14 @@ convergence.</td>
 <td>str</td>
 <td><p class="first">Smoothing method. Can be one of the following:</p>
 <ul class="last simple">
-<li><code class="docutils literal notranslate"><span class="pre">window</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSmooth</span></code>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">mss</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">MaxStepSmooth</span></code>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">window_mss</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowOverMaxStepSmooth</span></code>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">awin</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowSmooth</span></code>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">awin_mss</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowOverMaxStepSmooth</span></code>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">dwin</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowSmooth</span></code>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">dwin_mss</span></code>, (see <code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowOverMaxStepSmooth</span></code>)</li>
-<li><code class="docutils literal notranslate"><span class="pre">savgol</span></code>. (see <code class="xref py py-class docutils literal notranslate"><span class="pre">SavgolSmooth</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">window</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.WindowSmooth" title="aquaduct.geom.smooth.WindowSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSmooth</span></code></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">mss</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.MaxStepSmooth" title="aquaduct.geom.smooth.MaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxStepSmooth</span></code></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">window_mss</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.WindowOverMaxStepSmooth" title="aquaduct.geom.smooth.WindowOverMaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowOverMaxStepSmooth</span></code></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">awin</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.ActiveWindowSmooth" title="aquaduct.geom.smooth.ActiveWindowSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowSmooth</span></code></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">awin_mss</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.ActiveWindowOverMaxStepSmooth" title="aquaduct.geom.smooth.ActiveWindowOverMaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowOverMaxStepSmooth</span></code></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">dwin</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.DistanceWindowSmooth" title="aquaduct.geom.smooth.DistanceWindowSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowSmooth</span></code></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">dwin_mss</span></code>, (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.DistanceWindowOverMaxStepSmooth" title="aquaduct.geom.smooth.DistanceWindowOverMaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowOverMaxStepSmooth</span></code></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">savgol</span></code>. (see <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.SavgolSmooth" title="aquaduct.geom.smooth.SavgolSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">SavgolSmooth</span></code></a>)</li>
 </ul>
 </td>
 </tr>
@@ -1044,8 +1272,8 @@ convergence.</td>
 </tr>
 <tr class="row-even"><td>window</td>
 <td>int or float</td>
-<td>In window based method defines window size. In plain <code class="docutils literal notranslate"><span class="pre">window</span></code>
-it has to be int number. In <code class="docutils literal notranslate"><span class="pre">savgol</span></code> it has to be odd integer.</td>
+<td>In window-based method defines window size. In plain <code class="docutils literal notranslate"><span class="pre">window</span></code>
+it has to be an int number. In <code class="docutils literal notranslate"><span class="pre">savgol</span></code> it has to be odd integer.</td>
 </tr>
 <tr class="row-odd"><td>step</td>
 <td>int</td>
@@ -1086,12 +1314,13 @@ it has to be int number. In <code class="docutils literal notranslate"><span cla
         <li class="right" >
           <a href="valve_manual.html" title="Valve manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Aqua-Duct’s Valve driver documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
     </div>
   </body>
 </html>

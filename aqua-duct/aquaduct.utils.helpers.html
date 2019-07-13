@@ -6,20 +6,21 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>aquaduct.utils.helpers module &#8212; Aqua-Duct 0.5.14 documentation</title>
+    <title>aquaduct.utils.helpers module &#8212; Aqua-Duct 1.0.0b1 documentation</title>
     <link rel="stylesheet" href="static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="static/documentation_options.js"></script>
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="static/bizstyle.js"></script>
     <link rel="shortcut icon" href="static/ficon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="aquaduct.utils.maths module" href="aquaduct.utils.maths.html" />
-    <link rel="prev" title="aquaduct.utils.clui module" href="aquaduct.utils.clui.html" />
+    <link rel="prev" title="aquaduct.utils.filecache module" href="aquaduct.utils.filecache.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
     <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
@@ -38,9 +39,9 @@
           <a href="aquaduct.utils.maths.html" title="aquaduct.utils.maths module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="aquaduct.utils.clui.html" title="aquaduct.utils.clui module"
+          <a href="aquaduct.utils.filecache.html" title="aquaduct.utils.filecache module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.utils.html" accesskey="U">aquaduct.utils package</a> &#187;</li> 
@@ -52,8 +53,8 @@
               <img class="logo" src="static/AQUADUCT_LOGO.png" alt="Logo"/>
             </a></p>
   <h4>Previous topic</h4>
-  <p class="topless"><a href="aquaduct.utils.clui.html"
-                        title="previous chapter">aquaduct.utils.clui module</a></p>
+  <p class="topless"><a href="aquaduct.utils.filecache.html"
+                        title="previous chapter">aquaduct.utils.filecache module</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="aquaduct.utils.maths.html"
                         title="next chapter">aquaduct.utils.maths module</a></p>
@@ -129,11 +130,48 @@ For example, following call:</p>
 <dd></dd></dl>
 
 <dl class="function">
+<dt id="aquaduct.utils.helpers.is_float">
+<code class="descname">is_float</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#is_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.is_float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="aquaduct.utils.helpers.lind">
 <code class="descname">lind</code><span class="sig-paren">(</span><em>l</em>, <em>ind</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#lind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.lind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Indexes lists using lists of integers as identificators.
 For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lind</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>l</strong> (<em>list</em>) – List to be indexed.</li>
+<li><strong>ind</strong> (<em>list</em>) – Integer indexes.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Reindexed list.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.utils.helpers.glind">
+<code class="descname">glind</code><span class="sig-paren">(</span><em>l</em>, <em>ind</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#glind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.glind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indexes lists using iterable of integers as identificators.
+For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">glind</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>returns:</p>
@@ -194,7 +232,7 @@ on the basis of input data or other parameters.</p>
 
 <dl class="function">
 <dt id="aquaduct.utils.helpers.create_tmpfile">
-<code class="descname">create_tmpfile</code><span class="sig-paren">(</span><em>ext=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#create_tmpfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.create_tmpfile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_tmpfile</code><span class="sig-paren">(</span><em>ext=None</em>, <em>dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#create_tmpfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.create_tmpfile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates temporary file. File is created, closed and its file name is returned.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -204,11 +242,17 @@ on the basis of input data or other parameters.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Optional extension of the file.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Optional extension of the file.</li>
+<li><strong>dir</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Optional path to the directory where the file should be created.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">File name of created temporary file.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">File name of created temporary file.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -267,6 +311,86 @@ on the basis of input data or other parameters.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">String of ranges.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.utils.helpers.fractionof">
+<code class="descname">fractionof</code><span class="sig-paren">(</span><em>l</em>, <em>f=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#fractionof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.fractionof" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>l</strong> (<em>list</em>) – input list</li>
+<li><strong>f</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – fraction</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Fraction of input list.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">generator</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.utils.helpers.make_fraction">
+<code class="descname">make_fraction</code><span class="sig-paren">(</span><em>frac</em>, <em>size</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#make_fraction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.make_fraction" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frac</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Fraction to make, can be also <cite>None</cite>. In that case, returned value is <cite>None</cite> as well.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Size int size:</th><td class="field-body">Size of set for which fraction is made.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Fracion in range (0,1).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.utils.helpers.make_fractionof">
+<code class="descname">make_fractionof</code><span class="sig-paren">(</span><em>l</em>, <em>f=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#make_fractionof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.make_fractionof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper of make_fraction and fractionof functions.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.utils.helpers.chop">
+<code class="descname">chop</code><span class="sig-paren">(</span><em>l</em>, <em>n=1</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#chop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.chop" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<em>list</em>) – input list</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Chunks of input list, each chunk is of maximal size of n.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">generator</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.utils.helpers.chunk">
+<code class="descname">chunk</code><span class="sig-paren">(</span><em>l</em>, <em>n=1</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#chunk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.chunk" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<em>list</em>) – input list</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">n chunks of input list.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">generator</td>
 </tr>
 </tbody>
 </table>
@@ -370,6 +494,24 @@ of apropriate length. If the output is not iterable it is converted in to a tupl
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="aquaduct.utils.helpers.dictify">
+<code class="descname">dictify</code><span class="sig-paren">(</span><em>gen</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#dictify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.dictify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator to convert functions’ outputs into a tuple. If the output is iterable it is converted in to a tuple
+of apropriate length. If the output is not iterable it is converted in to a tuple of length 1.</p>
+<p>Written on the basis of <a class="reference internal" href="#aquaduct.utils.helpers.listify" title="aquaduct.utils.helpers.listify"><code class="xref py py-func docutils literal notranslate"><span class="pre">listify()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Output of decorated function converted to a tuple.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="class">
 <dt id="aquaduct.utils.helpers.arrayify">
 <em class="property">class </em><code class="descname">arrayify</code><span class="sig-paren">(</span><em>shape=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#arrayify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.arrayify" title="Permalink to this definition">¶</a></dt>
@@ -392,7 +534,7 @@ of appropriate shape. If the output is not iterable it is converted in to a 2D n
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Output of decorated function converted to a 2D numpy array.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)">numpy.ndarray</a></td>
 </tr>
 </tbody>
 </table>
@@ -412,7 +554,7 @@ of appropriate shape. If the output is not iterable it is converted in to a 2D n
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Output of decorated function converted to a 1D numpy array.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)">numpy.ndarray</a></td>
 </tr>
 </tbody>
 </table>
@@ -473,7 +615,7 @@ If elements from the first list are not present in the second list the tuple is 
 
 <dl class="function">
 <dt id="aquaduct.utils.helpers.iterate_or_die">
-<code class="descname">iterate_or_die</code><span class="sig-paren">(</span><em>something</em>, <em>times=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#iterate_or_die"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.iterate_or_die" title="Permalink to this definition">¶</a></dt>
+<code class="descname">iterate_or_die</code><span class="sig-paren">(</span><em>something</em>, <em>times=None</em>, <em>reverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#iterate_or_die"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.iterate_or_die" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -520,11 +662,27 @@ foo=Bunch(a=1,b=2)</p>
 <dt id="aquaduct.utils.helpers.SmartRangeFunction">
 <em class="property">class </em><code class="descname">SmartRangeFunction</code><span class="sig-paren">(</span><em>element</em>, <em>times</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeFunction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Base class for all <a class="reference internal" href="#aquaduct.utils.helpers.SmartRangeFunction" title="aquaduct.utils.helpers.SmartRangeFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">SmartRangeFunction</span></code></a> based classes.</p>
+<dl class="attribute">
+<dt id="aquaduct.utils.helpers.SmartRangeFunction.__slots__">
+<code class="descname">__slots__</code><em class="property"> = ['element', 'times']</em><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeFunction.__slots__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="aquaduct.utils.helpers.SmartRangeFunction.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>element</em>, <em>times</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeFunction.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeFunction.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="aquaduct.utils.helpers.SmartRangeFunction.element">
+<code class="descname">element</code><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeFunction.element" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="aquaduct.utils.helpers.SmartRangeFunction.times">
+<code class="descname">times</code><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeFunction.times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="aquaduct.utils.helpers.SmartRangeFunction.__str__">
@@ -539,6 +697,27 @@ foo=Bunch(a=1,b=2)</p>
 <dl class="method">
 <dt id="aquaduct.utils.helpers.SmartRangeFunction.__len__">
 <code class="descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeFunction.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeFunction.__len__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.utils.helpers.SmartRangeFunction.__getstate__">
+<code class="descname">__getstate__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeFunction.__getstate__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeFunction.__getstate__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.utils.helpers.SmartRangeFunction.__setstate__">
+<code class="descname">__setstate__</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeFunction.__setstate__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeFunction.__setstate__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.utils.helpers.SmartRangeFunction.__eq__">
+<code class="descname">__eq__</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeFunction.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeFunction.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>x.__eq__(y) &lt;==&gt; x==y</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.utils.helpers.SmartRangeFunction.__hash__">
+<code class="descname">__hash__</code><span class="sig-paren">(</span><em>) &lt;==&gt; hash(x</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeFunction.__hash__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeFunction.__hash__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -587,11 +766,6 @@ foo=Bunch(a=1,b=2)</p>
 <dt id="aquaduct.utils.helpers.SmartRangeEqual">
 <em class="property">class </em><code class="descname">SmartRangeEqual</code><span class="sig-paren">(</span><em>element</em>, <em>times</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeEqual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeEqual" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#aquaduct.utils.helpers.SmartRangeFunction" title="aquaduct.utils.helpers.SmartRangeFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.utils.helpers.SmartRangeFunction</span></code></a></p>
-<dl class="attribute">
-<dt id="aquaduct.utils.helpers.SmartRangeEqual.type">
-<code class="descname">type</code><em class="property"> = 'e'</em><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeEqual.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="method">
 <dt id="aquaduct.utils.helpers.SmartRangeEqual.get">
 <code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeEqual.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeEqual.get" title="Permalink to this definition">¶</a></dt>
@@ -618,11 +792,6 @@ foo=Bunch(a=1,b=2)</p>
 <dt id="aquaduct.utils.helpers.SmartRangeIncrement">
 <em class="property">class </em><code class="descname">SmartRangeIncrement</code><span class="sig-paren">(</span><em>element</em>, <em>times</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeIncrement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeIncrement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#aquaduct.utils.helpers.SmartRangeFunction" title="aquaduct.utils.helpers.SmartRangeFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.utils.helpers.SmartRangeFunction</span></code></a></p>
-<dl class="attribute">
-<dt id="aquaduct.utils.helpers.SmartRangeIncrement.type">
-<code class="descname">type</code><em class="property"> = 'i'</em><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeIncrement.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="method">
 <dt id="aquaduct.utils.helpers.SmartRangeIncrement.get">
 <code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeIncrement.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeIncrement.get" title="Permalink to this definition">¶</a></dt>
@@ -649,11 +818,6 @@ foo=Bunch(a=1,b=2)</p>
 <dt id="aquaduct.utils.helpers.SmartRangeDecrement">
 <em class="property">class </em><code class="descname">SmartRangeDecrement</code><span class="sig-paren">(</span><em>element</em>, <em>times</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeDecrement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeDecrement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#aquaduct.utils.helpers.SmartRangeFunction" title="aquaduct.utils.helpers.SmartRangeFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.utils.helpers.SmartRangeFunction</span></code></a></p>
-<dl class="attribute">
-<dt id="aquaduct.utils.helpers.SmartRangeDecrement.type">
-<code class="descname">type</code><em class="property"> = 'd'</em><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeDecrement.type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="method">
 <dt id="aquaduct.utils.helpers.SmartRangeDecrement.get">
 <code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRangeDecrement.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRangeDecrement.get" title="Permalink to this definition">¶</a></dt>
@@ -678,13 +842,53 @@ foo=Bunch(a=1,b=2)</p>
 
 <dl class="class">
 <dt id="aquaduct.utils.helpers.SmartRange">
-<em class="property">class </em><code class="descname">SmartRange</code><span class="sig-paren">(</span><em>iterable=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">SmartRange</code><span class="sig-paren">(</span><em>iterable=None</em>, <em>fast_raw=None</em>, <em>fast_array=None</em>, <em>fast_minc_pairs=None</em>, <em>fast_minc_seq=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="aquaduct.utils.helpers.SmartRange.__slots__">
+<code class="descname">__slots__</code><em class="property"> = ['_elements', '_len', '_min', '_max']</em><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange.__slots__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="aquaduct.utils.helpers.SmartRange.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>iterable=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRange.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>iterable=None</em>, <em>fast_raw=None</em>, <em>fast_array=None</em>, <em>fast_minc_pairs=None</em>, <em>fast_minc_seq=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRange.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="aquaduct.utils.helpers.SmartRange._elements">
+<code class="descname">_elements</code><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange._elements" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="aquaduct.utils.helpers.SmartRange._len">
+<code class="descname">_len</code><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange._len" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="aquaduct.utils.helpers.SmartRange._min">
+<code class="descname">_min</code><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange._min" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="aquaduct.utils.helpers.SmartRange._max">
+<code class="descname">_max</code><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange._max" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="aquaduct.utils.helpers.SmartRange._a2e">
+<em class="property">static </em><code class="descname">_a2e</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRange._a2e"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange._a2e" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.utils.helpers.SmartRange.__getstate__">
+<code class="descname">__getstate__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRange.__getstate__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange.__getstate__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.utils.helpers.SmartRange.__setstate__">
+<code class="descname">__setstate__</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRange.__setstate__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange.__setstate__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="aquaduct.utils.helpers.SmartRange.__str__">
@@ -711,9 +915,29 @@ foo=Bunch(a=1,b=2)</p>
 <code class="descname">last_times</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRange.last_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange.last_times" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="staticmethod">
+<dt id="aquaduct.utils.helpers.SmartRange.raw2pairs">
+<em class="property">static </em><code class="descname">raw2pairs</code><span class="sig-paren">(</span><em>raw</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRange.raw2pairs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange.raw2pairs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="aquaduct.utils.helpers.SmartRange.raw2sequence">
+<em class="property">static </em><code class="descname">raw2sequence</code><span class="sig-paren">(</span><em>raw</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/helpers.html#SmartRange.raw2sequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange.raw2sequence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="aquaduct.utils.helpers.SmartRange.raw">
 <code class="descname">raw</code><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange.raw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="aquaduct.utils.helpers.SmartRange.raw_equal">
+<code class="descname">raw_equal</code><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange.raw_equal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="aquaduct.utils.helpers.SmartRange.raw_increment">
+<code class="descname">raw_increment</code><a class="headerlink" href="#aquaduct.utils.helpers.SmartRange.raw_increment" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -779,9 +1003,9 @@ foo=Bunch(a=1,b=2)</p>
           <a href="aquaduct.utils.maths.html" title="aquaduct.utils.maths module"
              >next</a> |</li>
         <li class="right" >
-          <a href="aquaduct.utils.clui.html" title="aquaduct.utils.clui module"
+          <a href="aquaduct.utils.filecache.html" title="aquaduct.utils.filecache module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.utils.html" >aquaduct.utils package</a> &#187;</li> 
@@ -789,7 +1013,7 @@ foo=Bunch(a=1,b=2)</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
     </div>
   </body>
 </html>

@@ -6,14 +6,15 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>aquaduct.geom.traces module &#8212; Aqua-Duct 0.5.14 documentation</title>
+    <title>aquaduct.geom.traces module &#8212; Aqua-Duct 1.0.0b1 documentation</title>
     <link rel="stylesheet" href="static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="static/documentation_options.js"></script>
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="static/bizstyle.js"></script>
     <link rel="shortcut icon" href="static/ficon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
@@ -40,7 +41,7 @@
         <li class="right" >
           <a href="aquaduct.geom.smooth.html" title="aquaduct.geom.smooth module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.geom.html" accesskey="U">aquaduct.geom package</a> &#187;</li> 
@@ -155,6 +156,104 @@
 <dt id="aquaduct.geom.traces.derrivative">
 <code class="descname">derrivative</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/traces.html#derrivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.traces.derrivative" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.geom.traces.vector_one">
+<code class="descname">vector_one</code><span class="sig-paren">(</span><em>V</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/traces.html#vector_one"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.traces.vector_one" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>V</strong> – a vector in a form of array-like object, tuple or a list</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">vector in the same direction but of lenght 1</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.geom.traces.project_p_on_ab">
+<code class="descname">project_p_on_ab</code><span class="sig-paren">(</span><em>p</em>, <em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/traces.html#project_p_on_ab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.traces.project_p_on_ab" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> – a point to be projected on AB line</li>
+<li><strong>a</strong> – beginning of AB line</li>
+<li><strong>b</strong> – end of AB line</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">point on AB line being a projection of p</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.geom.traces.distance_p_to_ab">
+<code class="descname">distance_p_to_ab</code><span class="sig-paren">(</span><em>p</em>, <em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/traces.html#distance_p_to_ab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.traces.distance_p_to_ab" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> – a point of interest</li>
+<li><strong>a</strong> – beginning of AB line</li>
+<li><strong>b</strong> – end of AB line</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">distance of p to AB line</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.geom.traces.is_p_above_vp0_plane">
+<code class="descname">is_p_above_vp0_plane</code><span class="sig-paren">(</span><em>p</em>, <em>v</em>, <em>p0</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/traces.html#is_p_above_vp0_plane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.traces.is_p_above_vp0_plane" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> – a point of interest</li>
+<li><strong>v</strong> – vector pointing perpendicularly up from the plane perspective</li>
+<li><strong>p0</strong> – point on the plane</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">&gt;0 if p point is above the plane, 0 if it is on the plane, and &lt;0 if it is below the plane</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.geom.traces.vector_change_len">
+<code class="descname">vector_change_len</code><span class="sig-paren">(</span><em>V</em>, <em>l</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/traces.html#vector_change_len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.traces.vector_change_len" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>V</strong> – a vector in a form of array-like object, tuple or a list</li>
+<li><strong>l</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – lenght by wich vectro should be increased (decreased if negative)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">vector in the same direction but of altered lenght</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="aquaduct.geom.traces.vector_norm">
@@ -335,6 +434,60 @@
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="aquaduct.geom.traces.triangle_area">
+<code class="descname">triangle_area</code><span class="sig-paren">(</span><em>A</em>, <em>B</em>, <em>C</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/traces.html#triangle_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.traces.triangle_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters are coordinates of points which are tops of triangle.
+The function calculates the ABC triangle area with Heron’s formula.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>A</strong> – coordinates of the first point [A top]</li>
+<li><strong>B</strong> – coordinates of the second point [B top]</li>
+<li><strong>C</strong> – coordinates of the third point [C top]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">area</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.geom.traces.square_area">
+<code class="descname">square_area</code><span class="sig-paren">(</span><em>A</em>, <em>B</em>, <em>C</em>, <em>D</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/traces.html#square_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.traces.square_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameters are coordinates of points which are tops of square.
+The function estimates the ABCD square area by calculating areas of triangles
+that make up the square.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>A</strong> – coordinates of the first point [A top]</li>
+<li><strong>B</strong> – coordinates of the second point [B top]</li>
+<li><strong>C</strong> – coordinates of the third point [C top]</li>
+<li><strong>D</strong> – coordinates of the fourth point [D top]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">area</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="class">
 <dt id="aquaduct.geom.traces.LinearizeOneWay">
 <em class="property">class </em><code class="descname">LinearizeOneWay</code><a class="reference internal" href="modules/aquaduct/geom/traces.html#LinearizeOneWay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.traces.LinearizeOneWay" title="Permalink to this definition">¶</a></dt>
@@ -384,7 +537,7 @@ points of the trace</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coords</strong> (<em>numpy.ndarray</em>) – Input coordinates.</li>
+<li><strong>coords</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Input coordinates.</li>
 <li><strong>depth</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – Depth of recurence.</li>
 </ul>
 </td>
@@ -440,7 +593,7 @@ points of the trace</p>
 <code class="descname">is_linear_core</code><span class="sig-paren">(</span><em>coords</em>, <em>depth=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/traces.html#VectorLinearize.is_linear_core"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.traces.VectorLinearize.is_linear_core" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method checks if input coordinates are linear according to the threshold and depth.</p>
 <p>It begins with calculation of the threshold. If <cite>depth</cite> is None it is set to 1. Current threshold is calculated with following simple equation:</p>
-<div class="math notranslate">
+<div class="math notranslate nohighlight">
 \[threshold_{current} = threshold_{initial} * (2 - 0.9^{depth})\]</div>
 <p>Next, in a loop over all points but the first and the last the angle is calculated between two vectors. The first one made by the point and the first point, and the second vector made by the last and the first point. If any of the calculated angles is bigger the the treshold methods returns False; otherwise method returns True.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -448,7 +601,7 @@ points of the trace</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coords</strong> (<em>numpy.ndarray</em>) – Coordinates for which linearization criterion is checked.</li>
+<li><strong>coords</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Coordinates for which linearization criterion is checked.</li>
 <li><strong>depth</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – Depth of recurence.</li>
 </ul>
 </td>
@@ -472,7 +625,7 @@ points of the trace</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coords</strong> (<em>numpy.ndarray</em>) – Coordinates for which linearization criterion is checked.</li>
+<li><strong>coords</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Coordinates for which linearization criterion is checked.</li>
 <li><strong>depth</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – Depth of recurence.</li>
 </ul>
 </td>
@@ -554,7 +707,7 @@ points of the trace</p>
         <li class="right" >
           <a href="aquaduct.geom.smooth.html" title="aquaduct.geom.smooth module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.geom.html" >aquaduct.geom package</a> &#187;</li> 
@@ -562,7 +715,7 @@ points of the trace</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
     </div>
   </body>
 </html>

@@ -6,19 +6,20 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>aquaduct.geom.pca module &#8212; Aqua-Duct 0.5.14 documentation</title>
+    <title>aquaduct.geom.pca module &#8212; Aqua-Duct 1.0.0b1 documentation</title>
     <link rel="stylesheet" href="static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="static/documentation_options.js"></script>
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="static/bizstyle.js"></script>
     <link rel="shortcut icon" href="static/ficon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="aquaduct.geom.smooth module" href="aquaduct.geom.smooth.html" />
+    <link rel="next" title="aquaduct.geom.pocket module" href="aquaduct.geom.pocket.html" />
     <link rel="prev" title="aquaduct.geom.master module" href="aquaduct.geom.master.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
@@ -35,12 +36,12 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="aquaduct.geom.smooth.html" title="aquaduct.geom.smooth module"
+          <a href="aquaduct.geom.pocket.html" title="aquaduct.geom.pocket module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="aquaduct.geom.master.html" title="aquaduct.geom.master module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.geom.html" accesskey="U">aquaduct.geom package</a> &#187;</li> 
@@ -55,8 +56,8 @@
   <p class="topless"><a href="aquaduct.geom.master.html"
                         title="previous chapter">aquaduct.geom.master module</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="aquaduct.geom.smooth.html"
-                        title="next chapter">aquaduct.geom.smooth module</a></p>
+  <p class="topless"><a href="aquaduct.geom.pocket.html"
+                        title="next chapter">aquaduct.geom.pocket module</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">
@@ -80,14 +81,46 @@
   <div class="section" id="module-aquaduct.geom.pca">
 <span id="aquaduct-geom-pca-module"></span><h1>aquaduct.geom.pca module<a class="headerlink" href="#module-aquaduct.geom.pca" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
+<dt id="aquaduct.geom.pca.NullPrepocess">
+<em class="property">class </em><code class="descname">NullPrepocess</code><a class="reference internal" href="modules/aquaduct/geom/pca.html#NullPrepocess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.NullPrepocess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="aquaduct.geom.pca.NullPrepocess.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#NullPrepocess.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.NullPrepocess.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.pca.NullPrepocess.build">
+<code class="descname">build</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#NullPrepocess.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.NullPrepocess.build" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.pca.NullPrepocess.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>...) &lt;==&gt; x(...</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#NullPrepocess.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.NullPrepocess.__call__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.pca.NullPrepocess.undo">
+<code class="descname">undo</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#NullPrepocess.undo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.NullPrepocess.undo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="aquaduct.geom.pca.Center">
-<em class="property">class </em><code class="descname">Center</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Center"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Center" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Center</code><a class="reference internal" href="modules/aquaduct/geom/pca.html#Center"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Center" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="aquaduct.geom.pca.Center.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Center.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Center.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Center.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Center.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.pca.Center.build">
+<code class="descname">build</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Center.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Center.build" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="aquaduct.geom.pca.Center.__call__">
@@ -103,13 +136,18 @@
 
 <dl class="class">
 <dt id="aquaduct.geom.pca.Normalize">
-<em class="property">class </em><code class="descname">Normalize</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Normalize" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Normalize</code><a class="reference internal" href="modules/aquaduct/geom/pca.html#Normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Normalize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="aquaduct.geom.pca.Normalize.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Normalize.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Normalize.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Normalize.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Normalize.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.pca.Normalize.build">
+<code class="descname">build</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Normalize.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Normalize.build" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="aquaduct.geom.pca.Normalize.__call__">
@@ -125,49 +163,98 @@
 
 <dl class="class">
 <dt id="aquaduct.geom.pca.Standartize">
-<em class="property">class </em><code class="descname">Standartize</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Standartize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Standartize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#aquaduct.geom.pca.Center" title="aquaduct.geom.pca.Center"><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.geom.pca.Center</span></code></a>, <a class="reference internal" href="#aquaduct.geom.pca.Normalize" title="aquaduct.geom.pca.Normalize"><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.geom.pca.Normalize</span></code></a></p>
+<em class="property">class </em><code class="descname">Standartize</code><a class="reference internal" href="modules/aquaduct/geom/pca.html#Standartize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Standartize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="aquaduct.geom.pca.Standartize.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Standartize.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Standartize.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Standartize.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Standartize.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="aquaduct.geom.pca.Standartize.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>...) &lt;==&gt; x(...</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Standartize.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Standartize.__call__" title="Permalink to this definition">¶</a></dt>
+<dt id="aquaduct.geom.pca.Standartize.test_polarize_in">
+<code class="descname">test_polarize_in</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Standartize.test_polarize_in"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Standartize.test_polarize_in" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="aquaduct.geom.pca.Polarize">
+<em class="property">class </em><code class="descname">Polarize</code><span class="sig-paren">(</span><em>center=array([0</em>, <em>0</em>, <em>0])</em>, <em>rvar=0.1</em>, <em>equaltf=True</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Polarize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Polarize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="aquaduct.geom.pca.Polarize.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>center=array([0</em>, <em>0</em>, <em>0])</em>, <em>rvar=0.1</em>, <em>equaltf=True</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Polarize.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Polarize.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepocessing filter for 3D cartesian coordinates transformation to spherical coordinates.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Component f is in range 0 - 2pi.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>center</strong> – Center of the hypothetical sphere.</li>
+<li><strong>rvar</strong> – Desired amount of variance of <em>r</em> component measured as fraction of mean <em>t</em> and <em>f</em> variance.</li>
+<li><strong>equaltf</strong> – If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, <em>t</em> range is scaled to <em>f</em>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="aquaduct.geom.pca.Polarize._mt">
+<code class="descname">_mt</code><a class="headerlink" href="#aquaduct.geom.pca.Polarize._mt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="aquaduct.geom.pca.Standartize.undo">
-<code class="descname">undo</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Standartize.undo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Standartize.undo" title="Permalink to this definition">¶</a></dt>
+<dt id="aquaduct.geom.pca.Polarize._Xrtf">
+<code class="descname">_Xrtf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Polarize._Xrtf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Polarize._Xrtf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.pca.Polarize._circle_tf">
+<code class="descname">_circle_tf</code><span class="sig-paren">(</span><em>t</em>, <em>f</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Polarize._circle_tf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Polarize._circle_tf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.pca.Polarize.build">
+<code class="descname">build</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Polarize.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Polarize.build" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.pca.Polarize.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>...) &lt;==&gt; x(...</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Polarize.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Polarize.__call__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.pca.Polarize.undo">
+<code class="descname">undo</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#Polarize.undo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.Polarize.undo" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="aquaduct.geom.pca.PCA">
-<em class="property">class </em><code class="descname">PCA</code><span class="sig-paren">(</span><em>X</em>, <em>prepro=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#PCA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.PCA" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PCA</code><span class="sig-paren">(</span><em>preprocess=&lt;aquaduct.geom.pca.NullPrepocess object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#PCA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.PCA" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="aquaduct.geom.pca.PCA.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>X</em>, <em>prepro=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#PCA.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.PCA.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>preprocess=&lt;aquaduct.geom.pca.NullPrepocess object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#PCA.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.PCA.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.pca.PCA.build">
+<code class="descname">build</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#PCA.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.PCA.build" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="aquaduct.geom.pca.PCA.P">
 <code class="descname">P</code><a class="headerlink" href="#aquaduct.geom.pca.PCA.P" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="aquaduct.geom.pca.PCA.preprocess">
-<code class="descname">preprocess</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#PCA.preprocess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.PCA.preprocess" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="aquaduct.geom.pca.PCA.preprocess_undo">
-<code class="descname">preprocess_undo</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#PCA.preprocess_undo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.PCA.preprocess_undo" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -177,7 +264,7 @@
 
 <dl class="method">
 <dt id="aquaduct.geom.pca.PCA.undo">
-<code class="descname">undo</code><span class="sig-paren">(</span><em>T</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#PCA.undo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.PCA.undo" title="Permalink to this definition">¶</a></dt>
+<code class="descname">undo</code><span class="sig-paren">(</span><em>T</em>, <em>pc=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/pca.html#PCA.undo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.pca.PCA.undo" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -200,12 +287,12 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="aquaduct.geom.smooth.html" title="aquaduct.geom.smooth module"
+          <a href="aquaduct.geom.pocket.html" title="aquaduct.geom.pocket module"
              >next</a> |</li>
         <li class="right" >
           <a href="aquaduct.geom.master.html" title="aquaduct.geom.master module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.geom.html" >aquaduct.geom package</a> &#187;</li> 
@@ -213,7 +300,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
     </div>
   </body>
 </html>

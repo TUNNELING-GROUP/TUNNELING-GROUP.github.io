@@ -6,20 +6,21 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Valve manual &#8212; Aqua-Duct 0.5.14 documentation</title>
+    <title>Valve manual &#8212; Aqua-Duct 1.0.0b1 documentation</title>
     <link rel="stylesheet" href="../static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../static/documentation_options.js"></script>
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../static/documentation_options.js"></script>
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../static/ficon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Configuration file options" href="valve_config.html" />
-    <link rel="prev" title="Aqua-Duct installation guide" href="../aquaduct_install.html" />
+    <link rel="prev" title="Aqua-Duct’s Valve driver documentation" href="index.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
     <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
@@ -38,9 +39,10 @@
           <a href="valve_config.html" title="Configuration file options"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../aquaduct_install.html" title="Aqua-Duct installation guide"
+          <a href="index.html" title="Aqua-Duct’s Valve driver documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Aqua-Duct’s Valve driver documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -48,16 +50,13 @@
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../static/AQUADUCT_LOGO.png" alt="Logo"/>
             </a></p>
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#"><em>Valve</em> manual</a><ul>
 <li><a class="reference internal" href="#valve-invocation"><em>Valve</em> invocation</a><ul>
 <li><a class="reference internal" href="#usage">Usage</a></li>
 <li><a class="reference internal" href="#configuration-file-template">Configuration file template</a></li>
 <li><a class="reference internal" href="#valve-calculation-run"><em>Valve</em> calculation run</a><ul>
-<li><a class="reference internal" href="#single-precision-storage">Single precision storage</a></li>
-<li><a class="reference internal" href="#cache">Cache</a></li>
-<li><a class="reference internal" href="#sandwich">Sandwich</a></li>
 <li><a class="reference internal" href="#debugging">Debugging</a></li>
 </ul>
 </li>
@@ -68,6 +67,7 @@
 <li><a class="reference internal" href="#object-definition">Object definition</a></li>
 <li><a class="reference internal" href="#scope-definition">Scope definition</a><ul>
 <li><a class="reference internal" href="#convex-hulls-of-macromolecule-atoms">Convex hulls of macromolecule atoms</a></li>
+<li><a class="reference internal" href="#convex-hull-inflation">Convex hull inflation</a></li>
 </ul>
 </li>
 </ul>
@@ -81,13 +81,16 @@
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#clusterization-of-inlets">Clusterization of inlets</a><ul>
-<li><a class="reference internal" href="#potentially-recursive-clusterization">Potentially recursive clusterization</a></li>
+<li><a class="reference internal" href="#clustering-of-inlets">Clustering of inlets</a><ul>
+<li><a class="reference internal" href="#potentially-recursive-clustering">Potentially recursive clustering</a></li>
 <li><a class="reference internal" href="#id4">Available methods</a></li>
 <li><a class="reference internal" href="#master-paths">Master paths</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#passing-paths">Passing paths</a></li>
+<li><a class="reference internal" href="#passing-paths">Passing paths</a><ul>
+<li><a class="reference internal" href="#clustering-of-passing-paths">Clustering of passing paths</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#analysis">Analysis</a><ul>
 <li><a class="reference internal" href="#general-summary">General summary</a></li>
 <li><a class="reference internal" href="#clusters-statistics">Clusters statistics</a></li>
@@ -119,8 +122,8 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../aquaduct_install.html"
-                        title="previous chapter">Aqua-Duct installation guide</a></p>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Aqua-Duct’s Valve driver documentation</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="valve_config.html"
                         title="next chapter">Configuration file options</a></p>
@@ -152,53 +155,41 @@
 <p>Once <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a> module is installed (see <a class="reference internal" href="../aquaduct_install.html"><span class="doc">Aqua-Duct installation guide</span></a>) properly on the machine, <em>Valve</em> is available as <code class="docutils literal notranslate"><span class="pre">valve.py</span></code> command line tool.</p>
 <div class="section" id="usage">
 <h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
-<p>Basic help of <em>Valve</em> usage can be displayed by following command:</p>
+<p>Basic help of <em>Valve</em> usage can be displayed by the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">valve</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
 </pre></div>
 </div>
-<p>It should display following information:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">valve</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">debug</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">debug</span><span class="o">-</span><span class="n">file</span> <span class="n">DEBUG_FILE</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">dump</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">config</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">THREADS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">sps</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">frame</span> <span class="n">MAX_FRAME</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">frame</span> <span class="n">MIN_FRAME</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">step</span><span class="o">-</span><span class="n">frame</span> <span class="n">STEP_FRAME</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">sandwich</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">cache</span><span class="o">-</span><span class="nb">dir</span> <span class="n">CACHEDIR</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">cache</span><span class="o">-</span><span class="n">mem</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">license</span><span class="p">]</span>
+<p>It should display the following information:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">valve</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONFIG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">THREADS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">force</span><span class="o">-</span><span class="n">save</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">debug</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">--</span><span class="n">debug</span><span class="o">-</span><span class="n">file</span> <span class="n">DEBUG_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">license</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">--</span><span class="n">dump</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">config</span><span class="p">]</span>
 
 <span class="n">Valve</span><span class="p">,</span> <span class="n">Aquaduct</span> <span class="n">driver</span>
 
 <span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
   <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+  <span class="o">-</span><span class="n">c</span> <span class="n">CONFIG_FILE</span>        <span class="n">Config</span> <span class="n">file</span> <span class="n">filename</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
+  <span class="o">-</span><span class="n">t</span> <span class="n">THREADS</span>            <span class="n">Limit</span> <span class="n">Aqua</span><span class="o">-</span><span class="n">Duct</span> <span class="n">calculations</span> <span class="n">to</span> <span class="n">given</span> <span class="n">number</span> <span class="n">of</span>
+                        <span class="n">threads</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
+  <span class="o">--</span><span class="n">force</span><span class="o">-</span><span class="n">save</span>          <span class="n">Force</span> <span class="n">saving</span> <span class="n">results</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
   <span class="o">--</span><span class="n">debug</span>               <span class="n">Prints</span> <span class="n">debug</span> <span class="n">info</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
   <span class="o">--</span><span class="n">debug</span><span class="o">-</span><span class="n">file</span> <span class="n">DEBUG_FILE</span>
                         <span class="n">Debug</span> <span class="n">log</span> <span class="n">file</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
+  <span class="o">--</span><span class="n">version</span>             <span class="n">Prints</span> <span class="n">versions</span> <span class="ow">and</span> <span class="n">exits</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
+  <span class="o">--</span><span class="n">license</span>             <span class="n">Prints</span> <span class="n">short</span> <span class="n">license</span> <span class="n">info</span> <span class="ow">and</span> <span class="n">exits</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
   <span class="o">--</span><span class="n">dump</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">config</span>
                         <span class="n">Dumps</span> <span class="n">template</span> <span class="n">config</span> <span class="n">file</span><span class="o">.</span> <span class="n">Suppress</span> <span class="nb">all</span> <span class="n">other</span> <span class="n">output</span>
                         <span class="ow">or</span> <span class="n">actions</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
-  <span class="o">-</span><span class="n">t</span> <span class="n">THREADS</span>            <span class="n">Limit</span> <span class="n">Aqua</span><span class="o">-</span><span class="n">Duct</span> <span class="n">calculations</span> <span class="n">to</span> <span class="n">given</span> <span class="n">number</span> <span class="n">of</span>
-                        <span class="n">threads</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
-  <span class="o">-</span><span class="n">c</span> <span class="n">CONFIG_FILE</span>        <span class="n">Config</span> <span class="n">file</span> <span class="n">filename</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
-  <span class="o">--</span><span class="n">sps</span>                 <span class="n">Use</span> <span class="n">single</span> <span class="n">precision</span> <span class="n">to</span> <span class="n">store</span> <span class="n">data</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
-  <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">frame</span> <span class="n">MAX_FRAME</span>
-                        <span class="n">Maximal</span> <span class="n">number</span> <span class="n">of</span> <span class="n">frame</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
-  <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">frame</span> <span class="n">MIN_FRAME</span>
-                        <span class="n">Minimal</span> <span class="n">number</span> <span class="n">of</span> <span class="n">frame</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
-  <span class="o">--</span><span class="n">step</span><span class="o">-</span><span class="n">frame</span> <span class="n">STEP_FRAME</span>
-                        <span class="n">Frames</span> <span class="n">step</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
-  <span class="o">--</span><span class="n">sandwich</span>            <span class="n">Sandwich</span> <span class="n">mode</span> <span class="k">for</span> <span class="n">multiple</span> <span class="n">trajectories</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span>
-                        <span class="kc">False</span><span class="p">)</span>
-  <span class="o">--</span><span class="n">cache</span><span class="o">-</span><span class="nb">dir</span> <span class="n">CACHEDIR</span>  <span class="n">Directory</span> <span class="k">for</span> <span class="n">coordinates</span> <span class="n">caching</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
-  <span class="o">--</span><span class="n">cache</span><span class="o">-</span><span class="n">mem</span>           <span class="n">Switch</span> <span class="n">on</span> <span class="n">memory</span> <span class="n">caching</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
-  <span class="o">--</span><span class="n">version</span>             <span class="n">Prints</span> <span class="n">versions</span> <span class="ow">and</span> <span class="n">exits</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
-  <span class="o">--</span><span class="n">license</span>             <span class="n">Prints</span> <span class="n">short</span> <span class="n">license</span> <span class="n">info</span> <span class="ow">and</span> <span class="n">exits</span><span class="o">.</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="configuration-file-template">
 <h3>Configuration file template<a class="headerlink" href="#configuration-file-template" title="Permalink to this headline">¶</a></h3>
-<p>Configuration file used by <em>Valve</em> is of moderate length and complexity. It can be easily prepared with a template file that can be printed by <em>Valve</em>. Use following command to print configuration file template on the screen:</p>
+<p>Configuration file used by <em>Valve</em> is of moderate length and complexity. It can be easily prepared with a template file that can be printed by <em>Valve</em>. Use the following command to print configuration file template on the screen:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">valve</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">dump</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">config</span>
 </pre></div>
 </div>
-<p>Configuration file template can also be easily saved in to a file with:</p>
+<p>Configuration file template can also be easily saved as a file with:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">valve</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">dump</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">config</span> <span class="o">&gt;</span> <span class="n">config</span><span class="o">.</span><span class="n">txt</span>
 </pre></div>
 </div>
@@ -207,61 +198,40 @@
 </div>
 <div class="section" id="valve-calculation-run">
 <h3><em>Valve</em> calculation run<a class="headerlink" href="#valve-calculation-run" title="Permalink to this headline">¶</a></h3>
-<p>Once configuration file is ready <em>Valve</em> calculations can be run with a following simple command:</p>
+<p>Once configuration file is ready <em>Valve</em> calculations can be run with the following simple command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">valve</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="n">config</span><span class="o">.</span><span class="n">txt</span>
 </pre></div>
 </div>
 <p>Some of <em>Valve</em> calculations can be run in parallel. By default all available CPU cores are used. This is not always desired - limitation of used CPU cores can be done with <code class="docutils literal notranslate"><span class="pre">-t</span></code> option which limits number of concurrent threads used by <em>Valve</em>. If it equals 1 no parallelism is used.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>Specifying number of threads greater then available CPU cores is generally not optimal.</p>
-<p class="last">However, in order to maximize usage of available CPU power it is recommended to set it as number of cores + 1. The reason is that <em>Valve</em> uses one thread for the main process and the excess over one for processes for parallel calculations. When parallel calculations are executed the main thread waits for results.</p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Options <code class="docutils literal notranslate"><span class="pre">--min-frame</span></code>, <code class="docutils literal notranslate"><span class="pre">--max-frame</span></code>, and <code class="docutils literal notranslate"><span class="pre">--step-frame</span></code> can be used to limit calculations to specific part of trajectory. For example, to run calculations for 1000 frames starting from frame 5000 use following options: <code class="docutils literal notranslate"><span class="pre">--min-frame</span> <span class="pre">4999</span> <span class="pre">--max-frame</span> <span class="pre">5999</span></code>; to run calculations for every 5th frame use: <code class="docutils literal notranslate"><span class="pre">--step-frame</span> <span class="pre">5</span></code>.</p>
-</div>
-<div class="section" id="single-precision-storage">
-<h4>Single precision storage<a class="headerlink" href="#single-precision-storage" title="Permalink to this headline">¶</a></h4>
-<p>Most of the calculation is <em>Valve</em> is performed by NumPy. By default, NumPy uses double precision floats.
-<em>Valve</em> does not change this behavior but has special option <code class="docutils literal notranslate"><span class="pre">--sps</span></code> which forces to store all data (both internal data stored in RAM and on the disk) in single precision. This spare a lot of RAM and is recommended what you perform calculation for long trajectories and you have limited amount of RAM.</p>
-</div>
-<div class="section" id="cache">
-<h4>Cache<a class="headerlink" href="#cache" title="Permalink to this headline">¶</a></h4>
-<p>Storage of coordinates for all paths for very long MD trajectories requires huge amount of RAM. User can decide whether <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a> should store coordinates in memory or in separated directory. Option <code class="docutils literal notranslate"><span class="pre">--cache-mem</span></code> instruct <em>Valve</em> to store coordinates in RAM; <code class="docutils literal notranslate"><span class="pre">--cache-dir</span></code> stores coordinates in selected directory. If neither of both options is selected, coordinates are calculated on demand.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">If no cache is used (memory or dir) <a class="reference internal" href="#master-paths-manual"><span class="std std-ref">Master paths</span></a> cannot be calculated.</p>
-</div>
-</div>
-<div class="section" id="sandwich">
-<span id="sandwich-option"></span><h4>Sandwich<a class="headerlink" href="#sandwich" title="Permalink to this headline">¶</a></h4>
-<p>Trajectory data can be provided as several files. By default these files are processed in sequential manner making one long trajectory. If option <code class="docutils literal notranslate"><span class="pre">--sandwich</span></code> is used trajectory files are read as layers. For each layer, search of traceable residues is done separately (stage I and II) but processing and analysis (stage III, IV, V, and VI) are done for all paths simultaneously. Usage of <code class="docutils literal notranslate"><span class="pre">--sandwich</span></code> option is further referenced as <em>sandwich</em> mode.</p>
+<p>Specifying number of threads greater than the available CPU cores is generally not optimal.</p>
+<p class="last">However, in order to maximize the usage of available CPU power it is recommended to set it as the actual number of cores + 1. It is caused by the fact that <em>Valve</em> uses one thread for the main process and the more than one threads for processes of parallel calculations. When parallel calculations are executed the main thread waits for results.</p>
 </div>
 <div class="section" id="debugging">
 <h4>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h4>
-<p><em>Valve</em> can output some debug information. Use <code class="docutils literal notranslate"><span class="pre">--debug</span></code> to see all debug information on the screen or use <code class="docutils literal notranslate"><span class="pre">--debug-file</span></code> with some file name to dump all debug messages to the given file. Beside debug messages standard messages will be saved in the file as well.</p>
+<p><em>Valve</em> can output some debug information. Use <code class="docutils literal notranslate"><span class="pre">--debug</span></code> to see all debug information on the screen or use <code class="docutils literal notranslate"><span class="pre">--debug-file</span></code> with some file name to dump all debug messages to the given file. Beside debug messages, standard messages will be saved in the file as well.</p>
 </div>
 </div>
 </div>
 <div class="section" id="how-does-valve-work">
 <h2>How does <em>Valve</em> work<a class="headerlink" href="#how-does-valve-work" title="Permalink to this headline">¶</a></h2>
-<p>Application starts with parsing input options. If <code class="docutils literal notranslate"><span class="pre">--help</span></code> or <code class="docutils literal notranslate"><span class="pre">--dump-template-config</span></code> options are used appropriate messages are printed on the screen and <em>Valve</em> quits with signal <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<p>Application starts with parsing input options. If <code class="docutils literal notranslate"><span class="pre">--help</span></code> or <code class="docutils literal notranslate"><span class="pre">--dump-template-config</span></code> options are used, appropriate messages are printed on the screen and <em>Valve</em> quits with signal <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">In current version <em>Valve</em> does not check the validity of the config file.</p>
 </div>
-<p>If config file is provided (option <code class="docutils literal notranslate"><span class="pre">-c</span></code>) <em>Valve</em> parse it quickly and regular calculations starts according to its content. Calculations performed by <em>Valve</em> are done in six stages described in the next sections.</p>
+<p>If config file is provided (option <code class="docutils literal notranslate"><span class="pre">-c</span></code>) <em>Valve</em> parses it quickly and regular calculations start according to their contents. Calculations performed by <em>Valve</em> are done in six stages which are described in the next sections.</p>
 <div class="section" id="traceable-residues">
 <h3>Traceable residues<a class="headerlink" href="#traceable-residues" title="Permalink to this headline">¶</a></h3>
-<p>In the first stage of calculation <em>Valve</em> finds all residues that should be traced and appends them to the list of <em>traceable residues</em>. It is done in a loop over all frames. In each frame residues of interest are searched and appended to the list but only if they are not already present on the list. In <span class="xref std std-ref">sandwich_option</span> mode this is repeated for each layer.</p>
-<p>The search of <em>traceable residues</em> is done according to user provided specifications. Two requirements have to be met to append residue to the list:</p>
+<p>In the first stage of calculations <em>Valve</em> finds all residues that should be traced and appends them to the list of <em>traceable residues</em>. It is done in a loop over all frames. In each frame residues of interest are searched and appended to the list but only proveded that they are not already present on the list. In <a class="reference internal" href="valve_config.html#sandwich-option"><span class="std std-ref">sandwich</span></a> mode this is repeated for each layer.</p>
+<p>The search of <em>traceable residues</em> is done according to specifications provided by user. Two requirements have to be met to append residue to the list:</p>
 <ol class="arabic simple">
 <li>The residue has to be found according to the <em>object</em> definition.</li>
 <li>The residue has to be within the <em>scope</em> of interest.</li>
 </ol>
-<p>The <em>object</em> definition encompasses usually the active site of the protein (or other region of interest of macromolecule in question). The <em>scope</em> of interest defines, on the other hand, the boundaries in which residues are traced and is usually defined as protein.</p>
-<p>Since <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a> in its current version uses <a class="reference external" href="http://www.mdanalysis.org/">MDAnalysis</a> Python module for reading, parsing and searching of MD trajectory data, definitions of <em>object</em> and <em>scope</em> have to be given as its <em>Selection Commands</em>.</p>
+<p>The <em>object</em> definition usually encompasses the active site of the protein (or other region of interest of macromolecule in question). The <em>scope</em> of interest defines, on the other hand, the boundaries in which residues are traced and is usually defined as protein.</p>
+<p>Since <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a>, in its current version, uses <a class="reference external" href="http://www.mdanalysis.org/">MDAnalysis</a> Python module for reading, parsing and searching of MD trajectory data, definitions of <em>object</em> and <em>scope</em> have to be given as its <em>Selection Commands</em>.</p>
 <div class="section" id="object-definition">
 <span id="id1"></span><h4>Object definition<a class="headerlink" href="#object-definition" title="Permalink to this headline">¶</a></h4>
 <p><em>Object</em> definition has to comprise of two elements:</p>
@@ -269,49 +239,59 @@
 <li>It has to define residues to trace.</li>
 <li>It has to define spatial boundaries of the <em>object</em> site.</li>
 </ol>
-<p>For example, proper <em>object</em> definition could be following:</p>
+<p>For example, proper <em>object</em> definition could be as following:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">resname</span> <span class="n">WAT</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sphzone</span> <span class="mf">6.0</span> <span class="p">(</span><span class="n">resnum</span> <span class="mi">99</span> <span class="ow">or</span> <span class="n">resnum</span> <span class="mi">147</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>It defines <code class="docutils literal notranslate"><span class="pre">WAT</span></code> as residues that should be traced and defines spatial constrains of the <em>object</em> site as spherical zone within 6 Angstroms of the center of masses of residues with number 99 and 147.</p>
+<p>It defines <code class="docutils literal notranslate"><span class="pre">WAT</span></code> as residues that should be traced and defines spatial constrains of the <em>object</em> site as spherical zone within 6 Angstroms from the center of masses of residues with number 99 and 147.</p>
 </div>
 <div class="section" id="scope-definition">
 <span id="id2"></span><h4>Scope definition<a class="headerlink" href="#scope-definition" title="Permalink to this headline">¶</a></h4>
 <p><em>Scope</em> can be defined in two ways: as <em>object</em> but with broader boundaries or as the convex hull of selected molecular object.</p>
-<p>In the first case definition is very similar to <em>object</em> and it has to follow the same limitations. For example, proper <em>scope</em> definition could be following:</p>
+<p>In the first case definition is very similar to <em>object</em> and it has to follow the same limitations. For example, a proper <em>scope</em> definition could be as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">resname</span> <span class="n">WAT</span> <span class="ow">and</span> <span class="n">around</span> <span class="mf">2.0</span> <span class="n">protein</span>
 </pre></div>
 </div>
 <p>It consequently has to define <code class="docutils literal notranslate"><span class="pre">WAT</span></code> as residues of interest and defines spatial constrains: all <code class="docutils literal notranslate"><span class="pre">WAT</span></code> residues that are within 2 Angstroms of the protein.</p>
-<p>If the <em>scope</em> is defined as the convex hull of selected molecular object (which is <strong>recommended</strong>), the definition itself have to comprise of this molecular object only, for example <code class="docutils literal notranslate"><span class="pre">protein</span></code>. In that case the scope is interpreted as the interior of the convex hull of atoms from the definition. Therefore, <em>traceable residues</em> would be in the scope only if they are within the convex hull of atoms of <code class="docutils literal notranslate"><span class="pre">protein</span></code>.</p>
+<p>If the <em>scope</em> is defined as the convex hull of selected molecular object (which is <strong>recommended</strong>), the definition itself has to comprise of this molecular object only, for example <code class="docutils literal notranslate"><span class="pre">protein</span></code>. In that case the scope is interpreted as the interior of the convex hull of atoms from the definition. Therefore, <em>traceable residues</em> would be in the scope only if they were within the convex hull of atoms of <code class="docutils literal notranslate"><span class="pre">protein</span></code>.</p>
 <div class="section" id="convex-hulls-of-macromolecule-atoms">
 <h5>Convex hulls of macromolecule atoms<a class="headerlink" href="#convex-hulls-of-macromolecule-atoms" title="Permalink to this headline">¶</a></h5>
-<p>AQ uses quickhull algorithm for convex hulls calculations (via SciPy class <code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.spatial.ConvexHull</span></code>, see also <a class="reference external" href="http://www.qhull.org/">http://www.qhull.org/</a> and original publication <a class="reference external" href="http://dx.doi.org/10.1145/235815.235821">The quickhull algorithm for convex hulls</a>).</p>
-<p>Convex hull concept is used to check if traced molecules are inside of the macromolecule. Convex hull can be considered as rough approximation of molecular surface. Following picture shows schematic comparison of convex hull and solvent excluded surface (SES):</p>
+<p>AQ uses quickhull algorithm for convex hull calculations (via SciPy class <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html#scipy.spatial.ConvexHull" title="(in SciPy v1.3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.spatial.ConvexHull</span></code></a>, see also <a class="reference external" href="http://www.qhull.org/">http://www.qhull.org/</a> and original publication <a class="reference external" href="http://dx.doi.org/10.1145/235815.235821">The quickhull algorithm for convex hulls</a>).</p>
+<p>Convex hull concept is used to check if traced molecules are inside of the macromolecule. Convex hull can be considered as rough approximation of molecular surface. The following picture shows schematic comparison of convex hull and solvent excluded surface (SES):</p>
 <div class="figure align-center">
 <img alt="../images/ch_vs_ses.png" src="../images/ch_vs_ses.png" />
 </div>
-<p>Convex hull (red shape) of atoms (blue dots with VdW spheres) and SES (blue line): a) convex hull and SES cover roughly the same area, convex hull approximates SES; b) movement of one atom dramatically changes SES, however, interior of the molecule as approximated by convex hull remains stable.</p>
+<p>Convex hull (red shape) of atoms (blue dots with VdW spheres) and SES (blue line): <strong>a)</strong> convex hull and SES cover roughly the same area, convex hull approximates SES; <strong>b)</strong> movement of one atom dramatically changes SES, however, interior of the molecule as approximated by convex hull remains stable.</p>
 <p>No doubts, convex hull is a very rough approximation of SES. It has, however, one very important property when it is used to approximate interior of molecules: its interior does not considerably depend on the molecular conformation of a molecule (or molecular entity) in question.</p>
+</div>
+<div class="section" id="convex-hull-inflation">
+<h5>Convex hull inflation<a class="headerlink" href="#convex-hull-inflation" title="Permalink to this headline">¶</a></h5>
+<p>AQ allows to alter size of the scope convex hulls by means of <em>inflate</em> options. Once <em>scope</em> is defined as convex hull of particular atoms, vertices of it can be interpreted as vectors originating in the center of geometry of the convex hull. Value of inflate option is added to such vectors and in consequence theirs leghts are increased (or decreased if added value is negative). Finally, convex hull is recalculated using points resulting from <em>inflated</em> vectors.</p>
+<p>In reference to the previous picture, consider the following example:</p>
+<div class="figure align-center">
+<img alt="../images/ch_vs_ses_inflate.png" src="../images/ch_vs_ses_inflate.png" />
+</div>
+<p>On the left panel <strong>a)</strong> convex hull was deflated with negative value of <em>inflate</em> option, whareas on the right panel <strong>b)</strong> convex hull was inflated with positive value of <em>inflate</em> option.</p>
+<p>This feautre is available in all stages where <em>scope</em> convex hull is used. For more details on configuration look for <a class="reference internal" href="valve_config.html#inflate-options"><span class="std std-ref">inflate</span></a> options in the configuration file.</p>
 </div>
 </div>
 </div>
 <div class="section" id="raw-paths">
 <h3>Raw paths<a class="headerlink" href="#raw-paths" title="Permalink to this headline">¶</a></h3>
-<p>The second stage of calculations uses the list of all traceable residues from the first stage and for each residue in each frame two checks are performed:</p>
+<p>The second stage of calculations uses the list of all traceable residues from the first stage and for every residue in each frame two checks are performed:</p>
 <ol class="arabic simple">
 <li>Is the residue in the <em>scope</em> (this is always calculated according to the scope definition).</li>
 <li>Is the residue in the <em>object</em>. This information is partially calculated in the first stage and can be reused in the second. However, it is also possible to recalculate this data according to the new <em>object</em> definition.</li>
 </ol>
-<p>For each of the <em>traceable residues</em> a special <em>Path</em> object is created which stores frames in which a residue is in <em>scope</em> or in <em>object</em>.</p>
+<p>For each of the <em>traceable residues</em> a special <em>Path</em> object is created which stores frames in which a residue is in the <em>scope</em> or in the <em>object</em>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Residue is in <em>object</em> only if it is also in <em>scope</em>.</p>
+<p class="last">Residue is in the <em>object</em> only if it is also in the <em>scope</em>.</p>
 </div>
 </div>
 <div class="section" id="separate-paths">
 <h3>Separate paths<a class="headerlink" href="#separate-paths" title="Permalink to this headline">¶</a></h3>
-<p>The third stage uses collection of <em>Path</em> objects to create <em>Separate Path</em> objects. Each <em>Path</em> comprise data for one residue. It may happen that the residue enters and leaves the <em>scope</em> and the <em>object</em> many times over the entire MD. Each such event is considered by <em>Valve</em> as a separate path.</p>
+<p>The third stage uses collection of <em>Path</em> objects to create <em>Separate Path</em> objects. Each <em>Path</em> comprises data for one residue. It may happen that the residue enters and leaves the <em>scope</em> and the <em>object</em> many times over the entire MD. Each such event is considered by <em>Valve</em> as a separate path.</p>
 <p>There are two types of <em>Separate Paths</em>:</p>
 <ul class="simple">
 <li><em>Object Paths</em></li>
@@ -319,10 +299,11 @@
 </ul>
 <p><em>Object Paths</em> are traces of molecules that visited <em>Object</em> area. <em>Passing Paths</em> are traces of molecules that entered <em>Scope</em> but did not entered <em>Object</em> area.</p>
 <p><em>Passing paths</em> comprises of one part only.
-Each <em>object path</em> comprises of three parts:</p>
+Each <em>object path</em> comprises of following parts:</p>
 <ol class="arabic simple">
 <li><em>Incoming</em> - Defined as a path that leads from the point in which residue enters the <em>scope</em> and enters the object for the first time.</li>
 <li><em>Object</em> - Defined as a path that leads from the point in which residue enters the <em>object</em> for the first time and leaves it for the last time.</li>
+<li>[Optional] <em>Out of active site</em> - Defined as a path between the <em>Object</em> paths that leads from the point in which residue leaves the <em>object</em> but stays within the <em>scope</em> and enters the <em>object</em> again.</li>
 <li><em>Outgoing</em> - Defined as a path that leads from the point in which residue leaves the <em>object</em> for the last time and leaves the <em>scope</em>.</li>
 </ol>
 <p>It is also possible that incoming and/or outgoing part of the separate path is empty.</p>
@@ -336,87 +317,87 @@ Each <em>object path</em> comprises of three parts:</p>
 </div>
 <div class="section" id="auto-barber">
 <span id="auto-barber-procedure"></span><h4>Auto Barber<a class="headerlink" href="#auto-barber" title="Permalink to this headline">¶</a></h4>
-<p>After the initial search of <em>Separate Path</em> objects it is possible to run Auto Barber procedure which trims paths down to the approximated surface of the macromolecule or other molecular entity defined by the user. This trimming is done by creating collection of spheres that have centers at the ends of paths and radii equal to the distance for the center to the nearest atom of user defined molecular entity. Next, parts of raw paths that are inside these spheres are removed and separate paths are recreated.</p>
+<p>After the initial search of <em>Separate Path</em> objects, it is possible to run Auto Barber procedure which trims paths down to the approximated surface of the macromolecule or other molecular entity defined by the user. This trimming is done by creating collection of spheres that have centers at the ends of paths and radii equal to the distance from the center to the nearest atom of user defined molecular entity. Next, parts of raw paths that are inside these spheres are removed and separate paths are recreated.</p>
 <p>Auto Barber procedure has several options, for example:</p>
 <ul class="simple">
 <li><strong>auto_barber</strong> allows to define molecular entity which is used to calculate radii of spheres used for trimming raw paths.</li>
-<li><strong>auto_barber_mincut</strong> allows to define minimal radius of spheres. Spheres of radius smaller then this value are not used in trimming.</li>
-<li><strong>auto_barber_maxcut</strong> allows to define maximal radius of spheres. Spheres of radius greater then this value are not used in trimming.</li>
+<li><strong>auto_barber_mincut</strong> allows to define minimal radius of spheres. Spheres of radius smaller than this value are not used in trimming.</li>
+<li><strong>auto_barber_maxcut</strong> allows to define maximal radius of spheres. Spheres of radius greater than this value are not used in trimming.</li>
 <li><strong>auto_barber_tovdw</strong> if set to <cite>True</cite> radii of spheres are corrected (decreased) by Van der Waals radius of the closest atom.</li>
 </ul>
 <p>See also <a class="reference internal" href="valve_config.html#separate-paths-options"><span class="std std-ref">options of separate_paths</span></a> stage.</p>
 </div>
 <div class="section" id="smoothing">
 <h4>Smoothing<a class="headerlink" href="#smoothing" title="Permalink to this headline">¶</a></h4>
-<p>Separate paths can be optionally smoothed. Current <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a> version allows perform <cite>soft</cite> smoothing only, i.e. smoothing is used only for visualization purposes. Raw paths cannot be replaced by the smoothed.</p>
+<p>Separate paths can be optionally smoothed. Current <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a> version allows to perform <cite>soft</cite> smoothing only, i.e. smoothing is used only for visualization purposes. Raw paths cannot be replaced by the smoothed.</p>
 <div class="section" id="available-methods">
 <h5>Available methods<a class="headerlink" href="#available-methods" title="Permalink to this headline">¶</a></h5>
 <p>Aqua-Duct implements several smoothing methods:</p>
 <ol class="arabic simple">
-<li>Savitzky-Golay filter - <code class="xref py py-class docutils literal notranslate"><span class="pre">SavgolSmooth</span></code> - see also original publication <a class="reference external" href="http://dx.doi.org/10.1021/ac60214a047">Smoothing and Differentiation of Data by Simplified Least Squares Procedures</a> (doi:10.1021/ac60214a047).</li>
-<li>Window smoothing - <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSmooth</span></code></li>
-<li>Distance Window smoothing - <code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowSmooth</span></code></li>
-<li>Active Window smoothing - <code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowSmooth</span></code></li>
-<li>Max Step smoothing - <code class="xref py py-class docutils literal notranslate"><span class="pre">MaxStepSmooth</span></code></li>
-<li>Window over Max Step smoothing - <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowOverMaxStepSmooth</span></code></li>
-<li>Distance Window over Max Step smoothing - <code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowOverMaxStepSmooth</span></code></li>
-<li>Active Window over Max Step smoothing - <code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowOverMaxStepSmooth</span></code></li>
+<li>Savitzky-Golay filter - <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.SavgolSmooth" title="aquaduct.geom.smooth.SavgolSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">SavgolSmooth</span></code></a> - see also original publication <a class="reference external" href="https://dx.doi.org/10.1021/ac60214a047">Smoothing and Differentiation of Data by Simplified Least Squares Procedures</a> (doi:10.1021/ac60214a047).</li>
+<li>Window smoothing - <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.WindowSmooth" title="aquaduct.geom.smooth.WindowSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSmooth</span></code></a></li>
+<li>Distance Window smoothing - <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.DistanceWindowSmooth" title="aquaduct.geom.smooth.DistanceWindowSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowSmooth</span></code></a></li>
+<li>Active Window smoothing - <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.ActiveWindowSmooth" title="aquaduct.geom.smooth.ActiveWindowSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowSmooth</span></code></a></li>
+<li>Max Step smoothing - <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.MaxStepSmooth" title="aquaduct.geom.smooth.MaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxStepSmooth</span></code></a></li>
+<li>Window over Max Step smoothing - <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.WindowOverMaxStepSmooth" title="aquaduct.geom.smooth.WindowOverMaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowOverMaxStepSmooth</span></code></a></li>
+<li>Distance Window over Max Step smoothing - <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.DistanceWindowOverMaxStepSmooth" title="aquaduct.geom.smooth.DistanceWindowOverMaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistanceWindowOverMaxStepSmooth</span></code></a></li>
+<li>Active Window over Max Step smoothing - <a class="reference internal" href="../aquaduct.geom.smooth.html#aquaduct.geom.smooth.ActiveWindowOverMaxStepSmooth" title="aquaduct.geom.smooth.ActiveWindowOverMaxStepSmooth"><code class="xref py py-class docutils literal notranslate"><span class="pre">ActiveWindowOverMaxStepSmooth</span></code></a></li>
 </ol>
 <p>For detailed information on available configuration options see configuration file <a class="reference internal" href="valve_config.html#smoothing-options"><span class="std std-ref">smooth section</span></a> description.</p>
 </div>
 </div>
 </div>
-<div class="section" id="clusterization-of-inlets">
-<span id="id3"></span><h3>Clusterization of inlets<a class="headerlink" href="#clusterization-of-inlets" title="Permalink to this headline">¶</a></h3>
-<p id="inlets-def">Each of the separate paths has beginning and end. If they are at the boundaries of the <em>scope</em> they are considered as <em>Inlets</em>, i.e. points that mark where the <em>traceable residues</em> enters or leaves the <em>scope</em>. Clusters of inlets, on the other hand, mark endings of tunnels or ways in the system which was simulated in the MD.</p>
-<p>Clusterization of inlets is performed in following steps:</p>
+<div class="section" id="clustering-of-inlets">
+<span id="id3"></span><h3>Clustering of inlets<a class="headerlink" href="#clustering-of-inlets" title="Permalink to this headline">¶</a></h3>
+<p id="inlets-def">Each of the separate paths has the beginning and end. If they are at the boundaries of the <em>scope</em> they are considered as <em>Inlets</em>, i.e. points that mark where the <em>traceable residues</em> enter or leave the <em>scope</em>. Clusters of inlets, on the other hand, mark endings of tunnels or ways in the system which were simulated in the MD.</p>
+<p>Clustering of inlets is performed in the following steps:</p>
 <ol class="arabic">
-<li><p class="first"><cite>Initial clusterization</cite>: All inlets are submitted to selected clusterization method and depending on the method and settings, some of the inlets might not be arranged to any cluster and are considered as outliers.</p>
+<li><p class="first"><cite>Initial clustering</cite>: All inlets are submitted to selected clustering method and depending on the method and settings, some of the inlets might not be arranged to any cluster and are considered as outliers.</p>
 </li>
-<li><p class="first">[Optional] <cite>Outliers detection</cite>: Arrangement of inlets to clusters is sometimes far from optimal. In this step, <em>inlets</em> that do not fit to cluster are detected and annotated as outliers. This step can be executed in two modes:</p>
+<li><p class="first">[Optional] <cite>Outliers detection</cite>: Arrangement of inlets to clusters is sometimes far from optimal. In this step, <em>inlets</em> that do not fit into cluster are detected and annotated as outliers. This step can be executed in two modes:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><cite>Automatic mode</cite>: Inlet is considered to be an outlier if its distance from the centroid is greater than mean distance + 4 * standard deviation of all distances within the cluster.</li>
+<li><cite>Automatic mode</cite>: Inlet is considered to be an outlier if its distance from the centroid is greater than the mean distance + 4 * standard deviation of all distances within the cluster.</li>
 <li><cite>Defined threshold</cite>: Inlet is considered to be an outlier if its minimal distance from any other point in the cluster is greater than the threshold.</li>
 </ol>
 </div></blockquote>
 </li>
-<li><p class="first">[Optional] <cite>Reclusterization of outliers</cite>: It may happen that the outliers form actually clusters but it was not recognized in initial clusterization. In this step clusterization is executed for outliers only and found clusters are appended to the clusters identified in the first step. Rest of the inlets are marked as outliers.</p>
+<li><p class="first">[Optional] <cite>Reclustering of outliers</cite>: It may happen that the outliers form actually clusters but it was not recognized in the initial clustering. In this step clustering is executed only for outliers and the clusters that were found are appended to the clusters identified in the first step. Rest of the inlets are marked as outliers.</p>
 </li>
 </ol>
-<div class="section" id="potentially-recursive-clusterization">
-<h4>Potentially recursive clusterization<a class="headerlink" href="#potentially-recursive-clusterization" title="Permalink to this headline">¶</a></h4>
-<p>Both <cite>Initial clusterization</cite> and <cite>Reclustarization</cite> can be run in a recursive manner. If in the appropriate sections defining clusterization methods option <em>recursive_clusterization</em> is used appropriate method is run for each cluster separately. Clusters of specific size can be excluded from recursive clusterization (option <em>recursive_threshold</em>). It is also possible to limit maximal number of recursive levels - option <em>max_level</em>.</p>
-<p>For additional information see <a class="reference internal" href="valve_config.html#clusterization-options"><span class="std std-ref">clusterization sections</span></a> options.</p>
+<div class="section" id="potentially-recursive-clustering">
+<h4>Potentially recursive clustering<a class="headerlink" href="#potentially-recursive-clustering" title="Permalink to this headline">¶</a></h4>
+<p>Both <cite>Initial clustering</cite> and <cite>Reclustering</cite> can be run in a recursive manner. If in the appropriate sections defining clustering methods option <em>recursive_clustering</em> is used, appropriate method is run for each cluster separately. Clusters of specific size can be excluded from recursive clustering (option <em>recursive_threshold</em>). It is also possible to limit maximal number of recursive levels - option <em>max_level</em>.</p>
+<p>For additional information see <a class="reference internal" href="valve_config.html#clustering-options"><span class="std std-ref">clustering sections</span></a> options.</p>
 </div>
 <div class="section" id="id4">
 <h4>Available methods<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
-<p>Aqua-Duct implements several clustering methods. The recommended method is <strong>barber</strong> method which bases on <a class="reference internal" href="#auto-barber-procedure"><span class="std std-ref">Auto Barber</span></a> procedure. Rest of the methods are implemented with <a class="reference external" href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.cluster" title="(in scikit-learn v0.20.0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sklearn.cluster</span></code></a> module:</p>
+<p>Aqua-Duct implements several clustering methods. The recommended method is <strong>barber</strong> method which bases on <a class="reference internal" href="#auto-barber-procedure"><span class="std std-ref">Auto Barber</span></a> procedure. Rest of the methods are implemented with <a class="reference external" href="https://scikit-learn.org/stable/modules/classes.html#module-sklearn.cluster" title="(in scikit-learn v0.21.2)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sklearn.cluster</span></code></a> module:</p>
 <ol class="arabic simple">
-<li><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.geom.cluster.BarberCluster</span></code> - default for <cite>Initial clusterization</cite>. It gives excellent results. For more information see <a class="reference internal" href="valve_config.html#clusterization-barber"><span class="std std-ref">barber clusterization method</span></a> description.</li>
-<li><a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.MeanShift.html#sklearn.cluster.MeanShift" title="(in scikit-learn v0.20.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeanShift</span></code></a> - see also original publication <a class="reference external" href="http://dx.doi.org/10.1109/34.1000236">Mean shift: a robust approach toward feature space analysis</a> (doi:10.1109/34.1000236).</li>
-<li><a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN" title="(in scikit-learn v0.20.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBSCAN</span></code></a> - default for <cite>Reclusterization of outliers</cite>, see also original publication <a class="reference external" href="https://www.aaai.org/Papers/KDD/1996/KDD96-037.pdf">A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise</a></li>
-<li><a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.AffinityPropagation.html#sklearn.cluster.AffinityPropagation" title="(in scikit-learn v0.20.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">AffinityPropagation</span></code></a> - see also original publication <a class="reference external" href="http://dx.doi.org/10.1126/science.1136800">Clustering by Passing Messages Between Data Points</a> (doi:10.1126/science.1136800)</li>
-<li><a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans" title="(in scikit-learn v0.20.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">KMeans</span></code></a> - see also <a class="reference external" href="http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf">k-means++: The advantages of careful seeding, Arthur, David, and Sergei Vassilvitskii</a> in Proceedings of the eighteenth annual ACM-SIAM symposium on Discrete algorithms, Society for Industrial and Applied Mathematics (2007), pages 1027-1035.</li>
-<li><a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch" title="(in scikit-learn v0.20.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Birch</span></code></a> - see also <a class="reference external" href="http://www.cs.sfu.ca/CourseCentral/459/han/papers/zhang96.pdf">Tian Zhang, Raghu Ramakrishnan, Maron Livny BIRCH: An efficient data clustering method for large databases</a> and <a class="reference external" href="https://code.google.com/archive/p/jbirch">Roberto Perdisci JBirch - Java implementation of BIRCH clustering algorithm</a>.</li>
+<li><a class="reference internal" href="../aquaduct.geom.cluster.html#aquaduct.geom.cluster.BarberCluster" title="aquaduct.geom.cluster.BarberCluster"><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.geom.cluster.BarberCluster</span></code></a> - default for <cite>Initial clustering</cite>. It gives excellent results. For more information see <a class="reference internal" href="valve_config.html#clustering-barber"><span class="std std-ref">barber clustering method</span></a> description.</li>
+<li><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MeanShift.html#sklearn.cluster.MeanShift" title="(in scikit-learn v0.21.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeanShift</span></code></a> - see also original publication <a class="reference external" href="https://dx.doi.org/10.1109/34.1000236">Mean shift: a robust approach toward feature space analysis</a> (doi:10.1109/34.1000236).</li>
+<li><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN" title="(in scikit-learn v0.21.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBSCAN</span></code></a> - default for <cite>Reclustering of outliers</cite>, see also original publication <a class="reference external" href="https://www.aaai.org/Papers/KDD/1996/KDD96-037.pdf">A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise</a></li>
+<li><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AffinityPropagation.html#sklearn.cluster.AffinityPropagation" title="(in scikit-learn v0.21.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">AffinityPropagation</span></code></a> - see also original publication <a class="reference external" href="https://dx.doi.org/10.1126/science.1136800">Clustering by Passing Messages Between Data Points</a> (doi:10.1126/science.1136800)</li>
+<li><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans" title="(in scikit-learn v0.21.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">KMeans</span></code></a> - see also <a class="reference external" href="http://ilpubs.stanford.edu:8090/778/1/2006-13.pdf">k-means++: The advantages of careful seeding, Arthur, David, and Sergei Vassilvitskii</a> in Proceedings of the eighteenth annual ACM-SIAM symposium on Discrete algorithms, Society for Industrial and Applied Mathematics (2007), pages 1027-1035.</li>
+<li><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch" title="(in scikit-learn v0.21.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Birch</span></code></a> - see also <a class="reference external" href="http://www.cs.sfu.ca/CourseCentral/459/han/papers/zhang96.pdf">Tian Zhang, Raghu Ramakrishnan, Maron Livny BIRCH: An efficient data clustering method for large databases</a> and <a class="reference external" href="https://code.google.com/archive/p/jbirch">Roberto Perdisci JBirch - Java implementation of BIRCH clustering algorithm</a>.</li>
 </ol>
-<p>For additional information see <a class="reference internal" href="valve_config.html#clusterization-options"><span class="std std-ref">clusterization sections</span></a> options.</p>
+<p>For additional information see <a class="reference internal" href="valve_config.html#clustering-options"><span class="std std-ref">clustering sections</span></a> options.</p>
 </div>
 <div class="section" id="master-paths">
 <span id="master-paths-manual"></span><h4>Master paths<a class="headerlink" href="#master-paths" title="Permalink to this headline">¶</a></h4>
-<p>At the end of clusterization stage it is possible to run procedure for <cite>master path</cite> generation. First, separate paths are grouped according to clusters. Paths that begin and end in particular clusters are grouped together. Next, for each group a <cite>master path</cite> (i.e., average path) is generated in following steps:</p>
+<p>At the end of clustering stage it is possible to run procedure for <cite>master path</cite> generation. First, separate paths are grouped according to the clusters. Paths that begin and end in particular clusters are grouped together. Next, for each group a <cite>master path</cite> (i.e., average path) is generated in the following steps:</p>
 <ol class="arabic">
-<li><p class="first">First, length of <cite>master path</cite> is determined. Lengths of each parts (incoming, object, outgoing) for each separate paths are normalized with bias towards longest paths. These normalized lengths are then used for as weights in averaging not normalized lengths. Values for all parts are summed and resulting value is the desired length of <cite>master path</cite>.</p>
+<li><p class="first">First, length of <cite>master path</cite> is determined. Lengths of each parts (incoming, object, outgoing) for each separate paths are normalized with bias towards the longest paths. These normalized lengths are then used as weights for averaging not normalized lengths. Values for all parts are summed and resulting value is the desired length of <cite>master path</cite>.</p>
 </li>
-<li><p class="first">All separate paths are divided into chunks. Number of chunks is equal to the desired length of <cite>master path</cite> calculated in the previous step. Lengths of separate paths can be quite diverse, therefore, for different paths chunks are of different lengths.</p>
+<li><p class="first">All separate paths are divided into chunks. Number of chunks is equal to the desired length of <cite>master path</cite> calculated in the previous step. Lengths of separate paths can be quite diverse, therefore, for different paths, chunks are of different lengths.</p>
 </li>
-<li><p class="first">For each chunk averaging procedure is run:</p>
+<li><p class="first">For each chunk, the averaging procedure is run:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li>Coordinates for all separate paths for given chunk are collected.</li>
-<li>Normalized lengths with bias toward longest paths for all separate paths for given chunk are collected.</li>
-<li>New coordinates are calculated as weighted average of collected coordinates. As weights collected normalized lengths are used.</li>
-<li>In addition width of chunk is calculated as a mean value of collected coordinates mutual distances.</li>
+<li>Coordinates for all separate paths for a given chunk are collected.</li>
+<li>Normalized lengths with bias toward the longest paths for all separate paths for a given chunk are collected.</li>
+<li>New coordinates are calculated as weighted average of collected coordinates. Collected normalized lengths are used as weights.</li>
+<li>In addition, width of chunk is calculated as a mean value of collected coordinates of mutual distances.</li>
 <li>Type of chunk is calculated as probability (frequency) of being in the <cite>scope</cite>.</li>
 </ol>
 </div></blockquote>
@@ -424,27 +405,21 @@ Each <em>object path</em> comprises of three parts:</p>
 <li><p class="first">Results for all chunks are collected, types probability are changed to types. All data is then used to create Master Path. If this fails no path is created.</p>
 </li>
 </ol>
-<p>More technical details on master path generation can be found in <code class="xref py py-meth docutils literal notranslate"><span class="pre">aquaduct.geom.master.CTypeSpathsCollection.get_master_path()</span></code> method documentation.</p>
+<p>More technical details on master path generation can be found in <a class="reference internal" href="../aquaduct.geom.master.html#aquaduct.geom.master.CTypeSpathsCollection.get_master_path" title="aquaduct.geom.master.CTypeSpathsCollection.get_master_path"><code class="xref py py-meth docutils literal notranslate"><span class="pre">aquaduct.geom.master.CTypeSpathsCollection.get_master_path()</span></code></a> method documentation.</p>
 </div>
 </div>
 <div class="section" id="passing-paths">
 <h3>Passing paths<a class="headerlink" href="#passing-paths" title="Permalink to this headline">¶</a></h3>
-<p>If <em>Passing paths</em> are allowed (see <code class="docutils literal notranslate"><span class="pre">allow_passing_paths</span></code> option in  <a class="reference internal" href="valve_config.html#separate-paths-options"><span class="std std-ref">separate_paths configuration</span></a>) they will be generated using list of <em>traceable residues</em> from the first stage of calculations. In usual settings, where <em>Object</em> and <em>Scope</em> definitions are the same in both I and II stage, this will result in relatively low number of passing paths. In particular this will not show the real number of traced molecules that enter <em>Scope</em> during the simulation.</p>
-<p>To get correct picture following options and settings have to be considered:</p>
-<ul class="simple">
+<p>If <em>Passing paths</em> are allowed (see <code class="docutils literal notranslate"><span class="pre">allow_passing_paths</span></code> option in  <a class="reference internal" href="valve_config.html#separate-paths-options"><span class="std std-ref">separate_paths configuration</span></a>) they will be generated using list of <em>traceable residues</em> from the first stage of calculations. In usual settings, where <em>Object</em> and <em>Scope</em> definitions are the same in both the I and II stage, this will result in relatively low number of passing paths. In particular, this will not show the real number of traced molecules that enter the <em>Scope</em> during the simulation.</p>
+<p>To get correct picture, configuration options have to be adjusted according to one of the following suggestions:</p>
+<ol class="arabic">
+<li><p class="first">Adding <em>passing</em> molecules [recommended]</p>
+<blockquote>
+<div><ul class="simple">
 <li><dl class="first docutils">
 <dt>Stage <strong>traceable_residues</strong></dt>
 <dd><ul class="first last">
-<li><code class="docutils literal notranslate"><span class="pre">object</span></code> should be broad enough to encompass all molecules that should be traced. For example, if water is traced, <code class="docutils literal notranslate"><span class="pre">object</span></code> definition could be following: <code class="docutils literal notranslate"><span class="pre">resname</span> <span class="pre">WAT</span></code>.</li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt>Stage <strong>raw_paths</strong></dt>
-<dd><ul class="first last">
-<li>In order to retain default Aqua-Duct behavior of tracing molecules that flow through <em>Object</em> area, it have to be redefined to encompass the active site only - see <a class="reference internal" href="#object-definition"><span class="std std-ref">Object definition</span></a> discussion.</li>
-<li><code class="docutils literal notranslate"><span class="pre">clear_in_object_info</span></code> should be set to <code class="docutils literal notranslate"><span class="pre">True</span></code>. Otherwise, traceable molecules will be limited according to current <code class="docutils literal notranslate"><span class="pre">object</span></code> definition but <em>Object</em> boundaries from <strong>traceable_residues</strong> stage will be used.</li>
+<li><code class="docutils literal notranslate"><span class="pre">add_passing</span></code> should define all molecules to be traced. If water is traced this should be set to e.g. <code class="docutils literal notranslate"><span class="pre">resname</span> <span class="pre">WAT</span> <span class="pre">HOH</span> <span class="pre">TIP</span></code>.</li>
 </ul>
 </dd>
 </dl>
@@ -458,19 +433,56 @@ Each <em>object path</em> comprises of three parts:</p>
 </dl>
 </li>
 </ul>
-<p>Additionally, in stage <strong>inlets_clusterization</strong> following options could also be adjusted:</p>
-<ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">exclude_passing_in_clusterization</span></code> could be set to <code class="docutils literal notranslate"><span class="pre">True</span></code>. This will exclude passing paths inlets from clusterization.</li>
-<li>If passing paths are not clustered they will be added as outliers. Option <code class="docutils literal notranslate"><span class="pre">add_passing_to_clusters</span></code> allows to add some of passing paths inlets to already existing clusters. This is done by Auto Barber method and therefore this option should define molecular entity used in Auto Barber procedure, for example <code class="docutils literal notranslate"><span class="pre">protein</span></code>.</li>
+</div></blockquote>
+</li>
+<li><p class="first">Redefinition of <em>scope</em> and <em>object</em> areas</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="first docutils">
+<dt>Stage <strong>traceable_residues</strong></dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">object</span></code> should be broad enough to encompass all molecules that should be traced. For example, if water is traced, <code class="docutils literal notranslate"><span class="pre">object</span></code> definition could be as following: <code class="docutils literal notranslate"><span class="pre">resname</span> <span class="pre">WAT</span></code>.</li>
 </ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Stage <strong>raw_paths</strong></dt>
+<dd><ul class="first last">
+<li>In order to retain default Aqua-Duct behavior of tracing molecules that flow through <em>Object</em> area, it have to be redefined to encompass the active site only - see <a class="reference internal" href="#object-definition"><span class="std std-ref">Object definition</span></a> discussion.</li>
+<li><code class="docutils literal notranslate"><span class="pre">clear_in_object_info</span></code> should be set to <code class="docutils literal notranslate"><span class="pre">True</span></code>. Otherwise, traceable molecules will be limited according to the current <code class="docutils literal notranslate"><span class="pre">object</span></code> definition but <em>Object</em> boundaries from <strong>traceable_residues</strong> stage will be used.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Stage <strong>separate_paths</strong></dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">allow_passing_paths</span></code> should be set to <code class="docutils literal notranslate"><span class="pre">True</span></code>. This allows generation of passing paths.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<div class="section" id="clustering-of-passing-paths">
+<h4>Clustering of passing paths<a class="headerlink" href="#clustering-of-passing-paths" title="Permalink to this headline">¶</a></h4>
+<p>Additionally, in stage <strong>inlets_clustering</strong>, the following options could also be adjusted:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">exclude_passing_in_clustering</span></code> could be set to <code class="docutils literal notranslate"><span class="pre">True</span></code>. This will exclude the passing paths inlets from clustering.</li>
+<li>If passing paths are not clustered they will be added as outliers. Option <code class="docutils literal notranslate"><span class="pre">add_passing_to_clusters</span></code> allows to add some of passing paths inlets to the already existing clusters. This is done by Auto Barber method and therefore this option should define molecular entity used in Auto Barber procedure, for example <code class="docutils literal notranslate"><span class="pre">protein</span></code>.</li>
+</ul>
+</div>
 </div>
 <div class="section" id="analysis">
 <h3>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h3>
 <p>Fifth stage of <em>Valve</em> calculations analyses results calculated in stages 1 to 4.
-Results of the analysis are displayed on the screen or can be saved to text file and comprise of several parts.</p>
+Results of the analysis are displayed on the screen or can be saved to a text file and comprise of several parts.</p>
 <div class="section" id="general-summary">
 <h4>General summary<a class="headerlink" href="#general-summary" title="Permalink to this headline">¶</a></h4>
-<p>Results starts with general summary.</p>
+<p>Results start with a general summary.</p>
 <ul>
 <li><p class="first">Title and data stamp.</p>
 </li>
@@ -482,7 +494,7 @@ Results of the analysis are displayed on the screen or can be saved to text file
 <dt>Names of traced molecules.</dt>
 <dd><div class="first last admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If more than one name is on the list all consecutive sections of <em>Analysis</em> results are provided for each name separately and, as well as, for all names.</p>
+<p class="last">If more than one name is on the list all consecutive sections of <em>Analysis</em> results are provided for each name separately, as well as for all names.</p>
 </div>
 </dd>
 </dl>
@@ -596,7 +608,7 @@ Results of the analysis are displayed on the screen or can be saved to text file
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Distributions of <strong>X-&gt;Obj</strong> and <strong>Obj-&gt;X</strong> might be not normal, <em>ttest</em> may result unrealistic values. This test will be changed in the future releases.</p>
+<p class="last">Distributions of <strong>X-&gt;Obj</strong> and <strong>Obj-&gt;X</strong> might be not normal, <em>ttest</em> may result in unrealistic values. This test will be changed in the future releases.</p>
 </div>
 </div>
 <div class="section" id="clusters-types-statistics">
@@ -660,22 +672,23 @@ Results of the analysis are displayed on the screen or can be saved to text file
 <dd><ol class="first last arabic">
 <li><strong>ID</strong>: - Separate path ID.</li>
 <li><strong>RES</strong>: - Residue name.</li>
-<li><strong>BeginF</strong>: Number of frame in which the path begins.</li>
-<li><strong>InpF</strong>: Number of frame in which path begins Incoming part.</li>
-<li><strong>ObjF</strong>: Number of frame in which path begins Object part.</li>
-<li><strong>OutF</strong>: Number of frame in which path begins Outgoing part.</li>
-<li><strong>EndF</strong>: Number of frame in which the path ends.</li>
+<li><strong>BeginF</strong>: Number of the frame in which the path begins.</li>
+<li><strong>InpF</strong>: Number of the frames in which path is in Incoming part.</li>
+<li><strong>ObjF</strong>: Number of the frames in which path is in Object part.</li>
+<li><strong>ObjFS</strong>: Number of the frames in which path is strictly in Object part.</li>
+<li><strong>OutF</strong>: Number of the frames in which path is in Outgoing part.</li>
+<li><strong>EndF</strong>: Number of the frame in which the path ends.</li>
 <li><strong>TotL</strong>: Total length of path.</li>
-<li><strong>InpL</strong>: Length of Incoming part. If no incoming part NaN is given.</li>
+<li><strong>InpL</strong>: Length of Incoming part. If no incoming part, NaN is given.</li>
 <li><strong>ObjL</strong>: Length of Object part.</li>
-<li><strong>OutL</strong>: Length of Outgoing part. If no outgoing part NaN is given.</li>
+<li><strong>OutL</strong>: Length of Outgoing part. If no outgoing part, NaN is given.</li>
 <li><strong>TotS</strong>: Average step of full path.</li>
 <li><strong>TotStdS</strong>: Standard deviation of <strong>TotS</strong>.</li>
-<li><strong>InpS</strong>: Average step of Incoming part. If no incoming part NaN is given.</li>
+<li><strong>InpS</strong>: Average step of Incoming part. If no incoming part, NaN is given.</li>
 <li><strong>InpStdS</strong>: Standard deviation of <strong>InpS</strong>.</li>
 <li><strong>ObjS</strong>: Average step of Object part.</li>
 <li><strong>ObjStdS</strong>: Standard deviation of <strong>ObjS</strong>.</li>
-<li><strong>OutS</strong>: Average step of Outgoing part. If no outgoing part NaN is given.</li>
+<li><strong>OutS</strong>: Average step of Outgoing part. If no outgoing part, NaN is given.</li>
 <li><strong>OutStdS</strong>: Standard deviation of <strong>OutS</strong>.</li>
 <li><strong>CType</strong>: Cluster type of separate path.</li>
 </ol>
@@ -685,31 +698,31 @@ Results of the analysis are displayed on the screen or can be saved to text file
 </ul>
 <div class="section" id="separate-path-id">
 <h5>Separate path ID<a class="headerlink" href="#separate-path-id" title="Permalink to this headline">¶</a></h5>
-<p>Separate Path IDs are composed of three numbers separated by colon. First number is the layer number, if no <a class="reference internal" href="#sandwich-option"><span class="std std-ref">sandwich</span></a> option is used it is set to <code class="docutils literal notranslate"><span class="pre">0</span></code>. The second number is residue number. Third number is consecutive number of the separate path made by the residue. Numeration starts with 0.</p>
+<p>Separate Path IDs are composed of three numbers separated by colon. First number is the layer number, if no <a class="reference internal" href="valve_config.html#sandwich-option"><span class="std std-ref">sandwich</span></a> option is used, it is set to <code class="docutils literal notranslate"><span class="pre">0</span></code>. The second number is residue number. The third number is consecutive number of the separate path made by the residue. Numeration starts with 0.</p>
 </div>
 </div>
 <div class="section" id="frames-dependent-analysis">
 <h4>Frames dependent analysis<a class="headerlink" href="#frames-dependent-analysis" title="Permalink to this headline">¶</a></h4>
 <p>In addition to general summary Aqua-Duct calculates frames dependent parameters. Two types of values are calculated: number of traced paths, and <em>Object</em> and <em>Scope</em> sizes. Results are saved in the additional CSV file or are printed on the screen.</p>
-<p>Calculated numbers of traced paths can be used to visualize behavior of the system in question. For example, one can analyze number of paths is two different clusters:</p>
+<p>Calculated numbers of traced paths can be used to visualize behavior of the system in question. For example, one can analyze number of paths in two different clusters:</p>
 <div class="figure align-center">
 <img alt="../images/figure_16_6.png" src="../images/figure_16_6.png" />
 </div>
 <p>The above plot shows number of water molecules (or paths) in cluster 16 and 6 throughout the simulation. One can observe that number of molecules in cluster 6 diminishes approximately in the middle. This kind of plot can be easily generated with additional CSV data.</p>
 <div class="section" id="number-of-traced-paths">
 <h5>Number of traced paths<a class="headerlink" href="#number-of-traced-paths" title="Permalink to this headline">¶</a></h5>
-<p>For each frame, numbers of traced paths are calculated for following categories:</p>
+<p>For each frame, numbers of traced paths are calculated for the following categories:</p>
 <ol class="arabic simple">
 <li>Name of traced molecules - <code class="docutils literal notranslate"><span class="pre">amol</span></code> is used for all possible names.</li>
 <li>Paths types (<code class="docutils literal notranslate"><span class="pre">object</span></code> for standard paths and <code class="docutils literal notranslate"><span class="pre">passing</span></code> for passing paths) - <code class="docutils literal notranslate"><span class="pre">apaths</span></code> is used for all possible paths types.</li>
 <li>Clusters and cluster types - <code class="docutils literal notranslate"><span class="pre">aclusts</span></code> is used for all possible clusters and <code class="docutils literal notranslate"><span class="pre">actypes</span></code> is used for all possible cluster types.</li>
 <li>Part of paths. Possible values are: <code class="docutils literal notranslate"><span class="pre">walk</span></code>, <code class="docutils literal notranslate"><span class="pre">in</span></code>, <code class="docutils literal notranslate"><span class="pre">object</span></code>, <code class="docutils literal notranslate"><span class="pre">out</span></code>, and <code class="docutils literal notranslate"><span class="pre">in_out</span></code>. Where <code class="docutils literal notranslate"><span class="pre">walk</span></code> corresponds to any part of path and in case of passing paths only this category is used; <code class="docutils literal notranslate"><span class="pre">in</span></code>, <code class="docutils literal notranslate"><span class="pre">object</span></code>, and <code class="docutils literal notranslate"><span class="pre">out</span></code> correspond to incoming, object, and outgoing parts; <code class="docutils literal notranslate"><span class="pre">in_out</span></code> corresponds to sum of incoming and outgoing parts.</li>
 </ol>
-<p>All the above listed categories are combined together, and the final number of calculated categories may be quite big.</p>
+<p>All of the above listed categories are combined together, and the final number of calculated categories may be quite big.</p>
 </div>
 <div class="section" id="size-of-object-and-scope">
 <h5>Size of <em>Object</em> and <em>Scope</em><a class="headerlink" href="#size-of-object-and-scope" title="Permalink to this headline">¶</a></h5>
-<p>If option <code class="docutils literal notranslate"><span class="pre">calculate_scope_object_size</span></code> is set <code class="docutils literal notranslate"><span class="pre">True</span></code> and values of <code class="docutils literal notranslate"><span class="pre">scope_chull</span></code> and <code class="docutils literal notranslate"><span class="pre">object_chull</span></code> correspond to appropriate molecular entities, Aqua-Duct calculates area and volume of <em>Scope</em> and <em>Object</em>. Calculated sizes are estimates as resulting from convex hull approximations.</p>
+<p>If option <code class="docutils literal notranslate"><span class="pre">calculate_scope_object_size</span></code> is set <code class="docutils literal notranslate"><span class="pre">True</span></code> and values of <code class="docutils literal notranslate"><span class="pre">scope_chull</span></code> and <code class="docutils literal notranslate"><span class="pre">object_chull</span></code> correspond to appropriate molecular entities, Aqua-Duct calculates area and volume of <em>Scope</em> and <em>Object</em>. Calculated sizes are estimated as resulting from convex hull approximations.</p>
 </div>
 </div>
 </div>
@@ -717,13 +730,13 @@ Results of the analysis are displayed on the screen or can be saved to text file
 <h3>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h3>
 <p>Sixth stage of <em>Valve</em> calculations visualizes results calculated in stages 1 to 4. Visualization is done with PyMOL. <em>Valve</em> creates visualizations in two modes:</p>
 <ol class="arabic simple">
-<li>Two files are created: special Python script and archive with data. Python script can be simply started with python, it automatically opens PyMol and loads all data from the archive. Optionally it can automatically save PyMol session.</li>
+<li>Two files are created: special Python script and archive with data. Python script can be simply started with python, it automatically opens PyMol and loads all data from the archive. Optionally, it can automatically save PyMol session.</li>
 <li>PyMol is automatically started and all data is loaded directly to PyMol workspace.</li>
 </ol>
-<p>Molecule is loaded as PDB file. Other objects like Inlets clusters or paths are loaded as CGO objects.</p>
+<p>Molecule is loaded as a PDB file. Other objects like Inlets clusters or paths are loaded as CGO objects.</p>
 <div class="section" id="visualization-script">
 <h4>Visualization script<a class="headerlink" href="#visualization-script" title="Permalink to this headline">¶</a></h4>
-<p>By default <em>Valve</em> creates Python visualization script and archive with data files. This script is a regular Python script. It does not depends on AQUA-DUCT. To run it, python2.7 and PyMol is required. If no <strong>save</strong> option is used <em>Valve</em> saves visualization script as <code class="docutils literal notranslate"><span class="pre">6_visualize_results.py</span></code>. To load full visualization call:</p>
+<p>By default <em>Valve</em> creates Python visualization script and archive with data files. This script is a regular Python script. It does not depend on AQUA-DUCT. To run it, python2.7 and PyMol are required. If no <strong>save</strong> option is used <em>Valve</em> saves visualization script as <code class="docutils literal notranslate"><span class="pre">6_visualize_results.py</span></code>. To load full visualization call:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="mi">6</span><span class="n">_visualize_results</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
 
 <span class="n">usage</span><span class="p">:</span> <span class="mi">6</span><span class="n">_visualize_results</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">save</span><span class="o">-</span><span class="n">session</span> <span class="n">SESSION</span><span class="p">]</span>
@@ -739,7 +752,7 @@ Results of the analysis are displayed on the screen or can be saved to text file
   <span class="o">--</span><span class="n">discard</span> <span class="n">DISCARD</span>     <span class="n">Objects</span> <span class="n">to</span> <span class="n">discard</span><span class="o">.</span>
   <span class="o">--</span><span class="n">keep</span> <span class="n">KEEP</span>           <span class="n">Objects</span> <span class="n">to</span> <span class="n">keep</span><span class="o">.</span>
   <span class="o">--</span><span class="n">force</span><span class="o">-</span><span class="n">color</span> <span class="n">FC</span>      <span class="n">Force</span> <span class="n">specific</span> <span class="n">color</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">fast</span>                <span class="n">Disable</span> <span class="nb">all</span> <span class="n">objects</span> <span class="k">while</span> <span class="n">loading</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">fast</span>                <span class="n">Hides</span> <span class="nb">all</span> <span class="n">objects</span> <span class="k">while</span> <span class="n">loading</span><span class="o">.</span>
 </pre></div>
 </div>
 <p>Option <code class="docutils literal notranslate"><span class="pre">--save-session</span></code> allows to save PyMol session file. Once visualization is loaded session is saved and PyMol closes. Option <code class="docutils literal notranslate"><span class="pre">--fast</span></code> increases slightly loading of objects.</p>
@@ -759,7 +772,7 @@ Results of the analysis are displayed on the screen or can be saved to text file
 <p class="first admonition-title">Note</p>
 <p class="last">Currently, <code class="docutils literal notranslate"><span class="pre">--force-color</span></code> does not allow to change color of molecules. It can be done in PyMol.</p>
 </div>
-<p>Options <code class="docutils literal notranslate"><span class="pre">--keep</span></code> and <code class="docutils literal notranslate"><span class="pre">--discard</span></code> allows to select specific objects for visualization. Both accept list of names comprising of full or partial object names. Option <code class="docutils literal notranslate"><span class="pre">--keep</span></code> instructs script to load only specified objects, whereas, <code class="docutils literal notranslate"><span class="pre">--discard</span></code> instructs to skip specific objects. For example to keep shapes of object and scope, molecule and clusters only one can call following:</p>
+<p>Options <code class="docutils literal notranslate"><span class="pre">--keep</span></code> and <code class="docutils literal notranslate"><span class="pre">--discard</span></code> allows to select specific objects for visualization. Both accept list of names comprising of full or partial object names. Option <code class="docutils literal notranslate"><span class="pre">--keep</span></code> instructs script to load only specified objects, whereas <code class="docutils literal notranslate"><span class="pre">--discard</span></code> instructs to skip specific objects. For example, to keep shapes of object and scope, as well as molecule and clusters only, one can call the following:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="mi">6</span><span class="n">_visualize_results</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">keep</span> <span class="s1">&#39;shape molecule cluster&#39;</span>
 </pre></div>
 </div>
@@ -772,7 +785,7 @@ Results of the analysis are displayed on the screen or can be saved to text file
 <li>If <code class="docutils literal notranslate"><span class="pre">--keep</span></code> is used first, objects are not displayed if they are not on the <em>keep</em> list. If they are on the list, visualization script checks if they are on the <em>discard</em> list. If yes, objects are not displayed.</li>
 <li>If <code class="docutils literal notranslate"><span class="pre">--discard</span></code> is used first, objects are not displayed if they are on the <em>discard</em> list and are not on the <em>keep</em> list.</li>
 </ol>
-<p>For example, in order to display molecule, clusters, and only raw master paths, one can use following command:</p>
+<p>For example, in order to display molecule, clusters, and only raw master paths, one can use the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="mi">6</span><span class="n">_visualize_results</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">keep</span> <span class="s1">&#39;molecule cluster master&#39;</span> <span class="o">--</span><span class="n">discard</span> <span class="s1">&#39;smooth&#39;</span>
 </pre></div>
 </div>
@@ -787,21 +800,23 @@ Results of the analysis are displayed on the screen or can be saved to text file
 </div>
 <div class="section" id="visualization-objects">
 <h4>Visualization objects<a class="headerlink" href="#visualization-objects" title="Permalink to this headline">¶</a></h4>
-<p>Following is a list of objects created in PyMOL (all of them are optional). PyMOL object names given in <strong>bold</strong> text or short explanation is given.</p>
+<p>The following is a list of objects created in PyMOL (all of them are optional). PyMOL object names in <strong>bold</strong> text and short explanation is given.</p>
 <ul class="simple">
-<li>Selected frame of the simulated system. Object name: <strong>molecule</strong> plus number of layer, if no <a class="reference internal" href="#sandwich-option"><span class="std std-ref">sandwich</span></a> option is used it becomes, by default, <strong>molecule0</strong>.</li>
-<li>Approximate shapes of object and scope. Objects names <strong>object_shape</strong> and <strong>scope_shape</strong> plus number of layer, if no <a class="reference internal" href="#sandwich-option"><span class="std std-ref">sandwich</span></a> option is used <strong>0</strong> is added by default.</li>
+<li>Selected frame of the simulated system. Object name: <strong>molecule</strong> plus number of layer, if no <a class="reference internal" href="valve_config.html#sandwich-option"><span class="std std-ref">sandwich</span></a> option is used, it becomes by default <strong>molecule0</strong>.</li>
+<li>Approximate shapes of object and scope. Objects names <strong>object_shape</strong> and <strong>scope_shape</strong> plus number of layer, if no <a class="reference internal" href="valve_config.html#sandwich-option"><span class="std std-ref">sandwich</span></a> option is used, <strong>0</strong> is added by default.</li>
 <li>Inlets clusters, each cluster is a separate object. Object name: <strong>cluster_</strong> followed by cluster annotation: outliers are annotated as <strong>out</strong>; regular clusters by ID.</li>
 <li>List of cluster types, raw paths. Each cluster type is a separate object. Object name composed of cluster type (colon replaced by underline) plus <strong>_raw</strong>.</li>
 <li>List of cluster types, smooth paths. Each cluster type is a separate object. Object name composed of cluster type (colon replaced by underline) plus <strong>_smooth</strong>.</li>
-<li>All raw paths. They can be displayed as one object or separated in to Incoming, Object and Outgoing part. Object name: <strong>all_raw</strong>, or <strong>all_raw_in</strong>, <strong>all_raw_obj</strong>, and <strong>all_raw_out</strong>.</li>
+<li>All raw paths. They can be displayed as one object or separated into Incoming, Object and Outgoing part. Object name: <strong>all_raw</strong>, or <strong>all_raw_in</strong>, <strong>all_raw_obj</strong>, and <strong>all_raw_out</strong>.</li>
 <li>All raw paths inlets arrows. Object name: <strong>all_raw_paths_io</strong>.</li>
-<li>All smooth paths. They can be displayed as one object or separated in to Incoming, Object and Outgoing part. Object name: <strong>all_smooth</strong>, or <strong>all_smooth_in</strong>, <strong>all_smooth_obj</strong>, and <strong>all_smooth_out</strong>.</li>
+<li>All smooth paths. They can be displayed as one object or separated into Incoming, Object and Outgoing part. Object name: <strong>all_smooth</strong>, or <strong>all_smooth_in</strong>, <strong>all_smooth_obj</strong>, and <strong>all_smooth_out</strong>.</li>
 <li>All raw paths inlets arrows. Object name: <strong>all_raw_paths_io</strong>.</li>
 <li>Raw paths displayed as separate objects or as one object with several states. Object name: <strong>raw_paths_</strong> plus number of path or <strong>raw_paths</strong> if displayed as one object.</li>
 <li>Smooth paths displayed as separate objects or as one object with several states. Object name: <strong>smooth_paths_</strong> plus number of path or <strong>smooth_paths</strong> if displayed as one object.</li>
 <li>Raw paths arrows displayed as separate objects or as one object with several states. Object name: <strong>raw_paths_io_</strong> plus number of path or <strong>raw_paths_io</strong> if displayed as one object.</li>
 <li>Smooth paths arrows displayed as separate objects or as one object with several states. Object name: <strong>smooth_paths_io_</strong> plus number of path or <strong>smooth_paths_io</strong> if displayed as one object.</li>
+<li><strong>CoS</strong> center of the scope area (system).</li>
+<li><strong>CoO</strong> center of the object area (system).</li>
 </ul>
 </div>
 <div class="section" id="color-schemes">
@@ -833,14 +848,15 @@ Results of the analysis are displayed on the screen or can be saved to text file
           <a href="valve_config.html" title="Configuration file options"
              >next</a> |</li>
         <li class="right" >
-          <a href="../aquaduct_install.html" title="Aqua-Duct installation guide"
+          <a href="index.html" title="Aqua-Duct’s Valve driver documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Aqua-Duct’s Valve driver documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
     </div>
   </body>
 </html>

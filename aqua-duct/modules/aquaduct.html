@@ -6,14 +6,15 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>aquaduct &#8212; Aqua-Duct 0.5.14 documentation</title>
+    <title>aquaduct &#8212; Aqua-Duct 1.0.0b1 documentation</title>
     <link rel="stylesheet" href="../static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../static/documentation_options.js"></script>
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../static/documentation_options.js"></script>
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../static/ficon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -32,7 +33,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -66,6 +67,7 @@
 
 <span class="c1"># Aqua-Duct, a tool facilitating analysis of the flow of solvent molecules in molecular dynamic simulations</span>
 <span class="c1"># Copyright (C) 2016-2018  Tomasz Magdziarz, Alicja Płuciennik, Michał Stolarczyk &lt;info@aquaduct.pl&gt;</span>
+<span class="c1"># Copyright (C) 2019  Tomasz Magdziarz, Michał Banas &lt;info@aquaduct.pl&gt;</span>
 <span class="c1">#</span>
 <span class="c1"># This program is free software: you can redistribute it and/or modify</span>
 <span class="c1"># it under the terms of the GNU General Public License as published by</span>
@@ -105,8 +107,8 @@
 
 <span class="sd">    :return: 3 element tuple of int numbers</span>
 <span class="sd">    :rtype: tuple</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">14</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;0b1&quot;</span></div>
 
 
 <div class="viewcode-block" id="version_nice"><a class="viewcode-back" href="../aquaduct.html#aquaduct.version_nice">[docs]</a><span class="k">def</span> <span class="nf">version_nice</span><span class="p">():</span>
@@ -116,15 +118,16 @@
 <span class="sd">    :return: string composed on the basis of the number returned by :func:`version`.</span>
 <span class="sd">    :rtype: str</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1">#return &#39;.&#39;.join(map(str, version()[:2]))+&#39;.dev%d&#39; % version()[-1]</span></div>
-    <span class="k">return</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">()[:</span><span class="mi">3</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">()))</span></div>
 
 
 <span class="n">__version__</span> <span class="o">=</span> <span class="n">version_nice</span><span class="p">()</span>
 <span class="n">__mail__</span> <span class="o">=</span> <span class="s1">&#39;info@aquaduct.pl&#39;</span>
 
-<span class="n">__author__</span> <span class="o">=</span> <span class="s1">u&#39;Tomasz Magdziarz, Alicja Płuciennik, Michał Stolarczyk&#39;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">u&#39;Tomasz Magdziarz, Michał Banas, Alicja Płuciennik, Michał Stolarczyk&#39;</span>
 <span class="n">__author_doc__</span> <span class="o">=</span> <span class="s1">u&#39;Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra&#39;</span>
+
 
 <div class="viewcode-block" id="greetings"><a class="viewcode-back" href="../aquaduct.html#aquaduct.greetings">[docs]</a><span class="k">def</span> <span class="nf">greetings</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -135,12 +138,13 @@
 <span class="sd">                  ~ ~ ~ A Q U A - D U C T ~ ~ ~</span>
 <span class="sd">        ################################################</span>
 <span class="sd">        ####        ########        ########        ####</span>
-<span class="sd">        ##            ####            ####            ##</span>
+<span class="sd">        =@            \%%/            (==)            @=</span>
 <span class="sd">        #              ##              ##              #</span>
 <span class="sd">        #              ##              ##              #</span>
 <span class="sd">        #              ##              ##              #</span>
 <span class="sd">        #              ##              ##              #</span>
 <span class="sd">        ------------------------------------------------</span>
+
 
 <span class="sd">    :return: :mod:`aquaduct` fancy greetings.</span>
 <span class="sd">    :rtype: str</span>
@@ -149,14 +153,15 @@
 <span class="s1">          ~ ~ ~ A Q U A - D U C T ~ ~ ~</span>
 <span class="s1">################################################</span>
 <span class="s1">####        ########        ########        ####</span>
-<span class="s1">##            ####            ####            ##</span>
+<span class="s1">=@            \</span><span class="si">%%</span><span class="s1">/            (==)            @=</span>
 <span class="s1">#              ##              ##              #</span>
 <span class="s1">#              ##              ##              #</span>
 <span class="s1">#              ##              ##              #</span>
 <span class="s1">#              ##              ##              #</span>
 <span class="s1">------------------------------------------------&#39;&#39;&#39;</span>
-</div>
-    <span class="k">return</span> <span class="n">greet</span>
+    <span class="c1">#          C l a s s i c a l  o r d e r</span>
+    <span class="c1"># ------------------------------------------------&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">greet</span></div>
 </pre></div>
 
           </div>
@@ -173,13 +178,13 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
     </div>
   </body>
 </html>

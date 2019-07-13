@@ -6,14 +6,15 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>aquaduct.utils.maths module &#8212; Aqua-Duct 0.5.14 documentation</title>
+    <title>aquaduct.utils.maths module &#8212; Aqua-Duct 1.0.0b1 documentation</title>
     <link rel="stylesheet" href="static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="static/documentation_options.js"></script>
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="static/bizstyle.js"></script>
     <link rel="shortcut icon" href="static/ficon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
@@ -40,7 +41,7 @@
         <li class="right" >
           <a href="aquaduct.utils.helpers.html" title="aquaduct.utils.helpers module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.utils.html" accesskey="U">aquaduct.utils package</a> &#187;</li> 
@@ -83,6 +84,11 @@
 <dt id="aquaduct.utils.maths.NumpyDefaultsStorageTypes">
 <em class="property">class </em><code class="descname">NumpyDefaultsStorageTypes</code><a class="reference internal" href="modules/aquaduct/utils/maths.html#NumpyDefaultsStorageTypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.maths.NumpyDefaultsStorageTypes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Default types that are enforced in <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> objects.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is used only througt <a class="reference internal" href="#aquaduct.utils.maths.defaults" title="aquaduct.utils.maths.defaults"><code class="xref py py-attr docutils literal notranslate"><span class="pre">defaults</span></code></a> instance.</p>
+</div>
 <dl class="attribute">
 <dt id="aquaduct.utils.maths.NumpyDefaultsStorageTypes.float_default">
 <code class="descname">float_default</code><a class="headerlink" href="#aquaduct.utils.maths.NumpyDefaultsStorageTypes.float_default" title="Permalink to this definition">¶</a></dt>
@@ -95,12 +101,153 @@
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.int64</span></code></p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="aquaduct.utils.maths.NumpyDefaultsStorageTypes.int_type">
+<code class="descname">int_type</code><a class="headerlink" href="#aquaduct.utils.maths.NumpyDefaultsStorageTypes.int_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.int8</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="data">
+<dt id="aquaduct.utils.maths.defaults">
+<code class="descname">defaults</code><em class="property"> = &lt;aquaduct.utils.maths.NumpyDefaultsStorageTypes object&gt;</em><a class="headerlink" href="#aquaduct.utils.maths.defaults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instance of <a class="reference internal" href="#aquaduct.utils.maths.NumpyDefaultsStorageTypes" title="aquaduct.utils.maths.NumpyDefaultsStorageTypes"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumpyDefaultsStorageTypes</span></code></a> to store default values.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="aquaduct.utils.maths.make_default_array">
 <code class="descname">make_default_array</code><span class="sig-paren">(</span><em>array_like</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/maths.html#make_default_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.maths.make_default_array" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>array_like</strong> – Array like object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Array with dtype set to <a class="reference internal" href="#aquaduct.utils.maths.NumpyDefaultsStorageTypes.float_default" title="aquaduct.utils.maths.NumpyDefaultsStorageTypes.float_default"><code class="xref py py-attr docutils literal notranslate"><span class="pre">NumpyDefaultsStorageTypes.float_default</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="aquaduct.utils.maths.MemMap">
+<em class="property">class </em><code class="descname">MemMap</code><a class="reference internal" href="modules/aquaduct/utils/maths.html#MemMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.maths.MemMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#aquaduct.utils.maths.MemMap" title="aquaduct.utils.maths.MemMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.utils.maths.MemMap</span></code></a></p>
+<p>Provides simple convenience wrapper for <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.memmap()</span></code>.</p>
+<dl class="method">
+<dt id="aquaduct.utils.maths.MemMap.readonly">
+<code class="descname">readonly</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/maths.html#MemMap.readonly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.maths.MemMap.readonly" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Memory map object in ‘r’ mode.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.core.memmap.memmap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.utils.maths.MemMap.readwrite">
+<code class="descname">readwrite</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/maths.html#MemMap.readwrite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.maths.MemMap.readwrite" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Memory map object in ‘r+’ mode.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.core.memmap.memmap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="aquaduct.utils.maths.ArrayOrArray">
+<em class="property">class </em><code class="descname">ArrayOrArray</code><span class="sig-paren">(</span><em>filename=None</em>, <em>dtype=None</em>, <em>shape=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/maths.html#ArrayOrArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.maths.ArrayOrArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Convenience class for handling <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> and <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.core.memmap.memmap</span></code> objects in a transparent way.</p>
+<dl class="method">
+<dt id="aquaduct.utils.maths.ArrayOrArray.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>filename=None</em>, <em>dtype=None</em>, <em>shape=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/maths.html#ArrayOrArray.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.maths.ArrayOrArray.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>str</strong> (<em>filename</em>) – Optional name of the file to store memory mapped object.</li>
+<li><strong>dtype</strong> – Optional dtype of array, if <cite>None</cite> default value of <a class="reference internal" href="#aquaduct.utils.maths.NumpyDefaultsStorageTypes.float_default" title="aquaduct.utils.maths.NumpyDefaultsStorageTypes.float_default"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumpyDefaultsStorageTypes.float_default</span></code></a> is used.</li>
+<li><strong>shape</strong> – Shape of the array.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If no <cite>filename</cite> is given then regular <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> is created with <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html#numpy.zeros" title="(in NumPy v1.16)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.zeros()</span></code></a>.
+Otherwise <a class="reference internal" href="#aquaduct.utils.maths.MemMap" title="aquaduct.utils.maths.MemMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">MemMap</span></code></a> object is created.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="aquaduct.utils.maths.ArrayOrArray.isndarray">
+<code class="descname">isndarray</code><a class="headerlink" href="#aquaduct.utils.maths.ArrayOrArray.isndarray" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><cite>True</cite> if underlaying object is of <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> type.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.utils.maths.ArrayOrArray.readwrite">
+<code class="descname">readwrite</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/maths.html#ArrayOrArray.readwrite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.maths.ArrayOrArray.readwrite" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Array with read-write access.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.utils.maths.ArrayOrArray.readonly">
+<code class="descname">readonly</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/maths.html#ArrayOrArray.readonly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.maths.ArrayOrArray.readonly" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Array with read only access, if possible</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.utils.maths.ArrayOrArray.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/utils/maths.html#ArrayOrArray.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.utils.maths.ArrayOrArray.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>By default this calls <a class="reference internal" href="#aquaduct.utils.maths.ArrayOrArray.readwrite" title="aquaduct.utils.maths.ArrayOrArray.readwrite"><code class="xref py py-func docutils literal notranslate"><span class="pre">readwrite()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Array with read-write access.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
 
 </div>
 
@@ -125,7 +272,7 @@
         <li class="right" >
           <a href="aquaduct.utils.helpers.html" title="aquaduct.utils.helpers module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.utils.html" >aquaduct.utils package</a> &#187;</li> 
@@ -133,7 +280,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
     </div>
   </body>
 </html>

@@ -6,18 +6,21 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>How does AQUA-DUCT work &#8212; Aqua-Duct 0.5.14 documentation</title>
+    <title>How does AQUA-DUCT work &#8212; Aqua-Duct 1.0.0b1 documentation</title>
     <link rel="stylesheet" href="static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="static/documentation_options.js"></script>
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="static/bizstyle.js"></script>
     <link rel="shortcut icon" href="static/ficon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Aqua-Duct’s Valve driver documentation" href="valve/index.html" />
+    <link rel="prev" title="Welcome to Aqua-Duct’s documentation!" href="index.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
     <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
@@ -32,7 +35,13 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li> 
+        <li class="right" >
+          <a href="valve/index.html" title="Aqua-Duct’s Valve driver documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Aqua-Duct’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -40,7 +49,7 @@
             <p class="logo"><a href="index.html">
               <img class="logo" src="static/AQUADUCT_LOGO.png" alt="Logo"/>
             </a></p>
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">How does AQUA-DUCT work</a><ul>
 <li><a class="reference internal" href="#traceable-residues">Traceable residues</a><ul>
@@ -50,13 +59,19 @@
 </li>
 <li><a class="reference internal" href="#raw-paths">Raw paths</a></li>
 <li><a class="reference internal" href="#separate-paths">Separate paths</a></li>
-<li><a class="reference internal" href="#clusterization-of-inlets">Clusterization of inlets</a></li>
+<li><a class="reference internal" href="#clustering-of-inlets">Clustering of inlets</a></li>
 <li><a class="reference internal" href="#analysis">Analysis</a></li>
 <li><a class="reference internal" href="#visualization">Visualization</a></li>
 </ul>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Aqua-Duct’s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="valve/index.html"
+                        title="next chapter">Aqua-Duct’s Valve driver documentation</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">
@@ -79,7 +94,7 @@
             
   <div class="section" id="how-does-aqua-duct-work">
 <h1>How does AQUA-DUCT work<a class="headerlink" href="#how-does-aqua-duct-work" title="Permalink to this headline">¶</a></h1>
-<p>AQUA-DUCT is a tool perfectly capable of tracing molecules that enter defined region of the macromolecule during MD simulation. Detailed statistics and visualization of all traced molecules are available. Moreover, AQUA-DUCT performs clusterization of exits/inlets data and groups identified paths according to this clusters - inlet-exit event grouping.</p>
+<p>AQUA-DUCT is a tool perfectly capable of tracing molecules that enter defined region of the macromolecule during MD simulation. Detailed statistics and visualization of all traced molecules are available. Moreover, AQUA-DUCT performs clustering of exits/inlets data and groups identified paths according to this clusters - inlet-exit event grouping.</p>
 <p>Following picture illustrates the concept behind AQUA-DUCT. Molecules which flow through the active site are traced. Incoming, outgoing, and active site parts of paths are detected and visualized accordingly. Traced molecules form clusters which allow for further detailed analysis of the flow.
 Optionally, AQ can trace molecules which does not flow through the active site. This can be useful to ilustrate overall flow and can be also used to derive relative number of molecules visiting the active site.</p>
 <div class="figure align-center">
@@ -90,7 +105,7 @@ Optionally, AQ can trace molecules which does not flow through the active site. 
 <li>Traceable residues</li>
 <li>Raw paths</li>
 <li>Separate paths</li>
-<li>Clusterization of inlets</li>
+<li>Clustering of inlets</li>
 <li>Analysis</li>
 <li>Visualization</li>
 </ol>
@@ -158,12 +173,12 @@ Each <em>object path</em> comprises of three parts:</p>
 <p>After the initial search of <em>Separate Path</em> objects it is possible to run special procedure, Auto Barber, which trims paths down to the approximated surface of the macromolecule or other molecular entity defined by the user.</p>
 <p>Separate paths can be optionally smoothed for visualization purposes. AQUA-DUCT implements several smoothing methods, including Savitzky-Golay filter.</p>
 </div>
-<div class="section" id="clusterization-of-inlets">
-<h2>Clusterization of inlets<a class="headerlink" href="#clusterization-of-inlets" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="clustering-of-inlets">
+<h2>Clustering of inlets<a class="headerlink" href="#clustering-of-inlets" title="Permalink to this headline">¶</a></h2>
 <p>Each of the separate paths has beginning and end. If they are at the boundaries of the <em>Scope</em> they are considered as <em>Inlets</em>, i.e. points that mark where the <em>traceable residues</em> enters or leaves the <em>Scope</em>. Clusters of inlets, on the other hand, mark endings of tunnels or ways in the system which was simulated in the MD.</p>
-<p>Clusterization of inlets is performed in following steps:</p>
+<p>Clustering of inlets is performed in following steps:</p>
 <ol class="arabic">
-<li><p class="first"><cite>Initial clusterization</cite>: All inlets are submitted to selected clusterization method and depending on the method and settings, some of the inlets might not be arranged to any cluster and are considered as outliers.</p>
+<li><p class="first"><cite>Initial clustering</cite>: All inlets are submitted to selected clustering method and depending on the method and settings, some of the inlets might not be arranged to any cluster and are considered as outliers.</p>
 </li>
 <li><p class="first">[Optional] <cite>Outliers detection</cite>: Arrangement of inlets to clusters is sometimes far from optimal. In this step, <em>inlets</em> that do not fit to cluster are detected and annotated as outliers. This step can be executed in two modes:</p>
 <blockquote>
@@ -173,10 +188,10 @@ Each <em>object path</em> comprises of three parts:</p>
 </ol>
 </div></blockquote>
 </li>
-<li><p class="first">[Optional] <cite>Reclusterization of outliers</cite>: It may happen that the outliers form actually clusters but it was not recognized in initial clusterization. In this step clusterization is executed for outliers only and found clusters are appended to the clusters identified in the first step. Rest of the inlets are marked as outliers.</p>
+<li><p class="first">[Optional] <cite>Reclustering of outliers</cite>: It may happen that the outliers form actually clusters but it was not recognized in initial clustering. In this step clustering is executed for outliers only and found clusters are appended to the clusters identified in the first step. Rest of the inlets are marked as outliers.</p>
 </li>
 </ol>
-<p>At the end of clusterization stage it is possible to run procedure for <cite>master path</cite> generation. First, separate paths are grouped according to clusters. Paths that begin and end in particular clusters are grouped together. Next, for each group a <cite>master path</cite> (i.e., average path) is generated.</p>
+<p>At the end of clustering stage it is possible to run procedure for <cite>master path</cite> generation. First, separate paths are grouped according to clusters. Paths that begin and end in particular clusters are grouped together. Next, for each group a <cite>master path</cite> (i.e., average path) is generated.</p>
 </div>
 <div class="section" id="analysis">
 <h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h2>
@@ -204,12 +219,18 @@ Molecule is loaded as PDB file. Other objects like Inlets clusters or paths are 
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.5.14 documentation</a> &#187;</li> 
+        <li class="right" >
+          <a href="valve/index.html" title="Aqua-Duct’s Valve driver documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Aqua-Duct’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
     </div>
   </body>
 </html>

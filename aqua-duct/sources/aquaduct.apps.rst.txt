@@ -1,13 +1,21 @@
 aquaduct.apps package
 =====================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    aquaduct.apps.valve
+    aquaduct.apps.valveconfig
+
 Submodules
 ----------
 
 .. toctree::
 
+   aquaduct.apps.chord
    aquaduct.apps.data
-   aquaduct.apps.valvecore
 
 Module contents
 ---------------
