@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Configuration file options &#8212; Aqua-Duct 1.0.0b1 documentation</title>
+    <title>Configuration file options &#8212; Aqua-Duct 1.0.0 documentation</title>
     <link rel="stylesheet" href="../static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="valve_manual.html" title="Valve manual"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Aqua-Duct’s Valve driver documentation</a> &#187;</li> 
       </ul>
     </div>
@@ -538,9 +538,9 @@ and added to the rest of paths as ‘passing’ paths.</td>
 <h2>Stage <strong>inlets_clustering</strong><a class="headerlink" href="#stage-inlets-clustering" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
-<col width="30%" />
-<col width="13%" />
-<col width="57%" />
+<col width="14%" />
+<col width="6%" />
+<col width="81%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Option</th>
@@ -631,6 +631,15 @@ further used as a reference point in calculations of clusters’
 areas and contours. If set <cite>cos</cite> center of system calculated as
 average center of the scope area is used. Alternatively it can
 be set to <cite>coo</cite>, then center of the object area is used.</td>
+</tr>
+<tr class="row-odd"><td>clustering_order</td>
+<td>old-school</td>
+<td><p class="first">Allow to change order of clustering steps.</p>
+<ul class="last simple">
+<li><strong>old-school</strong> order - clustering, reclustering, removing singletons, adding passing paths to clusters, join clusters, renumbering clusters, removing inlets in specified_clusters</li>
+<li><strong>aquarius</strong> order - clustering, joining clusters, renumbering clusters, outliers detection, reclustering, removing singletons, adding passing paths to clusters, removing inlets in specified_clusters</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1314,7 +1323,7 @@ it has to be an int number. In <code class="docutils literal notranslate"><span 
         <li class="right" >
           <a href="valve_manual.html" title="Valve manual"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.0b1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Aqua-Duct’s Valve driver documentation</a> &#187;</li> 
       </ul>
     </div>
