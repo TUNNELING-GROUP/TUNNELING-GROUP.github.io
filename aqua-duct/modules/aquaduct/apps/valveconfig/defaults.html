@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>aquaduct.apps.valveconfig.defaults &#8212; Aqua-Duct 1.0.0 documentation</title>
+    <title>aquaduct.apps.valveconfig.defaults &#8212; Aqua-Duct 1.0.2 documentation</title>
     <link rel="stylesheet" href="../../../../static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../../static/pygments.css" type="text/css" />
     
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 1.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../../../aquaduct.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="../valveconfig.html" accesskey="U">aquaduct.apps.valveconfig</a> &#187;</li> 
@@ -377,68 +377,7 @@
                                           <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                           <span class="n">info_text</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">))</span>
 
-<span class="n">inner_clustering_section</span> <span class="o">=</span> <span class="n">DefaultSection</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;clustering&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Clustering&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">abs_level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">additional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">inner_clustering_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
-                                                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Name: &quot;</span><span class="p">,</span>
-                                                <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;clustering&quot;</span><span class="p">],</span>
-                                                <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Used to refer other clustering method in </span><span class="se">\&quot;</span><span class="s2">Recursive clustering</span><span class="se">\&quot;</span><span class="s2"> option&quot;</span><span class="p">,</span>
-                                                <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-<span class="n">inner_clustering_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;method&quot;</span><span class="p">,</span>
-                                                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Method: &quot;</span><span class="p">,</span>
-                                                <span class="n">default_values</span><span class="o">=</span><span class="p">[</span>
-                                                    <span class="p">(</span><span class="s2">&quot;barber&quot;</span><span class="p">,</span> <span class="s2">&quot;dbscan&quot;</span><span class="p">,</span> <span class="s2">&quot;affprop&quot;</span><span class="p">,</span> <span class="s2">&quot;meanshift&quot;</span><span class="p">,</span> <span class="s2">&quot;birch&quot;</span><span class="p">,</span> <span class="s2">&quot;kmeans&quot;</span><span class="p">)],</span>
-                                                <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Name of clustering method. &quot;</span><span class="p">,</span>
-                                                <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-
-<span class="c1"># Barber options</span>
-<span class="n">inner_clustering_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;auto_barber&quot;</span><span class="p">,</span>
-                                                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Auto barber: &quot;</span><span class="p">,</span>
-                                                <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">()],</span>
-                                                <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;This option allows to select molecular entity used in Auto Barber procedure.&quot;</span><span class="p">,</span>
-                                                <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                                <span class="n">optionmenu_value</span><span class="o">=</span><span class="s2">&quot;barber&quot;</span><span class="p">))</span>
-
-<span class="c1"># Meanshift options</span>
-<span class="n">inner_clustering_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;bandwidth&quot;</span><span class="p">,</span>
-                                                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bandwidth: &quot;</span><span class="p">,</span>
-                                                <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Auto&quot;</span><span class="p">],</span>
-                                                <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Bandwidth used in the RBF kernel. If Auto or None automatic method for bandwidth estimation is used.&quot;</span><span class="p">,</span>
-                                                <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                                <span class="n">optionmenu_value</span><span class="o">=</span><span class="s2">&quot;meanshift&quot;</span><span class="p">))</span>
-
-<span class="c1"># Birch options</span>
-<span class="n">inner_clustering_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;n_clusters&quot;</span><span class="p">,</span>
-                                                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cluster number: &quot;</span><span class="p">,</span>
-                                                <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">()],</span>
-                                                <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Number of clusters after the final clustering step, which treats the subclusters from the leaves as new samples. By default, this final clustering step is not performed and the subclusters are returned as they are.&quot;</span><span class="p">,</span>
-                                                <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                                <span class="n">optionmenu_value</span><span class="o">=</span><span class="s2">&quot;birch&quot;</span><span class="p">))</span>
-
-<span class="c1"># Kmeans options</span>
-<span class="n">inner_clustering_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;n_clusters&quot;</span><span class="p">,</span>
-                                                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cluster number: &quot;</span><span class="p">,</span>
-                                                <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">()],</span>
-                                                <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;The number of clusters to form as well as the number of centroids to generate.&quot;</span><span class="p">,</span>
-                                                <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                                <span class="n">optionmenu_value</span><span class="o">=</span><span class="s2">&quot;kmeans&quot;</span><span class="p">))</span>
-
-<span class="n">clust_easy_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">inner_clustering_section</span><span class="p">)</span>
-
-<span class="n">clust_easy_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;join_clusters&quot;</span><span class="p">,</span>
-                                          <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Join clusters: &quot;</span><span class="p">,</span>
-                                          <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">()],</span>
-                                          <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;This option allows to join selected clusters. Clusters’ IDs joined with + character lists clusters to be joined together. Several such blocks separated by space can be used. For example, if set to 1+3+4 5+6 clusters 1, 3, and 4 will be joined in one cluster and cluster 5, and 6 will be also joined in another cluster.&quot;</span><span class="p">,</span>
-                                          <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                          <span class="n">group_label</span><span class="o">=</span><span class="s2">&quot;Post Clustering Optimization&quot;</span><span class="p">))</span>
-<span class="n">clust_easy_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;renumber_clusters&quot;</span><span class="p">,</span>
-                                          <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Renumber clusters: &quot;</span><span class="p">,</span>
-                                          <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span>
-                                          <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;If set True, clusters have consecutive numbers starting from 1 (or 0 if outliers are present) starting from the bigest cluster.&quot;</span><span class="p">,</span>
-                                          <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                          <span class="n">group_label</span><span class="o">=</span><span class="s2">&quot;Post Clustering Optimization&quot;</span><span class="p">))</span>
-
 <span class="n">DEFAULTS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clust_easy_section</span><span class="p">)</span>
-
 
 <span class="c1">###</span>
 <span class="c1"># Global, Common</span>
@@ -566,7 +505,7 @@
 <span class="n">tracking_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">separate_paths_nested</span><span class="p">)</span>
 
 <span class="n">tracking_analysis_nested_section</span> <span class="o">=</span> <span class="n">DefaultSection</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;analysis&quot;</span><span class="p">,</span>
-                                                  <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Calculate scope object size&quot;</span><span class="p">,</span>
+                                                  <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Calculate scope and object size&quot;</span><span class="p">,</span>
                                                   <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                                                   <span class="n">abs_level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                                                   <span class="n">additional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -710,7 +649,7 @@
                                               <span class="n">group_label</span><span class="o">=</span><span class="s2">&quot;Auto Barber&quot;</span><span class="p">))</span>
 <span class="n">separate_paths_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;auto_barber_maxcut&quot;</span><span class="p">,</span>
                                               <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Auto Barber maxcut: &quot;</span><span class="p">,</span>
-                                              <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="mf">2.8</span><span class="p">],</span>
+                                              <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="mf">1.2</span><span class="p">],</span>
                                               <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Maximal radius of spheres used in Auto Barber. If a sphere has radius greater then this value it is not used in AutoBarber procedure. This option can be switched off by setting it to None.&quot;</span><span class="p">,</span>
                                               <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                               <span class="n">group_label</span><span class="o">=</span><span class="s2">&quot;Auto Barber&quot;</span><span class="p">))</span>
@@ -789,7 +728,7 @@
                                                  <span class="n">info_text</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">))</span>
 <span class="n">inlets_clustering_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;create_master_paths&quot;</span><span class="p">,</span>
                                                  <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Create master paths: &quot;</span><span class="p">,</span>
-                                                 <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span>
+                                                 <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">],</span>
                                                  <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;If set to True master paths are created (fast CPU and big RAM recommended; 50k frames long simulation may need ca 20GB of memory)&quot;</span><span class="p">,</span>
                                                  <span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                                                  <span class="n">warning_text</span><span class="o">=</span><span class="s2">&quot;Required for energy profiles calculations and could be time-consuming&quot;</span><span class="p">))</span>
@@ -885,7 +824,7 @@
                                           <span class="n">optionmenu_value</span><span class="o">=</span><span class="s2">&quot;barber&quot;</span><span class="p">))</span>
 <span class="n">clustering_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;auto_barber_maxcut&quot;</span><span class="p">,</span>
                                           <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Auto Barber maxcut: &quot;</span><span class="p">,</span>
-                                          <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">()],</span>
+                                          <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="mf">2.8</span><span class="p">],</span>
                                           <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Maximal radius of spheres used in Auto Barber. If a sphere has radius greater than this value, it is not used to cut. This option can be switched off by setting it to None.&quot;</span><span class="p">,</span>
                                           <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                           <span class="n">optionmenu_value</span><span class="o">=</span><span class="s2">&quot;barber&quot;</span><span class="p">))</span>
@@ -1509,11 +1448,27 @@
 
 <span class="n">separate_paths_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">smooth_section</span><span class="p">)</span>
 
+<span class="c1"># Added rest of easy clustering section entries</span>
+<span class="n">clust_easy_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">clustering_section</span><span class="p">))</span>
+
+<span class="n">clust_easy_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;join_clusters&quot;</span><span class="p">,</span>
+                                          <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Join clusters: &quot;</span><span class="p">,</span>
+                                          <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">()],</span>
+                                          <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;This option allows to join selected clusters. Clusters’ IDs joined with + character lists clusters to be joined together. Several such blocks separated by space can be used. For example, if set to 1+3+4 5+6 clusters 1, 3, and 4 will be joined in one cluster and cluster 5, and 6 will be also joined in another cluster.&quot;</span><span class="p">,</span>
+                                          <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                          <span class="n">group_label</span><span class="o">=</span><span class="s2">&quot;Post Clustering Optimization&quot;</span><span class="p">))</span>
+<span class="n">clust_easy_section</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;renumber_clusters&quot;</span><span class="p">,</span>
+                                          <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Renumber clusters: &quot;</span><span class="p">,</span>
+                                          <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span>
+                                          <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;If set True, clusters have consecutive numbers starting from 1 (or 0 if outliers are present) starting from the bigest cluster.&quot;</span><span class="p">,</span>
+                                          <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                          <span class="n">group_label</span><span class="o">=</span><span class="s2">&quot;Post Clustering Optimization&quot;</span><span class="p">))</span>
+
 <span class="n">VALVE_DEFAULTS</span> <span class="o">=</span> <span class="n">DefaultSection</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">VALVE_DEFAULTS</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;-c&quot;</span><span class="p">,</span>
-                                      <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Config filename: &quot;</span><span class="p">,</span>
-                                      <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">()],</span>
-                                      <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Config file filename.&quot;</span><span class="p">,</span>
+                                      <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Config absolute file path: &quot;</span><span class="p">,</span>
+                                      <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="n">filetype</span><span class="p">()],</span>
+                                      <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Absolute path to config file.&quot;</span><span class="p">,</span>
                                       <span class="n">level</span><span class="o">=</span><span class="kc">None</span>
                                       <span class="p">))</span>
 <span class="n">VALVE_DEFAULTS</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;-t&quot;</span><span class="p">,</span>
@@ -1535,9 +1490,9 @@
                                       <span class="n">level</span><span class="o">=</span><span class="kc">None</span>
                                       <span class="p">))</span>
 <span class="n">VALVE_DEFAULTS</span><span class="o">.</span><span class="n">add_entry</span><span class="p">(</span><span class="n">DefaultEntry</span><span class="p">(</span><span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;--debug-file&quot;</span><span class="p">,</span>
-                                      <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Debug file: &quot;</span><span class="p">,</span>
-                                      <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">()],</span>
-                                      <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Debug log file.&quot;</span><span class="p">,</span>
+                                      <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Debug absolute file path: &quot;</span><span class="p">,</span>
+                                      <span class="n">default_values</span><span class="o">=</span><span class="p">[</span><span class="n">filetype</span><span class="p">()],</span>
+                                      <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Absolute path to debug file.&quot;</span><span class="p">,</span>
                                       <span class="n">level</span><span class="o">=</span><span class="kc">None</span>
                                       <span class="p">))</span>
 
@@ -1697,7 +1652,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 1.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../../../aquaduct.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="../valveconfig.html" >aquaduct.apps.valveconfig</a> &#187;</li> 

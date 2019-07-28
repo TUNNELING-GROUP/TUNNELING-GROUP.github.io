@@ -7,23 +7,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>aquaduct.geom.master module &#8212; Aqua-Duct 0.5.15 documentation</title>
-    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="_static/bizstyle.js"></script>
-    <link rel="shortcut icon" href="_static/ficon.ico"/>
+    <script type="text/javascript" src="static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="static/ficon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="aquaduct.geom.pca module" href="aquaduct.geom.pca.html" />
     <link rel="prev" title="aquaduct.geom.convexhull module" href="aquaduct.geom.convexhull.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -50,7 +50,7 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="index.html">
-              <img class="logo" src="_static/AQUADUCT_LOGO.png" alt="Logo"/>
+              <img class="logo" src="static/AQUADUCT_LOGO.png" alt="Logo"/>
             </a></p>
   <h4>Previous topic</h4>
   <p class="topless"><a href="aquaduct.geom.convexhull.html"
@@ -94,12 +94,12 @@
 
 <dl class="class">
 <dt id="aquaduct.geom.master.CTypeSpathsCollectionWorker">
-<em class="property">class </em><code class="descname">CTypeSpathsCollectionWorker</code><span class="sig-paren">(</span><em>spaths=None</em>, <em>ctype=None</em>, <em>bias_long=5</em>, <em>smooth=None</em>, <em>lock=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollectionWorker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollectionWorker" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">CTypeSpathsCollectionWorker</code><span class="sig-paren">(</span><em>spaths=None</em>, <em>ctype=None</em>, <em>bias_long=5</em>, <em>smooth=None</em>, <em>lock=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollectionWorker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollectionWorker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Worker class for averaging spaths in points of master path.</p>
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollectionWorker.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>spaths=None</em>, <em>ctype=None</em>, <em>bias_long=5</em>, <em>smooth=None</em>, <em>lock=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollectionWorker.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollectionWorker.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>spaths=None</em>, <em>ctype=None</em>, <em>bias_long=5</em>, <em>smooth=None</em>, <em>lock=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollectionWorker.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollectionWorker.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Core method for averaging spaths in to master path.</p>
 <p>Averaging is done in chunks.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -120,7 +120,7 @@
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollectionWorker.coords_types_prob_widths">
-<code class="descname">coords_types_prob_widths</code><span class="sig-paren">(</span><em>sp_slices_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollectionWorker.coords_types_prob_widths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollectionWorker.coords_types_prob_widths" title="Permalink to this definition">¶</a></dt>
+<code class="descname">coords_types_prob_widths</code><span class="sig-paren">(</span><em>sp_slices_</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollectionWorker.coords_types_prob_widths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollectionWorker.coords_types_prob_widths" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates average coordinates, type and width in given chunk.</p>
 <p>Parameter <code class="xref py py-attr docutils literal notranslate"><span class="pre">sp_slices_</span></code> is tuple of length equal to number of spaths. It contains slices for all spaths respectively. With these slices spaths are cut and <strong>only</strong> resulting chunks are used for calculations.</p>
 <p>Therefore, this method average spaths in one point of master math. This point is defined by slices submitted as <code class="xref py py-attr docutils literal notranslate"><span class="pre">sp_lices_</span></code> parameter.</p>
@@ -165,7 +165,7 @@
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollectionWorker.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>nr_sp_slices_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollectionWorker.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollectionWorker.__call__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>nr_sp_slices_</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollectionWorker.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollectionWorker.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Callable interface.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -181,7 +181,7 @@
 
 <dl class="class">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection">
-<em class="property">class </em><code class="descname">CTypeSpathsCollection</code><span class="sig-paren">(</span><em>spaths=None</em>, <em>ctype=None</em>, <em>bias_long=5</em>, <em>pbar=None</em>, <em>threads=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">CTypeSpathsCollection</code><span class="sig-paren">(</span><em>spaths=None</em>, <em>ctype=None</em>, <em>bias_long=5</em>, <em>pbar=None</em>, <em>threads=1</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Object for grouping separate paths that belong to the same CType.
 Method <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsCollection.get_master_path" title="aquaduct.geom.master.CTypeSpathsCollection.get_master_path"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_master_path()</span></code></a> allows for calculation of average path.</p>
@@ -193,7 +193,7 @@ Method <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsColl
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>spaths=None</em>, <em>ctype=None</em>, <em>bias_long=5</em>, <em>pbar=None</em>, <em>threads=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>spaths=None</em>, <em>ctype=None</em>, <em>bias_long=5</em>, <em>pbar=None</em>, <em>threads=1</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -213,19 +213,19 @@ Method <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsColl
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection.beat">
-<code class="descname">beat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection.beat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.beat" title="Permalink to this definition">¶</a></dt>
+<code class="descname">beat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection.beat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.beat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Touch progress bar, if any.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection.update">
-<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.update" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update progres bar by one, if any.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection.lens">
-<code class="descname">lens</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection.lens"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.lens" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lens</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection.lens"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.lens" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns total lengths of all paths.</p>
 <p>If ctype in #:# and not 0 and not None then take length of <cite>object</cite> part only.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -242,7 +242,7 @@ Method <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsColl
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection.lens_norm">
-<code class="descname">lens_norm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection.lens_norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.lens_norm" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lens_norm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection.lens_norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.lens_norm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns normalized lengths calculated by <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsCollection.lens" title="aquaduct.geom.master.CTypeSpathsCollection.lens"><code class="xref py py-meth docutils literal notranslate"><span class="pre">lens()</span></code></a>.</p>
 <p>Applied normalization is twofold:</p>
 <ol class="arabic simple">
@@ -263,7 +263,7 @@ Method <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsColl
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection.lens_real">
-<code class="descname">lens_real</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection.lens_real"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.lens_real" title="Permalink to this definition">¶</a></dt>
+<code class="descname">lens_real</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection.lens_real"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.lens_real" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns real lengths of all paths.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -279,7 +279,7 @@ Method <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsColl
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection.full_size">
-<code class="descname">full_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection.full_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.full_size" title="Permalink to this definition">¶</a></dt>
+<code class="descname">full_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection.full_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.full_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns desired size of master path.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -295,7 +295,7 @@ Method <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsColl
 
 <dl class="staticmethod">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection.simple_types_distribution">
-<em class="property">static </em><code class="descname">simple_types_distribution</code><span class="sig-paren">(</span><em>types</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection.simple_types_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.simple_types_distribution" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">simple_types_distribution</code><span class="sig-paren">(</span><em>types</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection.simple_types_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.simple_types_distribution" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates normalized sizes of incoming, object, and outgoing parts of spath using generic types.</p>
 <p>It is assumed that spath has object part.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -314,7 +314,7 @@ Method <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsColl
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection.types_distribution">
-<code class="descname">types_distribution</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection.types_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.types_distribution" title="Permalink to this definition">¶</a></dt>
+<code class="descname">types_distribution</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection.types_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.types_distribution" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -329,7 +329,7 @@ Method <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsColl
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection.types_prob_to_types">
-<code class="descname">types_prob_to_types</code><span class="sig-paren">(</span><em>types_prob</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection.types_prob_to_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.types_prob_to_types" title="Permalink to this definition">¶</a></dt>
+<code class="descname">types_prob_to_types</code><span class="sig-paren">(</span><em>types_prob</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection.types_prob_to_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.types_prob_to_types" title="Permalink to this definition">¶</a></dt>
 <dd><p>Changes types probabilities as returned by <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsCollectionWorker.coords_types_prob_widths" title="aquaduct.geom.master.CTypeSpathsCollectionWorker.coords_types_prob_widths"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CTypeSpathsCollectionWorker.coords_types_prob_widths()</span></code></a> to types.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -347,7 +347,7 @@ Method <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsColl
 
 <dl class="method">
 <dt id="aquaduct.geom.master.CTypeSpathsCollection.get_master_path">
-<code class="descname">get_master_path</code><span class="sig-paren">(</span><em>smooth=None</em>, <em>resid=(0</em>, <em>0)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#CTypeSpathsCollection.get_master_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.get_master_path" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_master_path</code><span class="sig-paren">(</span><em>smooth=None</em>, <em>resid=(0</em>, <em>0)</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#CTypeSpathsCollection.get_master_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.CTypeSpathsCollection.get_master_path" title="Permalink to this definition">¶</a></dt>
 <dd><p id="master-path-generation">Averages spaths into one master path.</p>
 <p>This is done in steps:</p>
 <ol class="arabic simple">
@@ -380,22 +380,22 @@ Method <a class="reference internal" href="#aquaduct.geom.master.CTypeSpathsColl
 
 <dl class="class">
 <dt id="aquaduct.geom.master.FakeSingleResidueSelection">
-<em class="property">class </em><code class="descname">FakeSingleResidueSelection</code><span class="sig-paren">(</span><em>resid</em>, <em>frames</em>, <em>coords</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#FakeSingleResidueSelection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.FakeSingleResidueSelection" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">FakeSingleResidueSelection</code><span class="sig-paren">(</span><em>resid</em>, <em>frames</em>, <em>coords</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#FakeSingleResidueSelection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.FakeSingleResidueSelection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="aquaduct.traj.sandwich.html#aquaduct.traj.sandwich.SingleResidueSelection" title="aquaduct.traj.sandwich.SingleResidueSelection"><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.traj.sandwich.SingleResidueSelection</span></code></a></p>
 <dl class="method">
 <dt id="aquaduct.geom.master.FakeSingleResidueSelection.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>resid</em>, <em>frames</em>, <em>coords</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#FakeSingleResidueSelection.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.FakeSingleResidueSelection.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>resid</em>, <em>frames</em>, <em>coords</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#FakeSingleResidueSelection.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.FakeSingleResidueSelection.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="aquaduct.geom.master.FakeSingleResidueSelection.coords">
-<code class="descname">coords</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#FakeSingleResidueSelection.coords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.FakeSingleResidueSelection.coords" title="Permalink to this definition">¶</a></dt>
+<code class="descname">coords</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#FakeSingleResidueSelection.coords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.FakeSingleResidueSelection.coords" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="aquaduct.geom.master.FakeSingleResidueSelection.coords_smooth">
-<code class="descname">coords_smooth</code><span class="sig-paren">(</span><em>sranges</em>, <em>smooth</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/master.html#FakeSingleResidueSelection.coords_smooth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.FakeSingleResidueSelection.coords_smooth" title="Permalink to this definition">¶</a></dt>
+<code class="descname">coords_smooth</code><span class="sig-paren">(</span><em>sranges</em>, <em>smooth</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/geom/master.html#FakeSingleResidueSelection.coords_smooth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.master.FakeSingleResidueSelection.coords_smooth" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

@@ -29,10 +29,10 @@ It should display following information::
                    [--temperature TEMP] [--gsize GRID_SIZE] [--pockets]
                    [--hotspots] [--energy-profile] [--master]
                    [--master-radius MASTER_RADIUS] [--master-ctypes MASTER_CTYPES]
-                   [--io-threshold IO_THRESHOLD] [--hs-threshold HS_THRESHOLD]
-                   [--path-id PATH_ID] [--path-file PATH_FILE]
-                   [--path-radius PATH_RADIUS] [--path-smooth] [--raw-path]
-                   [--extract-path EXTRACT_PATH] [--output-file OUTPUT_FILE]
+                   [--io-threshold IO_THRESHOLD] [--path-id PATH_ID]
+                   [--path-file PATH_FILE] [--path-radius PATH_RADIUS]
+                   [--path-smooth] [--raw-path] [--extract-path EXTRACT_PATH]
+                   [--output-file OUTPUT_FILE]
     
     What have I got in my pocket?
     
@@ -85,10 +85,6 @@ It should display following information::
                             Percent value of maximal density which will be used to
                             partition pocket into inner and outer instead of mean
                             value. (default: None)
-      --hs-threshold HS_THRESHOLD
-                            Percent value of highest hotspot density below which
-                            hotspots with lower density will be skipped. (default:
-                            0.0)
       --path-id PATH_ID     Calculate profiles for specified path ID. (default:
                             None)
       --path-file PATH_FILE

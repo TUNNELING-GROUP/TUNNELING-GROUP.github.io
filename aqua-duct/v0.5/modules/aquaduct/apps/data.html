@@ -1,0 +1,470 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>aquaduct.apps.data &#8212; Aqua-Duct 0.5.15 documentation</title>
+    <link rel="stylesheet" href="../../../static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../../../static/ficon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 0.5.15 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../aquaduct.html" accesskey="U">aquaduct</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../static/AQUADUCT_LOGO.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for aquaduct.apps.data</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># Aqua-Duct, a tool facilitating analysis of the flow of solvent molecules in molecular dynamic simulations</span>
+<span class="c1"># Copyright (C) 2017  Tomasz Magdziarz &lt;info@aquaduct.pl&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">cPickle</span> <span class="k">as</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">importlib</span> <span class="k">import</span> <span class="n">import_module</span>
+
+<span class="kn">from</span> <span class="nn">netCDF4</span> <span class="k">import</span> <span class="n">Dataset</span>
+
+<span class="kn">from</span> <span class="nn">aquaduct</span> <span class="k">import</span> <span class="n">version</span><span class="p">,</span> <span class="n">version_nice</span><span class="p">,</span> <span class="n">logger</span>
+<span class="c1">#from aquaduct.traj.selections import CompactSelectionMDA, SelectionMDA</span>
+<span class="kn">from</span> <span class="nn">aquaduct.utils</span> <span class="k">import</span> <span class="n">clui</span>
+
+<div class="viewcode-block" id="GlobalConfigStore"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.GlobalConfigStore">[docs]</a><span class="k">class</span> <span class="nc">GlobalConfigStore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">cachedir</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">cachemem</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<span class="n">GCS</span> <span class="o">=</span> <span class="n">GlobalConfigStore</span><span class="p">()</span>
+
+<div class="viewcode-block" id="CoordsRangeIndexCache"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.CoordsRangeIndexCache">[docs]</a><span class="k">class</span> <span class="nc">CoordsRangeIndexCache</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+<span class="n">CRIC</span> <span class="o">=</span> <span class="n">CoordsRangeIndexCache</span><span class="p">()</span>
+
+<span class="c1">################################################################################</span>
+<span class="c1"># CIRC save in cache dir</span>
+
+<div class="viewcode-block" id="get_cric_reader"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.get_cric_reader">[docs]</a><span class="k">def</span> <span class="nf">get_cric_reader</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">GCS</span><span class="o">.</span><span class="n">cachedir</span><span class="p">:</span>
+        <span class="n">data_file_name</span> <span class="o">=</span> <span class="n">GCS</span><span class="o">.</span><span class="n">cachedir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s1">&#39;cric.dump&#39;</span>
+        <span class="k">if</span> <span class="n">mode</span><span class="o">==</span><span class="s1">&#39;r&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_file_name</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">mode</span><span class="o">==</span><span class="s1">&#39;w&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">GCS</span><span class="o">.</span><span class="n">cachedir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">GCS</span><span class="o">.</span><span class="n">cachedir</span><span class="p">)</span>
+        <span class="n">vda</span> <span class="o">=</span> <span class="n">get_vda_reader</span><span class="p">(</span><span class="n">data_file_name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Preparing CRIC store with file </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">data_file_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vda</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span><span class="n">data_file_name</span><span class="o">=</span><span class="n">data_file_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="save_cric"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.save_cric">[docs]</a><span class="k">def</span> <span class="nf">save_cric</span><span class="p">():</span>
+    <span class="n">vda</span> <span class="o">=</span> <span class="n">get_cric_reader</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">vda</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Saving CRIC data.&quot;</span><span class="p">)</span>
+        <span class="n">vda</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;CRIC&quot;</span><span class="p">:</span><span class="n">CRIC</span><span class="o">.</span><span class="n">cache</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="load_cric"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.load_cric">[docs]</a><span class="k">def</span> <span class="nf">load_cric</span><span class="p">():</span>
+    <span class="n">vda</span> <span class="o">=</span> <span class="n">get_cric_reader</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">vda</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loading CRIC data.&quot;</span><span class="p">)</span>
+        <span class="n">CRIC</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">vda</span><span class="o">.</span><span class="n">load</span><span class="p">()[</span><span class="s1">&#39;CRIC&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">CRIC</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+<span class="c1">################################################################################</span>
+<span class="c1"># Version checking</span>
+
+<div class="viewcode-block" id="check_version_compliance"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.check_version_compliance">[docs]</a><span class="k">def</span> <span class="nf">check_version_compliance</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">loaded</span><span class="p">,</span> <span class="n">what</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Loaded data has </span><span class="si">%s</span><span class="s1"> major version lower then the application.&#39;</span> <span class="o">%</span> <span class="n">what</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Loaded data has </span><span class="si">%s</span><span class="s1"> major version higher then the application.&#39;</span> <span class="o">%</span> <span class="n">what</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Possible problems with API compliance.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Loaded data has </span><span class="si">%s</span><span class="s1"> minor version lower then the application.&#39;</span> <span class="o">%</span> <span class="n">what</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Loaded data has </span><span class="si">%s</span><span class="s1"> minor version higher then the application.&#39;</span> <span class="o">%</span> <span class="n">what</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Possible problems with API compliance.&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_versions"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.check_versions">[docs]</a><span class="k">def</span> <span class="nf">check_versions</span><span class="p">(</span><span class="n">version_dict</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">version_dict</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">)),</span> <span class="s2">&quot;File is corrupted, cannot read version data.&quot;</span>
+    <span class="k">assert</span> <span class="s1">&#39;version&#39;</span> <span class="ow">in</span> <span class="n">version_dict</span><span class="p">,</span> <span class="s2">&quot;File is corrupted, cannot read version data.&quot;</span>
+    <span class="k">assert</span> <span class="s1">&#39;aquaduct_version&#39;</span> <span class="ow">in</span> <span class="n">version_dict</span><span class="p">,</span> <span class="s2">&quot;File is corrupted, cannot read version data.&quot;</span>
+    <span class="n">check_version_compliance</span><span class="p">(</span><span class="n">version</span><span class="p">(),</span> <span class="n">version_dict</span><span class="p">[</span><span class="s1">&#39;aquaduct_version&#39;</span><span class="p">],</span> <span class="s1">&#39;Aqua-Duct&#39;</span><span class="p">)</span>
+    <span class="n">check_version_compliance</span><span class="p">(</span><span class="n">version</span><span class="p">(),</span> <span class="n">version_dict</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">],</span> <span class="s1">&#39;Valve&#39;</span><span class="p">)</span></div>
+
+
+<span class="c1">################################################################################</span>
+<span class="c1"># Pickle compatibility with earlier versions</span>
+
+<div class="viewcode-block" id="LoadDumpWrapper"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.LoadDumpWrapper">[docs]</a><span class="k">class</span> <span class="nc">LoadDumpWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This is wrapper for pickled data that provides compatibility</span>
+<span class="sd">    with earlier versions of Aqua-Duct.</span>
+
+<span class="sd">    Conversions in use:</span>
+
+<span class="sd">    1) replace &#39;aquaduct.&#39; by &#39;aquaduct.&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LoadDumpWrapper.__init__"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.LoadDumpWrapper.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filehandle</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fh</span> <span class="o">=</span> <span class="n">filehandle</span></div>
+
+<div class="viewcode-block" id="LoadDumpWrapper.convert"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.LoadDumpWrapper.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="n">new_s</span> <span class="o">=</span> <span class="n">s</span>
+        <span class="n">new_s</span> <span class="o">=</span> <span class="n">new_s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;aqueduct.&#39;</span><span class="p">,</span> <span class="s1">&#39;aquaduct.&#39;</span><span class="p">)</span>
+        <span class="n">new_s</span> <span class="o">=</span> <span class="n">new_s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;aqueduct_version&#39;</span><span class="p">,</span> <span class="s1">&#39;aquaduct_version&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_s</span></div>
+
+<div class="viewcode-block" id="LoadDumpWrapper.read"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.LoadDumpWrapper.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="LoadDumpWrapper.readline"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.LoadDumpWrapper.readline">[docs]</a>    <span class="k">def</span> <span class="nf">readline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">readline</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div></div>
+
+<span class="c1">################################################################################</span>
+<span class="c1"># VDA reader</span>
+
+<div class="viewcode-block" id="get_vda_reader"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.get_vda_reader">[docs]</a><span class="k">def</span> <span class="nf">get_vda_reader</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;.dump&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">ValveDataAccess_pickle</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;.nc&#39;</span><span class="p">,</span><span class="s1">&#39;.aqnc&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">ValveDataAccess_nc</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown file type of </span><span class="si">%s</span><span class="s1"> file&#39;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span></div>
+
+<span class="c1">################################################################################</span>
+<span class="c1"># Data Access interface</span>
+
+<div class="viewcode-block" id="ValveDataAccess"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccess">[docs]</a><span class="k">class</span> <span class="nc">ValveDataAccess</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Opening file </span><span class="si">%s</span><span class="s1"> in mode </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">data_file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_file_name</span> <span class="o">=</span> <span class="n">data_file_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="n">mode</span> <span class="ow">in</span> <span class="s1">&#39;rw&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>  <span class="c1"># r, w</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span> <span class="o">=</span> <span class="n">reader</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+
+<span class="c1">################################################################################</span>
+<span class="c1"># Pickle way</span>
+
+<div class="viewcode-block" id="ValveDataAccess_pickle"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccess_pickle">[docs]</a><span class="k">class</span> <span class="nc">ValveDataAccess_pickle</span><span class="p">(</span><span class="n">ValveDataAccess</span><span class="p">):</span>
+    <span class="n">mimic_old_var_name</span> <span class="o">=</span> <span class="s1">&#39;aq_data_to_save&#39;</span>
+    <span class="n">unknown_names</span> <span class="o">=</span> <span class="s1">&#39;UNK&#39;</span>
+
+<div class="viewcode-block" id="ValveDataAccess_pickle.open"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccess_pickle.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="c1"># open file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">data_file_name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">compresslevel</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+        <span class="c1"># if mode is w save header with version etc</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;w&#39;</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">version</span><span class="p">(),</span>
+                         <span class="s1">&#39;aquaduct_version&#39;</span><span class="p">:</span> <span class="n">version</span><span class="p">()},</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
+            <span class="n">data_file</span> <span class="o">=</span> <span class="n">LoadDumpWrapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="p">)</span>
+            <span class="n">versions</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
+            <span class="n">check_versions</span><span class="p">(</span><span class="n">versions</span><span class="p">)</span>
+            <span class="c1"># loaded data!</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">loaded_data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">loaded_data</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ValveDataAccess_pickle.close"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccess_pickle.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ValveDataAccess_pickle.load"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccess_pickle.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># this is to mimic v0.3 behaviour</span>
+        <span class="k">for</span> <span class="n">_name</span><span class="p">,</span> <span class="n">_value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">_name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">mimic_old_var_name</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">_value</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                    if isinstance(value, CompactSelectionMDA):</span>
+<span class="sd">                        value = value.toSelectionMDA(self.reader)</span>
+<span class="sd">                        # with self.reader.get() as traj_reader:</span>
+<span class="sd">                        #    value = value.toSelectionMDA(traj_reader)</span>
+<span class="sd">                    &#39;&#39;&#39;</span>
+                    <span class="c1"># TODO: following is to overcome problems with missing names when data is &lt;0.4</span>
+                    <span class="c1">################################################################################</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;paths&#39;</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">path_name</span><span class="p">,</span><span class="n">path</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">):</span>
+                                <span class="n">path</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_names</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;spaths&#39;</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">spath</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">spath</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">):</span>
+                                <span class="n">spath</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_names</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;inls&#39;</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="s1">&#39;spheres&#39;</span><span class="p">):</span>
+                            <span class="n">value</span><span class="o">.</span><span class="n">spheres</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="s1">&#39;refs&#39;</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">refs</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
+                                    <span class="n">r</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_names</span>
+                    <span class="c1">################################################################################</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                    if isinstance(value, CompactSelectionMDA):</span>
+<span class="sd">                        value = value.toSelectionMDA(self.reader)</span>
+<span class="sd">                        # with self.reader.get() as traj_reader:</span>
+<span class="sd">                        #    value = value.toSelectionMDA(traj_reader)</span>
+<span class="sd">                    &#39;&#39;&#39;</span>
+                    <span class="c1"># TODO: following is to overcome problems with missing names when data is &lt;0.4</span>
+                    <span class="c1">################################################################################</span>
+                    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                    if name == &#39;paths&#39;:</span>
+<span class="sd">                        for path_name,path in value.iteritems():</span>
+<span class="sd">                            if not hasattr(path,&#39;name&#39;):</span>
+<span class="sd">                                path.name = self.unknown_names</span>
+<span class="sd">                    if name == &#39;spaths&#39;:</span>
+<span class="sd">                        for spath in value:</span>
+<span class="sd">                            if not hasattr(spath.id,&#39;name&#39;):</span>
+<span class="sd">                                spath.id.name = self.unknown_names</span>
+<span class="sd">                    if name == &#39;inls&#39;:</span>
+<span class="sd">                        if not hasattr(value,&#39;spheres&#39;):</span>
+<span class="sd">                            value.spheres = []</span>
+<span class="sd">                        if hasattr(value,&#39;refs&#39;):</span>
+<span class="sd">                            for r in value.refs:</span>
+<span class="sd">                                if not hasattr(r, &#39;name&#39;):</span>
+<span class="sd">                                    r.name = self.unknown_names</span>
+<span class="sd">                    &#39;&#39;&#39;</span>
+                    <span class="c1">################################################################################</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="ValveDataAccess_pickle.dump"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccess_pickle.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ValveDataAccess_pickle.get_variable"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccess_pickle.get_variable">[docs]</a>    <span class="k">def</span> <span class="nf">get_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;r&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+
+        <span class="k">return</span> <span class="n">value</span></div>
+
+<div class="viewcode-block" id="ValveDataAccess_pickle.set_variable"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccess_pickle.set_variable">[docs]</a>    <span class="k">def</span> <span class="nf">set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;w&quot;</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        if isinstance(value, SelectionMDA):</span>
+<span class="sd">            value = CompactSelectionMDA(value)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># options are passed as dictionaries already</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        if &#39;options&#39; in name:</span>
+<span class="sd">            value = value._asdict()</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="kc">False</span><span class="p">:</span> <span class="c1">#hasattr(value,&#39;simple_dump&#39;):</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">simple_dump</span><span class="p">()},</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">value</span><span class="p">},</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="p">)</span></div></div>
+
+
+<span class="c1">################################################################################</span>
+<span class="c1"># NetCDF helpers</span>
+
+<div class="viewcode-block" id="ValveDataAccessRoots"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccessRoots">[docs]</a><span class="k">class</span> <span class="nc">ValveDataAccessRoots</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="ValveDataAccessRoots.open"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccessRoots.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">roots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;NETCDF4&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">roots</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ValveDataAccessRoots.close_all"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccessRoots.close_all">[docs]</a>    <span class="k">def</span> <span class="nf">close_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">roots</span><span class="p">:</span>
+            <span class="n">root</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ValveDataAccessRoots.__del__"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccessRoots.__del__">[docs]</a>    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close_all</span><span class="p">()</span></div></div>
+
+
+<span class="n">VDAR</span> <span class="o">=</span> <span class="n">ValveDataAccessRoots</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="get_object_name"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.get_object_name">[docs]</a><span class="k">def</span> <span class="nf">get_object_name</span><span class="p">(</span><span class="n">something</span><span class="p">):</span>
+    <span class="n">name_</span> <span class="o">=</span> <span class="n">something</span><span class="o">.</span><span class="n">__module__</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">):</span>
+        <span class="n">name_</span> <span class="o">+=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">something</span><span class="o">.</span><span class="n">__name__</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="s1">&#39;__class__&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">something</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">):</span>
+            <span class="n">name_</span> <span class="o">+=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">something</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+    <span class="k">return</span> <span class="n">name_</span></div>
+
+
+<div class="viewcode-block" id="get_object_from_name"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.get_object_from_name">[docs]</a><span class="k">def</span> <span class="nf">get_object_from_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">module_name</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">object_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">object_name</span><span class="p">)</span></div>
+
+
+<span class="c1">################################################################################</span>
+<span class="c1"># 2array2 objects&#39; decoders</span>
+
+<div class="viewcode-block" id="IdsOverIds"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.IdsOverIds">[docs]</a><span class="k">class</span> <span class="nc">IdsOverIds</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># use it for netcdf</span>
+<div class="viewcode-block" id="IdsOverIds.dict2arrays"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.IdsOverIds.dict2arrays">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">dict2arrays</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">keys_lens</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">keys_lens</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
+            <span class="n">values</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;values&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="s1">&#39;keys_lens&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">keys_lens</span><span class="p">)}</span></div>
+
+<div class="viewcode-block" id="IdsOverIds.arrays2dict"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.IdsOverIds.arrays2dict">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">arrays2dict</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keys_lens</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">ll</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">kl</span> <span class="ow">in</span> <span class="n">keys_lens</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">kl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">kl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">ll</span><span class="p">:</span><span class="n">ll</span> <span class="o">+</span> <span class="n">l</span><span class="p">]</span>
+            <span class="n">ll</span> <span class="o">+=</span> <span class="n">l</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">v</span><span class="o">.</span><span class="n">tolist</span><span class="p">()})</span>
+        <span class="k">return</span> <span class="n">out</span></div></div>
+
+
+<span class="c1">################################################################################</span>
+<span class="c1"># NetCDF way</span>
+
+
+<div class="viewcode-block" id="ValveDataAccess_nc"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccess_nc">[docs]</a><span class="k">class</span> <span class="nc">ValveDataAccess_nc</span><span class="p">(</span><span class="n">ValveDataAccess</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ValveDataAccess_nc.__init__"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccess_nc.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ValveDataAccess_nc</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="ValveDataAccess_nc.open"><a class="viewcode-back" href="../../../aquaduct.apps.data.html#aquaduct.apps.data.ValveDataAccess_nc.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">VDAR</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">data_file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Dataset created&#39;</span><span class="p">)</span></div></div>
+
+
+
+<span class="c1">################################################################################</span>
+<span class="c1"># default way</span>
+
+<span class="n">ValveDataAccess</span> <span class="o">=</span> <span class="n">ValveDataAccess_pickle</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 0.5.15 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../aquaduct.html" >aquaduct</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, 2017, 2018 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>
