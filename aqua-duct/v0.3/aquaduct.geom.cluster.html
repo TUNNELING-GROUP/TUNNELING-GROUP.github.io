@@ -1,0 +1,189 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>aquaduct.geom.cluster module &#8212; Aqua-Duct 0.3.7 documentation</title>
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="_static/ficon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="aquaduct.geom.convexhull module" href="aquaduct.geom.convexhull.html" />
+    <link rel="prev" title="aquaduct.geom package" href="aquaduct.geom.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="aquaduct.geom.convexhull.html" title="aquaduct.geom.convexhull module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aquaduct.geom.html" title="aquaduct.geom package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.3.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="aquaduct.geom.html" accesskey="U">aquaduct.geom package</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/AQUADUCT_LOGO.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aquaduct.geom.html"
+                        title="previous chapter">aquaduct.geom package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aquaduct.geom.convexhull.html"
+                        title="next chapter">aquaduct.geom.convexhull module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-aquaduct.geom.cluster">
+<span id="aquaduct-geom-cluster-module"></span><h1>aquaduct.geom.cluster module<a class="headerlink" href="#module-aquaduct.geom.cluster" title="Permalink to this headline">¶</a></h1>
+<p>This module provides functions for clusterization.
+Clusterization is done by <code class="xref py py-mod docutils literal notranslate"><span class="pre">scikit-learn</span></code> module.</p>
+<dl class="function">
+<dt id="aquaduct.geom.cluster.get_required_params">
+<code class="descname">get_required_params</code><span class="sig-paren">(</span><em>method</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#get_required_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.get_required_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="aquaduct.geom.cluster.BarberClusterResult">
+<em class="property">class </em><code class="descname">BarberClusterResult</code><span class="sig-paren">(</span><em>labels_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#BarberClusterResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.BarberClusterResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="aquaduct.geom.cluster.BarberClusterResult.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>labels_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#BarberClusterResult.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.BarberClusterResult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="aquaduct.geom.cluster.BarberCluster">
+<em class="property">class </em><code class="descname">BarberCluster</code><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#BarberCluster"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.BarberCluster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="aquaduct.geom.cluster.BarberCluster.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>coords</em>, <em>radii=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#BarberCluster.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.BarberCluster.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.geom.cluster.MeanShiftBandwidth">
+<code class="descname">MeanShiftBandwidth</code><span class="sig-paren">(</span><em>X</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#MeanShiftBandwidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.MeanShiftBandwidth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="aquaduct.geom.cluster.PerformClustering">
+<em class="property">class </em><code class="descname">PerformClustering</code><span class="sig-paren">(</span><em>method</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#PerformClustering"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.PerformClustering" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="aquaduct.geom.cluster.PerformClustering.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>method</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#PerformClustering.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.PerformClustering.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.cluster.PerformClustering.__str__">
+<code class="descname">__str__</code><span class="sig-paren">(</span><em>) &lt;==&gt; str(x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#PerformClustering.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.PerformClustering.__str__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.cluster.PerformClustering.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>...) &lt;==&gt; x(...</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#PerformClustering.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.PerformClustering.__call__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.cluster.PerformClustering._get_noclusters">
+<code class="descname">_get_noclusters</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#PerformClustering._get_noclusters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.PerformClustering._get_noclusters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.cluster.PerformClustering.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>coords</em>, <em>radii=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#PerformClustering.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.PerformClustering.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.geom.cluster.PerformClustering.centers">
+<code class="descname">centers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/geom/cluster.html#PerformClustering.centers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.geom.cluster.PerformClustering.centers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="aquaduct.geom.convexhull.html" title="aquaduct.geom.convexhull module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aquaduct.geom.html" title="aquaduct.geom package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 0.3.7 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="aquaduct.geom.html" >aquaduct.geom package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, 2017, Tomasz Magdziarz, Karolina Mitusińska, Sandra Gołdowska, Alicja Płuciennik, Michał Stolarczyk, Magdalena Ługowska, Artur Góra.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>
