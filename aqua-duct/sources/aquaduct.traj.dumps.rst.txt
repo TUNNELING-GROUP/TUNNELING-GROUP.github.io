@@ -3,4 +3,5 @@ aquaduct.traj.dumps module
 
 .. automodule:: aquaduct.traj.dumps
     :members:
+    :undoc-members:
     :show-inheritance:

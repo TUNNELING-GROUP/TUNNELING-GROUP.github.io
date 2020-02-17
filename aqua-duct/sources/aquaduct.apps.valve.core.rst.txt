@@ -3,4 +3,5 @@ aquaduct.apps.valve.core module
 
 .. automodule:: aquaduct.apps.valve.core
     :members:
+    :undoc-members:
     :show-inheritance:

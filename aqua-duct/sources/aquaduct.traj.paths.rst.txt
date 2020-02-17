@@ -3,4 +3,5 @@ aquaduct.traj.paths module
 
 .. automodule:: aquaduct.traj.paths
     :members:
+    :undoc-members:
     :show-inheritance:

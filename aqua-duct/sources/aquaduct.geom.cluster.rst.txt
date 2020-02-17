@@ -3,4 +3,5 @@ aquaduct.geom.cluster module
 
 .. automodule:: aquaduct.geom.cluster
     :members:
+    :undoc-members:
     :show-inheritance:

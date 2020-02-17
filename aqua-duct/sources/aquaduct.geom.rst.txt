@@ -22,4 +22,5 @@ Module contents
 
 .. automodule:: aquaduct.geom
     :members:
+    :undoc-members:
     :show-inheritance:

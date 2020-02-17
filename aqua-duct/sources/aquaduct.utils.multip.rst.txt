@@ -3,4 +3,5 @@ aquaduct.utils.multip module
 
 .. automodule:: aquaduct.utils.multip
     :members:
+    :undoc-members:
     :show-inheritance:

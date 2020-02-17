@@ -3,4 +3,5 @@ aquaduct.geom.master module
 
 .. automodule:: aquaduct.geom.master
     :members:
+    :undoc-members:
     :show-inheritance:

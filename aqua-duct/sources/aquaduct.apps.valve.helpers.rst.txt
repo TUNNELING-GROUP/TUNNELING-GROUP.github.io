@@ -3,4 +3,5 @@ aquaduct.apps.valve.helpers module
 
 .. automodule:: aquaduct.apps.valve.helpers
     :members:
+    :undoc-members:
     :show-inheritance:

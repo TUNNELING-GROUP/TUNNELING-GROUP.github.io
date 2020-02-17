@@ -22,4 +22,5 @@ Module contents
 
 .. automodule:: aquaduct.apps
     :members:
+    :undoc-members:
     :show-inheritance:

@@ -3,4 +3,5 @@ aquaduct.geom.pca module
 
 .. automodule:: aquaduct.geom.pca
     :members:
+    :undoc-members:
     :show-inheritance:
