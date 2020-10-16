@@ -2,6 +2,5 @@ aquaduct.geom.hdr module
 ========================
 
 .. automodule:: aquaduct.geom.hdr
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

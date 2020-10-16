@@ -2,6 +2,5 @@ aquaduct.geom.convexhull module
 ===============================
 
 .. automodule:: aquaduct.geom.convexhull
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

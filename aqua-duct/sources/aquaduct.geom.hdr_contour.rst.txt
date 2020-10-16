@@ -2,6 +2,5 @@ aquaduct.geom.hdr\_contour module
 =================================
 
 .. automodule:: aquaduct.geom.hdr_contour
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

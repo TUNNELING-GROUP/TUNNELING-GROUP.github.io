@@ -2,6 +2,5 @@ aquaduct.geom.smooth module
 ===========================
 
 .. automodule:: aquaduct.geom.smooth
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

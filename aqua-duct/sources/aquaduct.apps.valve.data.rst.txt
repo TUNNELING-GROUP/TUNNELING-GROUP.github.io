@@ -2,6 +2,5 @@ aquaduct.apps.valve.data module
 ===============================
 
 .. automodule:: aquaduct.apps.valve.data
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

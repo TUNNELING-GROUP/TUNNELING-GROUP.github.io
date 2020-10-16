@@ -2,27 +2,27 @@
 
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>aquaduct.apps.valveconfig.utils &#8212; Aqua-Duct 1.0.5 documentation</title>
-    <link rel="stylesheet" href="../../../../static/bizstyle.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../static/pygments.css" type="text/css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>aquaduct.apps.valveconfig.utils &#8212; Aqua-Duct 1.0.10 documentation</title>
+    <link rel="stylesheet" href="../../../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../../static/jquery.js"></script>
-    <script type="text/javascript" src="../../../../static/underscore.js"></script>
-    <script type="text/javascript" src="../../../../static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="../../../../static/bizstyle.js"></script>
-    <link rel="shortcut icon" href="../../../../static/ficon.ico"/>
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../../../../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/ficon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
+    <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -34,31 +34,12 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../../aquaduct.html" >aquaduct</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../valveconfig.html" accesskey="U">aquaduct.apps.valveconfig</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../../../aquaduct.html" accesskey="U">aquaduct</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">aquaduct.apps.valveconfig.utils</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../../../../index.html">
-              <img class="logo" src="../../../../static/AQUADUCT_LOGO.png" alt="Logo"/>
-            </a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -84,12 +65,12 @@
 <span class="c1"># You should have received a copy of the GNU General Public License</span>
 <span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
 
-<span class="kn">import</span> <span class="nn">Tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
+<span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">ttk</span>
-<span class="kn">from</span> <span class="nn">tkFileDialog</span> <span class="k">import</span> <span class="n">askopenfile</span><span class="p">,</span> <span class="n">askdirectory</span>
+<span class="kn">import</span> <span class="nn">tkinter.ttk</span>
+<span class="kn">from</span> <span class="nn">tkinter.filedialog</span> <span class="k">import</span> <span class="n">askopenfile</span><span class="p">,</span> <span class="n">askdirectory</span>
 
-<span class="kn">import</span> <span class="nn">defaults</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">defaults</span>
 <span class="kn">from</span> <span class="nn">aquaduct.apps.valveconfig</span> <span class="k">import</span> <span class="n">get_img</span>
 
 
@@ -102,10 +83,10 @@
 <span class="sd">    :rtype: str</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">widget</span><span class="p">[</span><span class="s2">&quot;style&quot;</span><span class="p">],</span> <span class="s2">&quot;background&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">widget</span><span class="p">[</span><span class="s2">&quot;style&quot;</span><span class="p">],</span> <span class="s2">&quot;background&quot;</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">tk</span><span class="o">.</span><span class="n">TclError</span><span class="p">:</span>
         <span class="c1"># FIXME: Appending T may cause errors</span>
-        <span class="k">return</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;T&quot;</span> <span class="o">+</span> <span class="n">widget</span><span class="o">.</span><span class="n">winfo_class</span><span class="p">(),</span> <span class="s2">&quot;background&quot;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">&quot;T&quot;</span> <span class="o">+</span> <span class="n">widget</span><span class="o">.</span><span class="n">winfo_class</span><span class="p">(),</span> <span class="s2">&quot;background&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="widget_factory"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.widget_factory">[docs]</a><span class="k">def</span> <span class="nf">widget_factory</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">NORMAL</span><span class="p">):</span>
@@ -127,30 +108,30 @@
         <span class="n">v</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">()</span>
         <span class="n">v</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
 
-        <span class="n">w</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">get_widget_bg</span><span class="p">(</span><span class="n">parent</span><span class="p">))</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">get_widget_bg</span><span class="p">(</span><span class="n">parent</span><span class="p">))</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">BooleanVar</span><span class="p">()</span>
         <span class="n">v</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
 
-        <span class="n">w</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Checkbutton</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">offvalue</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">onvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Checkbutton</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">offvalue</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">onvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">IntVar</span><span class="p">()</span>
         <span class="n">v</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
 
-        <span class="n">w</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">get_widget_bg</span><span class="p">(</span><span class="n">parent</span><span class="p">))</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">get_widget_bg</span><span class="p">(</span><span class="n">parent</span><span class="p">))</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">DoubleVar</span><span class="p">()</span>
         <span class="n">v</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
 
-        <span class="n">w</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">get_widget_bg</span><span class="p">(</span><span class="n">parent</span><span class="p">))</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">get_widget_bg</span><span class="p">(</span><span class="n">parent</span><span class="p">))</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">()</span>
 
-        <span class="n">w</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">OptionMenu</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">default</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">default</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">OptionMenu</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">default</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">default</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">()</span>
 
-        <span class="n">w</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Combobox</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Combobox</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
         <span class="n">w</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
         <span class="n">w</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -197,7 +178,7 @@
 
 
 <div class="viewcode-block" id="Text"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.Text">[docs]</a><span class="k">class</span> <span class="nc">Text</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">Text</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
-<div class="viewcode-block" id="Text.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.Text.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">textvariable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">textvariable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">         Text widget with ability to assign content to variable.</span>
 
@@ -218,9 +199,9 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">:</span>
             <span class="c1"># Change Text content when variable will change</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_var_update</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_var_update</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Text._on_update"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.Text._on_update">[docs]</a>    <span class="k">def</span> <span class="nf">_on_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_on_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Text widget callback which assign its content to variable.</span>
 
@@ -231,9 +212,9 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">))</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="kc">False</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="Text._on_var_update"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.Text._on_var_update">[docs]</a>    <span class="k">def</span> <span class="nf">_on_var_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_on_var_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Variable callback which assign its content to Text widget.</span>
 
@@ -245,7 +226,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">&#39;1.0&#39;</span><span class="p">,</span> <span class="n">tk</span><span class="o">.</span><span class="n">END</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="kc">False</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="Entry"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.Entry">[docs]</a><span class="k">class</span> <span class="nc">Entry</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -255,7 +236,7 @@
 <span class="sd">    Represents single row of configuration option with Label and all input widgets.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Entry.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.Entry.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_var</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">control_var</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -265,7 +246,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">hightlight_color</span> <span class="o">=</span> <span class="s2">&quot;OrangeRed2&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default_background</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span> <span class="o">=</span> <span class="s2">&quot;E&quot;</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span> <span class="o">=</span> <span class="s2">&quot;E&quot;</span>
 
 <div class="viewcode-block" id="Entry.get"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.Entry.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -300,7 +281,7 @@
 
 
 <div class="viewcode-block" id="StandardEntry"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.StandardEntry">[docs]</a><span class="k">class</span> <span class="nc">StandardEntry</span><span class="p">(</span><span class="n">Entry</span><span class="p">):</span>
-<div class="viewcode-block" id="StandardEntry.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.StandardEntry.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">warning_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">warning_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Entry with standard widget.</span>
 
@@ -313,7 +294,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">StandardEntry</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
 
-        <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">get_widget_bg</span><span class="p">(</span><span class="n">parent</span><span class="p">))</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span>
+        <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">get_widget_bg</span><span class="p">(</span><span class="n">parent</span><span class="p">))</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span>
                                                                                        <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="n">widget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_var</span> <span class="o">=</span> <span class="n">widget_factory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
@@ -324,7 +305,7 @@
         <span class="k">elif</span> <span class="n">warning_text</span><span class="p">:</span>
             <span class="n">WarningIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">warning_text</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
 
-        <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">help</span><span class="p">)</span></div>
+        <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">help</span><span class="p">)</span>
 
 <div class="viewcode-block" id="StandardEntry.get"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.StandardEntry.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -344,7 +325,7 @@
 
 
 <div class="viewcode-block" id="BoolEntry"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.BoolEntry">[docs]</a><span class="k">class</span> <span class="nc">BoolEntry</span><span class="p">(</span><span class="n">Entry</span><span class="p">):</span>
-<div class="viewcode-block" id="BoolEntry.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.BoolEntry.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">input_default</span><span class="p">,</span> <span class="n">control_default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">input_default</span><span class="p">,</span> <span class="n">control_default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">warning_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Entry with Checkbox and Entry or text widget.</span>
@@ -360,7 +341,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">entry_name_long</span> <span class="o">=</span> <span class="n">entry_name_long</span>
 
-        <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="n">input_widget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_var</span> <span class="o">=</span> <span class="n">widget_factory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">input_default</span><span class="p">)</span>
         <span class="n">input_widget</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">)</span>
@@ -375,7 +356,7 @@
         <span class="k">elif</span> <span class="n">warning_text</span><span class="p">:</span>
             <span class="n">WarningIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">warning_text</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
 
-        <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">control_widget</span><span class="p">,</span> <span class="n">help</span><span class="p">)</span></div>
+        <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">control_widget</span><span class="p">,</span> <span class="n">help</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BoolEntry.get"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.BoolEntry.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -405,7 +386,7 @@
 
 
 <div class="viewcode-block" id="FileEntry"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.FileEntry">[docs]</a><span class="k">class</span> <span class="nc">FileEntry</span><span class="p">(</span><span class="n">Entry</span><span class="p">):</span>
-<div class="viewcode-block" id="FileEntry.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.FileEntry.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">warning_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">warning_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Entry with Entry widget and button to load and append file name to it.</span>
 
@@ -418,14 +399,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">FileEntry</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
 
-        <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">input_widget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_var</span> <span class="o">=</span> <span class="n">widget_factory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_widget</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
         <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_widget</span><span class="p">,</span> <span class="n">help</span><span class="p">)</span>
 
-        <span class="n">load_file_button</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Load&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;File.TButton&quot;</span><span class="p">)</span>
+        <span class="n">load_file_button</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Load&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;File.TButton&quot;</span><span class="p">)</span>
         <span class="n">load_file_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
         <span class="n">load_file_button</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Button-1&gt;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback_load_file</span><span class="p">)</span>
@@ -433,7 +414,7 @@
         <span class="k">if</span> <span class="n">info_text</span><span class="p">:</span>
             <span class="n">InfoIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">info_text</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">warning_text</span><span class="p">:</span>
-            <span class="n">WarningIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">warning_text</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span></div>
+            <span class="n">WarningIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">warning_text</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
 
 <div class="viewcode-block" id="FileEntry.callback_load_file"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.FileEntry.callback_load_file">[docs]</a>    <span class="k">def</span> <span class="nf">callback_load_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -465,7 +446,7 @@
 
 
 <div class="viewcode-block" id="ManyFileEntry"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.ManyFileEntry">[docs]</a><span class="k">class</span> <span class="nc">ManyFileEntry</span><span class="p">(</span><span class="n">Entry</span><span class="p">):</span>
-<div class="viewcode-block" id="ManyFileEntry.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.ManyFileEntry.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">warning_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">warning_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Entry with Text widget and button to load and append file names to it.</span>
 
@@ -487,14 +468,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">input_vars</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Store single row of widgets</span>
 
-        <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">append_entry</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">info_text</span><span class="p">:</span>
             <span class="n">InfoIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">info_text</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">warning_text</span><span class="p">:</span>
-            <span class="n">WarningIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">warning_text</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+            <span class="n">WarningIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">warning_text</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ManyFileEntry.append_entry"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.ManyFileEntry.append_entry">[docs]</a>    <span class="k">def</span> <span class="nf">append_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Creates new entry with input widget and load button &quot;&quot;&quot;</span>
@@ -509,7 +490,7 @@
 
         <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">input_widget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">help</span><span class="p">)</span>
 
-        <span class="n">load_file_button</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Load&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;File.TButton&quot;</span><span class="p">)</span>
+        <span class="n">load_file_button</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Load&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;File.TButton&quot;</span><span class="p">)</span>
         <span class="n">load_file_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
         <span class="n">callback</span> <span class="o">=</span> <span class="n">CallbackWrapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callback_load_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_vars</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">input_var</span><span class="p">))</span>
@@ -553,7 +534,7 @@
         <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">input_vars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frames</span><span class="p">))):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frames</span><span class="p">)))):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">frames</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pack_forget</span><span class="p">()</span>
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">frames</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_vars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -575,7 +556,7 @@
 
 
 <div class="viewcode-block" id="DirEntry"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.DirEntry">[docs]</a><span class="k">class</span> <span class="nc">DirEntry</span><span class="p">(</span><span class="n">Entry</span><span class="p">):</span>
-<div class="viewcode-block" id="DirEntry.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.DirEntry.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">warning_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">warning_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Entry with Entry widget and button to load and append file name to it.</span>
 
@@ -588,14 +569,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DirEntry</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
 
-        <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">input_widget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_var</span> <span class="o">=</span> <span class="n">widget_factory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_widget</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
         <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_widget</span><span class="p">,</span> <span class="n">help</span><span class="p">)</span>
 
-        <span class="n">load_file_button</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Load&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;File.TButton&quot;</span><span class="p">)</span>
+        <span class="n">load_file_button</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Load&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;File.TButton&quot;</span><span class="p">)</span>
         <span class="n">load_file_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
         <span class="n">load_file_button</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Button-1&gt;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback_load_dir</span><span class="p">)</span>
@@ -603,7 +584,7 @@
         <span class="k">if</span> <span class="n">info_text</span><span class="p">:</span>
             <span class="n">InfoIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">info_text</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">warning_text</span><span class="p">:</span>
-            <span class="n">WarningIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">warning_text</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span></div>
+            <span class="n">WarningIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">warning_text</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DirEntry.callback_load_dir"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.DirEntry.callback_load_dir">[docs]</a>    <span class="k">def</span> <span class="nf">callback_load_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -635,7 +616,7 @@
 
 
 <div class="viewcode-block" id="ParenthesedEntry"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.ParenthesedEntry">[docs]</a><span class="k">class</span> <span class="nc">ParenthesedEntry</span><span class="p">(</span><span class="n">Entry</span><span class="p">):</span>
-<div class="viewcode-block" id="ParenthesedEntry.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.ParenthesedEntry.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">input_default</span><span class="p">,</span> <span class="n">control_default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry_name_long</span><span class="p">,</span> <span class="n">input_default</span><span class="p">,</span> <span class="n">control_default</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">info_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">warning_text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Entry with Text widget and button to load and append file names to it.</span>
@@ -649,7 +630,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ParenthesedEntry</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
 
-        <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">entry_name_long</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">sticky</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_sticky</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="n">input_widget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_var</span> <span class="o">=</span> <span class="n">widget_factory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">input_default</span><span class="p">)</span>
         <span class="n">input_widget</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
@@ -664,7 +645,7 @@
         <span class="k">elif</span> <span class="n">warning_text</span><span class="p">:</span>
             <span class="n">WarningIconWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_frame</span><span class="p">,</span> <span class="n">warning_text</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">)</span>
 
-        <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">control_widget</span><span class="p">,</span> <span class="n">help</span><span class="p">)</span></div>
+        <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">control_widget</span><span class="p">,</span> <span class="n">help</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ParenthesedEntry.get"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.ParenthesedEntry.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -694,8 +675,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">control_var</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="WarningIconWidget"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.WarningIconWidget">[docs]</a><span class="k">class</span> <span class="nc">WarningIconWidget</span><span class="p">(</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
-<div class="viewcode-block" id="WarningIconWidget.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.WarningIconWidget.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<div class="viewcode-block" id="WarningIconWidget"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.WarningIconWidget">[docs]</a><span class="k">class</span> <span class="nc">WarningIconWidget</span><span class="p">(</span><span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Widget with waring icon and Tooltip information</span>
 
@@ -705,11 +686,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">get_img</span><span class="p">(</span><span class="s2">&quot;warning.gif&quot;</span><span class="p">))</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">WarningIconWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-        <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div></div>
+        <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="InfoIconWidget"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.InfoIconWidget">[docs]</a><span class="k">class</span> <span class="nc">InfoIconWidget</span><span class="p">(</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
-<div class="viewcode-block" id="InfoIconWidget.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.InfoIconWidget.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<div class="viewcode-block" id="InfoIconWidget"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.InfoIconWidget">[docs]</a><span class="k">class</span> <span class="nc">InfoIconWidget</span><span class="p">(</span><span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Widget with info icon and Tooltip information</span>
 
@@ -719,11 +700,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">get_img</span><span class="p">(</span><span class="s2">&quot;info.gif&quot;</span><span class="p">))</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">InfoIconWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-        <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div></div>
+        <span class="n">ToolTip</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="HidingFrame"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.HidingFrame">[docs]</a><span class="k">class</span> <span class="nc">HidingFrame</span><span class="p">(</span><span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
-<div class="viewcode-block" id="HidingFrame.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.HidingFrame.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="HidingFrame"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.HidingFrame">[docs]</a><span class="k">class</span> <span class="nc">HidingFrame</span><span class="p">(</span><span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Frame</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Frame that remembers inner row for griding new widgets.</span>
 <span class="sd">        Used to keep methods that depends on option menu value.</span>
@@ -735,28 +716,28 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">HidingFrame</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;HF.TFrame.Label&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span>
+        <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;HF.TFrame.Label&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span>
             <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="n">row</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="n">row</span>
 
 <div class="viewcode-block" id="HidingFrame.show"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.HidingFrame.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Method to grid Frame with predefinied configuration. &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ipady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ipadx</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="CallbackWrapper"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.CallbackWrapper">[docs]</a><span class="k">class</span> <span class="nc">CallbackWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<div class="viewcode-block" id="CallbackWrapper.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.CallbackWrapper.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">CallbackWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Allow to use callbacks with predefined list of arguments. &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
 
-<div class="viewcode-block" id="CallbackWrapper.__call__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.CallbackWrapper.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ToolTip"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.ToolTip">[docs]</a><span class="k">class</span> <span class="nc">ToolTip</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -764,13 +745,13 @@
 <span class="sd">    Code found: http://www.voidspace.org.uk/python/weblog/arch_d7_2006_07_01.shtml</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ToolTip.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.ToolTip.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">widget</span> <span class="o">=</span> <span class="n">widget</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tipwindow</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
 
-<div class="viewcode-block" id="ToolTip.create"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.ToolTip.create">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="n">toolTip</span> <span class="o">=</span> <span class="n">ToolTip</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
 
@@ -781,9 +762,9 @@
             <span class="n">toolTip</span><span class="o">.</span><span class="n">hidetip</span><span class="p">()</span>
 
         <span class="n">widget</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Enter&gt;&#39;</span><span class="p">,</span> <span class="n">enter</span><span class="p">)</span>
-        <span class="n">widget</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Leave&gt;&#39;</span><span class="p">,</span> <span class="n">leave</span><span class="p">)</span></div>
+        <span class="n">widget</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Leave&gt;&#39;</span><span class="p">,</span> <span class="n">leave</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ToolTip.showtip"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.ToolTip.showtip">[docs]</a>    <span class="k">def</span> <span class="nf">showtip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">showtip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="c1"># Display text in tooltip window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tipwindow</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
@@ -801,16 +782,16 @@
                        <span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;noActivates&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">tk</span><span class="o">.</span><span class="n">TclError</span><span class="p">:</span>
             <span class="k">pass</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">tw</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">tw</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span>
                           <span class="n">background</span><span class="o">=</span><span class="s2">&quot;#ffffe0&quot;</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">SOLID</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                           <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;TkDefaultFont&quot;</span><span class="p">,</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span> <span class="s2">&quot;normal&quot;</span><span class="p">),</span> <span class="n">wraplength</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
-        <span class="n">label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">ipadx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+        <span class="n">label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">ipadx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ToolTip.hidetip"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.ToolTip.hidetip">[docs]</a>    <span class="k">def</span> <span class="nf">hidetip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">hidetip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">tw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tipwindow</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tipwindow</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">tw</span><span class="p">:</span>
-            <span class="n">tw</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div></div>
+            <span class="n">tw</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div>
 
 
 <span class="c1"># http://tkinter.unpythonic.net/wiki/VerticalScrolledFrame</span>
@@ -821,7 +802,7 @@
 <span class="sd">    * This frame only allows vertical scrolling</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="VerticalScrolledFrame.__init__"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.VerticalScrolledFrame.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
         <span class="c1"># create a canvas object and a vertical scrollbar for scrolling it</span>
@@ -860,9 +841,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Configure&gt;&#39;</span><span class="p">,</span> <span class="n">_configure_canvas</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Enter&gt;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bind_mousewheel</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Leave&gt;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unbind_mousewheel</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Leave&gt;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unbind_mousewheel</span><span class="p">)</span>
 
-<div class="viewcode-block" id="VerticalScrolledFrame._bind_mousewheel"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.VerticalScrolledFrame._bind_mousewheel">[docs]</a>    <span class="k">def</span> <span class="nf">_bind_mousewheel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_bind_mousewheel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">_mousewheel_handler</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">canvas</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">num</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
                 <span class="n">canvas</span><span class="o">.</span><span class="n">yview_scroll</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">)</span>
@@ -871,13 +852,31 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">bind_all</span><span class="p">(</span><span class="s2">&quot;&lt;MouseWheel&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">_mousewheel_handler</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">bind_all</span><span class="p">(</span><span class="s2">&quot;&lt;Button-4&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">_mousewheel_handler</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">bind_all</span><span class="p">(</span><span class="s2">&quot;&lt;Button-5&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">_mousewheel_handler</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">bind_all</span><span class="p">(</span><span class="s2">&quot;&lt;Button-5&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">_mousewheel_handler</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">))</span>
 
-<div class="viewcode-block" id="VerticalScrolledFrame._unbind_mousewheel"><a class="viewcode-back" href="../../../../aquaduct.apps.valveconfig.utils.html#aquaduct.apps.valveconfig.utils.VerticalScrolledFrame._unbind_mousewheel">[docs]</a>    <span class="k">def</span> <span class="nf">_unbind_mousewheel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">unbind</span><span class="p">(</span><span class="s2">&quot;&lt;MouseWheel&gt;&quot;</span><span class="p">)</span></div></div>
+    <span class="k">def</span> <span class="nf">_unbind_mousewheel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">unbind</span><span class="p">(</span><span class="s2">&quot;&lt;MouseWheel&gt;&quot;</span><span class="p">)</span></div>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/AQUADUCT_LOGO.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -891,15 +890,15 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../../../aquaduct.html" >aquaduct</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../valveconfig.html" >aquaduct.apps.valveconfig</a> &#187;</li> 
+        <li class="nav-item nav-item-this"><a href="">aquaduct.apps.valveconfig.utils</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018, 2019 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>

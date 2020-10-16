@@ -2,6 +2,5 @@ aquaduct.traj.sandwich module
 =============================
 
 .. automodule:: aquaduct.traj.sandwich
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

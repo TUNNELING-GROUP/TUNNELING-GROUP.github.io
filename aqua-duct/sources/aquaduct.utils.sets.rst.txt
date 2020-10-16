@@ -2,6 +2,5 @@ aquaduct.utils.sets module
 ==========================
 
 .. automodule:: aquaduct.utils.sets
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

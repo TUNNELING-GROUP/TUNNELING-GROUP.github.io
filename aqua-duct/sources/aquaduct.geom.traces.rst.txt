@@ -2,6 +2,5 @@ aquaduct.geom.traces module
 ===========================
 
 .. automodule:: aquaduct.geom.traces
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

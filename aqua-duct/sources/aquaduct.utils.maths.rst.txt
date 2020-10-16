@@ -2,6 +2,5 @@ aquaduct.utils.maths module
 ===========================
 
 .. automodule:: aquaduct.utils.maths
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

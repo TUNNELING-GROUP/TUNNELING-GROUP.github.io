@@ -5,14 +5,16 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
-    aquaduct.apps.valve
-    aquaduct.apps.valveconfig
+   aquaduct.apps.valve
+   aquaduct.apps.valveconfig
 
 Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    aquaduct.apps.chord
    aquaduct.apps.data
@@ -21,6 +23,5 @@ Module contents
 ---------------
 
 .. automodule:: aquaduct.apps
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

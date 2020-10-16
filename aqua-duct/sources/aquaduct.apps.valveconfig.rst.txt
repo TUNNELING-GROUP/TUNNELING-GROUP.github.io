@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    aquaduct.apps.valveconfig.defaults
    aquaduct.apps.valveconfig.utils
@@ -13,6 +14,5 @@ Module contents
 ---------------
 
 .. automodule:: aquaduct.apps.valveconfig
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

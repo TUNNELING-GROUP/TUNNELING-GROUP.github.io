@@ -2,6 +2,5 @@ aquaduct.visual.pymol\_connector module
 =======================================
 
 .. automodule:: aquaduct.visual.pymol_connector
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:

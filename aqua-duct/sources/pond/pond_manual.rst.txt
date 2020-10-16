@@ -32,7 +32,7 @@ It should display following information::
                    [--io-threshold IO_THRESHOLD] [--path-id PATH_ID]
                    [--path-file PATH_FILE] [--path-radius PATH_RADIUS]
                    [--path-smooth] [--raw-path] [--extract-path EXTRACT_PATH]
-                   [--output-file OUTPUT_FILE]
+                   [--output-file OUTPUT_FILE] [--output-suffix OUTPUT_SUFFIX]
     
     What have I got in my pocket?
     
@@ -64,12 +64,12 @@ It should display following information::
       --reference-calc      Calculate reference value with scope and reference
                             molecules. (default: False)
       --reference-radius REF_RADIUS
-                            Radius of reference. (default: 2.0)
+                            Radius of reference in [Å]. (default: 2.0)
       --reference-mol REF_MOL
                             Selection of reference molecules. (default: resname
                             WAT)
-      --temperature TEMP    Simulation temperature. (default: 300.0)
-      --gsize GRID_SIZE     Size of grid's cells. (default: 1.0)
+      --temperature TEMP    Simulation temperature in [K]. (default: 300.0)
+      --gsize GRID_SIZE     Size of grid's cells in in [Å]. (default: 1.0)
       --pockets             Calculate pockets. (default: False)
       --hotspots            Calculates hotspots if pockets are calculated.
                             (default: False)
@@ -77,8 +77,8 @@ It should display following information::
                             False)
       --master              Enables master paths calculation. (default: False)
       --master-radius MASTER_RADIUS
-                            Calculate profiles for master paths with given radius.
-                            (default: 2.0)
+                            Calculate profiles for master paths with given radius
+                            in [Å]. (default: 2.0)
       --master-ctypes MASTER_CTYPES
                             Limit calculations to given ctypes. (default: )
       --io-threshold IO_THRESHOLD
@@ -91,7 +91,7 @@ It should display following information::
                             Use coordinates from specified CSV file. (default:
                             None)
       --path-radius PATH_RADIUS
-                            Calculate profiles for path with given radius.
+                            Calculate profiles for path with given radius in [Å].
                             (default: 2.0)
       --path-smooth         If used path coordinates will be smoothed. (default:
                             False)
@@ -104,6 +104,9 @@ It should display following information::
       --output-file OUTPUT_FILE
                             Output CSV filename for extracted coordinates.
                             (default: path_coords.csv)
+      --output-suffix OUTPUT_SUFFIX
+                            Arbitrary suffix appended to output filenames.
+                            (default: )
 
 Options common with *Valve*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

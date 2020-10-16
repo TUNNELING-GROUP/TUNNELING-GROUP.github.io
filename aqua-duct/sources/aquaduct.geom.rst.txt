@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    aquaduct.geom.cluster
    aquaduct.geom.cluster_available_methods
@@ -15,12 +16,12 @@ Submodules
    aquaduct.geom.pca
    aquaduct.geom.pocket
    aquaduct.geom.smooth
+   aquaduct.geom.smooth_available_methods
    aquaduct.geom.traces
 
 Module contents
 ---------------
 
 .. automodule:: aquaduct.geom
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :show-inheritance:
