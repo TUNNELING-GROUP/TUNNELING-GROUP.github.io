@@ -2,5 +2,6 @@ aquaduct.traj.paths module
 ==========================
 
 .. automodule:: aquaduct.traj.paths
-   :members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:

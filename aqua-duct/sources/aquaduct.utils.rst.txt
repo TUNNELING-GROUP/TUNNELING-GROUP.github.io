@@ -5,7 +5,6 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
 
    aquaduct.utils.clui
    aquaduct.utils.filecache
@@ -19,5 +18,6 @@ Module contents
 ---------------
 
 .. automodule:: aquaduct.utils
-   :members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:

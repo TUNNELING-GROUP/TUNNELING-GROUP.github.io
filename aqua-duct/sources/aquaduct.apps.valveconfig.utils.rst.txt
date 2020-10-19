@@ -2,5 +2,6 @@ aquaduct.apps.valveconfig.utils module
 ======================================
 
 .. automodule:: aquaduct.apps.valveconfig.utils
-   :members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -2,29 +2,29 @@
 
 <!doctype html>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>aquaduct.apps.valve.data module &#8212; Aqua-Duct 1.0.10 documentation</title>
-    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>aquaduct.apps.valve.data module &#8212; Aqua-Duct 1.0.5 documentation</title>
+    <link rel="stylesheet" href="static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script src="_static/bizstyle.js"></script>
-    <link rel="shortcut icon" href="_static/ficon.ico"/>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="static/ficon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="aquaduct.apps.valve.helpers module" href="aquaduct.apps.valve.helpers.html" />
     <link rel="prev" title="aquaduct.apps.valve.core module" href="aquaduct.apps.valve.core.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script src="_static/css3-mediaqueries.js"></script>
+    <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,70 +42,17 @@
         <li class="right" >
           <a href="aquaduct.apps.valve.core.html" title="aquaduct.apps.valve.core module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.apps.html" >aquaduct.apps package</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="aquaduct.apps.valve.html" accesskey="U">aquaduct.apps.valve package</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">aquaduct.apps.valve.data module</a></li> 
+          <li class="nav-item nav-item-4"><a href="aquaduct.apps.valve.html" accesskey="U">aquaduct.apps.valve package</a> &#187;</li> 
       </ul>
-    </div>  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="module-aquaduct.apps.valve.data">
-<span id="aquaduct-apps-valve-data-module"></span><h1>aquaduct.apps.valve.data module<a class="headerlink" href="#module-aquaduct.apps.valve.data" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
-<dt id="aquaduct.apps.valve.data.ValveDataCodec">
-<em class="property">class </em><code class="sig-name descname">ValveDataCodec</code><a class="reference internal" href="_modules/aquaduct/apps/valve/data.html#ValveDataCodec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataCodec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Class defines format of encoding AQ objects into NetCDF format.
-Encoding defined here can be also used to store AQ objects as NumPy arrays.</p>
-<dl class="py attribute">
-<dt id="aquaduct.apps.valve.data.ValveDataCodec.version">
-<code class="sig-name descname">version</code><em class="property"> = (0, 0, 1)</em><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataCodec.version" title="Permalink to this definition">¶</a></dt>
-<dd><p>Current version of <a class="reference internal" href="#aquaduct.apps.valve.data.ValveDataCodec" title="aquaduct.apps.valve.data.ValveDataCodec"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValveDataCodec</span></code></a></p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="aquaduct.apps.valve.data.ValveDataCodec.varname">
-<em class="property">static </em><code class="sig-name descname">varname</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">suffix</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/apps/valve/data.html#ValveDataCodec.varname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataCodec.varname" title="Permalink to this definition">¶</a></dt>
-<dd><p>Name of variable made by combining base name and suffixes (if any).
-Base name and suffixes are joined with dot ‘.’.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – Base for variable name.</p></li>
-<li><p><strong>suffix</strong> – Optional suffixes.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Name of variable made by combining base name and suffixes (if any).</p>
-</dd>
-</dl>
-<div class="system-message">
-<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">/home/kara/Desktop/AQ/aqua-duct/src/aquaduct/apps/valve/data.py:docstring of aquaduct.apps.valve.data.ValveDataCodec.varname</span>, line 7)</p>
-<p>Field list ends without a blank line; unexpected unindent.</p>
-</div>
-<p>Base name and suffixes are joined with dot ‘.’.</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-
-
-            <div class="clearer"></div>
-          </div>
-        </div>
-      </div>
+    </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="index.html">
-              <img class="logo" src="_static/AQUADUCT_LOGO.png" alt="Logo"/>
+              <img class="logo" src="static/AQUADUCT_LOGO.png" alt="Logo"/>
             </a></p>
   <h4>Previous topic</h4>
   <p class="topless"><a href="aquaduct.apps.valve.core.html"
@@ -114,15 +61,241 @@ Base name and suffixes are joined with dot ‘.’.</p>
   <p class="topless"><a href="aquaduct.apps.valve.helpers.html"
                         title="next chapter">aquaduct.apps.valve.helpers module</a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-aquaduct.apps.valve.data">
+<span id="aquaduct-apps-valve-data-module"></span><h1>aquaduct.apps.valve.data module<a class="headerlink" href="#module-aquaduct.apps.valve.data" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="aquaduct.apps.valve.data.check_version_compliance">
+<code class="descname">check_version_compliance</code><span class="sig-paren">(</span><em>current</em>, <em>loaded</em>, <em>what</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#check_version_compliance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.check_version_compliance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.apps.valve.data.check_versions">
+<code class="descname">check_versions</code><span class="sig-paren">(</span><em>version_dict</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#check_versions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.check_versions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="aquaduct.apps.valve.data.get_vda_reader">
+<code class="descname">get_vda_reader</code><span class="sig-paren">(</span><em>filename</em>, <em>mode='r'</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#get_vda_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.get_vda_reader" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess">
+<em class="property">class </em><code class="descname">ValveDataAccess</code><span class="sig-paren">(</span><em>mode=None</em>, <em>data_file_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess.unknown_names">
+<code class="descname">unknown_names</code><em class="property"> = 'UNK'</em><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess.unknown_names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>mode=None</em>, <em>data_file_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>x.__init__(…) initializes x; see help(type(x)) for signature</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess.open">
+<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess.open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess.__del__">
+<code class="descname">__del__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess.__del__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess.__del__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess.load">
+<code class="descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess.load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess.dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess.dump" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess.get_variable">
+<code class="descname">get_variable</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess.get_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess.get_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess.set_variable">
+<code class="descname">set_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess.set_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess.set_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="aquaduct.apps.valve.data.ValveDataCodec">
+<em class="property">class </em><code class="descname">ValveDataCodec</code><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataCodec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataCodec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class defines format of encoding AQ objects into NetCDF format.
+Encoding defined here can be also used to store AQ objects as NumPy arrays.</p>
+<dl class="attribute">
+<dt id="aquaduct.apps.valve.data.ValveDataCodec.version">
+<code class="descname">version</code><em class="property"> = (0, 0, 1)</em><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataCodec.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current version of <a class="reference internal" href="#aquaduct.apps.valve.data.ValveDataCodec" title="aquaduct.apps.valve.data.ValveDataCodec"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValveDataCodec</span></code></a></p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="aquaduct.apps.valve.data.ValveDataCodec.varname">
+<em class="property">static </em><code class="descname">varname</code><span class="sig-paren">(</span><em>name</em>, <em>*suffix</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataCodec.varname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataCodec.varname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of variable made by combining base name and suffixes (if any).
+Base name and suffixes are joined with dot ‘.’.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> – Base for variable name.</li>
+<li><strong>suffix</strong> – Optional suffixes.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Name of variable made by combining base name and suffixes (if any).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">/home/tljm/Research/aqua-duct/src/aquaduct/apps/valve/data.py:docstring of aquaduct.apps.valve.data.ValveDataCodec.varname</tt>, line 7)</p>
+Field list ends without a blank line; unexpected unindent.</div>
+<p>Base name and suffixes are joined with dot ‘.’.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="aquaduct.apps.valve.data.ValveDataCodec.encode">
+<em class="property">static </em><code class="descname">encode</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataCodec.encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataCodec.encode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="aquaduct.apps.valve.data.ValveDataCodec.decode">
+<em class="property">static </em><code class="descname">decode</code><span class="sig-paren">(</span><em>name</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataCodec.decode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataCodec.decode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_nc">
+<em class="property">class </em><code class="descname">ValveDataAccess_nc</code><span class="sig-paren">(</span><em>mode=None</em>, <em>data_file_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_nc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_nc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#aquaduct.apps.valve.data.ValveDataAccess" title="aquaduct.apps.valve.data.ValveDataAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.apps.valve.data.ValveDataAccess</span></code></a></p>
+<dl class="attribute">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_nc.not_variable">
+<code class="descname">not_variable</code><em class="property"> = ['version', 'aquaduct_version', 'ValveDataCodec']</em><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_nc.not_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_nc.open">
+<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_nc.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_nc.open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_nc.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_nc.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_nc.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_nc.get_variable">
+<code class="descname">get_variable</code><span class="sig-paren">(</span><em>name</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_nc.get_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_nc.get_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_nc.set_variable">
+<code class="descname">set_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_nc.set_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_nc.set_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_nc.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_nc.dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_nc.dump" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_nc.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_nc.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_nc.load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_numpy">
+<em class="property">class </em><code class="descname">ValveDataAccess_numpy</code><span class="sig-paren">(</span><em>mode=None</em>, <em>data_file_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_numpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_numpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#aquaduct.apps.valve.data.ValveDataAccess" title="aquaduct.apps.valve.data.ValveDataAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.apps.valve.data.ValveDataAccess</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_pickle">
+<em class="property">class </em><code class="descname">ValveDataAccess_pickle</code><span class="sig-paren">(</span><em>mode=None</em>, <em>data_file_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_pickle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_pickle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#aquaduct.apps.valve.data.ValveDataAccess" title="aquaduct.apps.valve.data.ValveDataAccess"><code class="xref py py-class docutils literal notranslate"><span class="pre">aquaduct.apps.valve.data.ValveDataAccess</span></code></a></p>
+<dl class="attribute">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_pickle.mimic_old_var_name">
+<code class="descname">mimic_old_var_name</code><em class="property"> = 'aq_data_to_save'</em><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_pickle.mimic_old_var_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_pickle.unknown_names">
+<code class="descname">unknown_names</code><em class="property"> = 'UNK'</em><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_pickle.unknown_names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_pickle.open">
+<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_pickle.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_pickle.open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_pickle.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_pickle.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_pickle.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_pickle.load">
+<code class="descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_pickle.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_pickle.load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_pickle.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_pickle.dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_pickle.dump" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_pickle.get_variable">
+<code class="descname">get_variable</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_pickle.get_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_pickle.get_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="aquaduct.apps.valve.data.ValveDataAccess_pickle.set_variable">
+<code class="descname">set_variable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="modules/aquaduct/apps/valve/data.html#ValveDataAccess_pickle.set_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.data.ValveDataAccess_pickle.set_variable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
         </div>
       </div>
       <div class="clearer"></div>
@@ -142,17 +315,16 @@ Base name and suffixes are joined with dot ‘.’.</p>
         <li class="right" >
           <a href="aquaduct.apps.valve.core.html" title="aquaduct.apps.valve.core module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.apps.html" >aquaduct.apps package</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="aquaduct.apps.valve.html" >aquaduct.apps.valve package</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">aquaduct.apps.valve.data module</a></li> 
+          <li class="nav-item nav-item-4"><a href="aquaduct.apps.valve.html" >aquaduct.apps.valve package</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018, 2019 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>

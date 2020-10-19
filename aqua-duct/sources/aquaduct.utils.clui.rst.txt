@@ -2,5 +2,6 @@ aquaduct.utils.clui module
 ==========================
 
 .. automodule:: aquaduct.utils.clui
-   :members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:

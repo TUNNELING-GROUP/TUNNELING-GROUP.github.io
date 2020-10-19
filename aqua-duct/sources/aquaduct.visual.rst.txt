@@ -5,7 +5,6 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
 
    aquaduct.visual.cmaps
    aquaduct.visual.helpers
@@ -17,5 +16,6 @@ Module contents
 ---------------
 
 .. automodule:: aquaduct.visual
-   :members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:

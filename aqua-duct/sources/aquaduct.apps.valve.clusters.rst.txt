@@ -2,5 +2,6 @@ aquaduct.apps.valve.clusters module
 ===================================
 
 .. automodule:: aquaduct.apps.valve.clusters
-   :members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -2,29 +2,29 @@
 
 <!doctype html>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pond manual &#8212; Aqua-Duct 1.0.10 documentation</title>
-    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Pond manual &#8212; Aqua-Duct 1.0.5 documentation</title>
+    <link rel="stylesheet" href="../static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script src="../_static/bizstyle.js"></script>
-    <link rel="shortcut icon" href="../_static/ficon.ico"/>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../static/documentation_options.js"></script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../static/ficon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Aqua-Duct installation guide" href="../aquaduct_install.html" />
     <link rel="prev" title="Aqua-Duct’s Pond driver documentation" href="index.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script src="_static/css3-mediaqueries.js"></script>
+    <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,319 +42,14 @@
         <li class="right" >
           <a href="index.html" title="Aqua-Duct’s Pond driver documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Aqua-Duct’s Pond driver documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href=""><em>Pond</em> manual</a></li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Aqua-Duct’s Pond driver documentation</a> &#187;</li> 
       </ul>
-    </div>  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="pond-manual">
-<h1><em>Pond</em> manual<a class="headerlink" href="#pond-manual" title="Permalink to this headline">¶</a></h1>
-<p><em>Pond</em> application is a driver that uses <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a> module to perform further analysis of results from <em>Valve</em> calculations.</p>
-<p><em>Pond</em> can calculate pockets present in the protein and free energy profiles of <a class="reference internal" href="../valve/valve_manual.html#master-paths-manual"><span class="std std-ref">Master paths</span></a>.</p>
-<div class="section" id="pond-invocation">
-<h2><em>Pond</em> invocation<a class="headerlink" href="#pond-invocation" title="Permalink to this headline">¶</a></h2>
-<p>Once <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a> module is installed (see <a class="reference internal" href="../aquaduct_install.html"><span class="doc">Aqua-Duct installation guide</span></a>) properly on the machine, <em>Pond</em> is available as <code class="docutils literal notranslate"><span class="pre">pond.py</span></code> command line tool.</p>
-<div class="section" id="usage">
-<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
-<p>Basic help of <em>Pond</em> usage can be displayed by following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pond</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
-</pre></div>
-</div>
-<p>It should display following information:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: pond.py [-h] [-c CONFIG_FILE] [-t THREADS] [-r RESULTS_DIR] [--debug]
-               [--debug-file DEBUG_FILE] [--paths-types PATHS_TYPES] [--raw]
-               [--raw-master] [--raw-discard-singletons RAW_SINGL]
-               [--window-full] [--windows WINDOWS] [--wsize WSIZE]
-               [--reference-value REF] [--reference-calc]
-               [--reference-radius REF_RADIUS] [--reference-mol REF_MOL]
-               [--temperature TEMP] [--gsize GRID_SIZE] [--pockets]
-               [--hotspots] [--energy-profile] [--master]
-               [--master-radius MASTER_RADIUS] [--master-ctypes MASTER_CTYPES]
-               [--io-threshold IO_THRESHOLD] [--path-id PATH_ID]
-               [--path-file PATH_FILE] [--path-radius PATH_RADIUS]
-               [--path-smooth] [--raw-path] [--extract-path EXTRACT_PATH]
-               [--output-file OUTPUT_FILE] [--output-suffix OUTPUT_SUFFIX]
-
-What have I got in my pocket?
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -c CONFIG_FILE        Config file filename. (default: None)
-  -t THREADS            Limit Aqua-Duct calculations to given number of
-                        threads. (default: None)
-  -r RESULTS_DIR        Path to results directory (default: )
-  --debug               Prints debug info. (default: False)
-  --debug-file DEBUG_FILE
-                        Debug log file. (default: None)
-  --paths-types PATHS_TYPES
-                        Limit calculations to given paths types, i.e. given
-                        molecules. (default: )
-  --raw                 Use raw data from paths instead of single paths.
-                        (default: False)
-  --raw-master          Use raw data from paths instead of single paths, only
-                        in master paths calculations. (default: False)
-  --raw-discard-singletons RAW_SINGL
-                        Discard short scope only segments from raw data.
-                        (default: 1)
-  --window-full         Return full window if windows is used. (default:
-                        False)
-  --windows WINDOWS     Number of windows to calculate. (default: 1)
-  --wsize WSIZE         Size of window in frames. (default: None)
-  --reference-value REF
-                        Reference value in [kJ/mol/K]. (default: None)
-  --reference-calc      Calculate reference value with scope and reference
-                        molecules. (default: False)
-  --reference-radius REF_RADIUS
-                        Radius of reference in [Å]. (default: 2.0)
-  --reference-mol REF_MOL
-                        Selection of reference molecules. (default: resname
-                        WAT)
-  --temperature TEMP    Simulation temperature in [K]. (default: 300.0)
-  --gsize GRID_SIZE     Size of grid&#39;s cells in in [Å]. (default: 1.0)
-  --pockets             Calculate pockets. (default: False)
-  --hotspots            Calculates hotspots if pockets are calculated.
-                        (default: False)
-  --energy-profile      Calculates energy profiles for master paths. (default:
-                        False)
-  --master              Enables master paths calculation. (default: False)
-  --master-radius MASTER_RADIUS
-                        Calculate profiles for master paths with given radius
-                        in [Å]. (default: 2.0)
-  --master-ctypes MASTER_CTYPES
-                        Limit calculations to given ctypes. (default: )
-  --io-threshold IO_THRESHOLD
-                        Percent value of maximal density which will be used to
-                        partition pocket into inner and outer instead of mean
-                        value. (default: None)
-  --path-id PATH_ID     Calculate profiles for specified path ID. (default:
-                        None)
-  --path-file PATH_FILE
-                        Use coordinates from specified CSV file. (default:
-                        None)
-  --path-radius PATH_RADIUS
-                        Calculate profiles for path with given radius in [Å].
-                        (default: 2.0)
-  --path-smooth         If used path coordinates will be smoothed. (default:
-                        False)
-  --raw-path            Use raw data from paths instead of single paths. Used
-                        for path energy profiles calculations and for
-                        extracting raw path. (default: False)
-  --extract-path EXTRACT_PATH
-                        Extract path coordinates with specified ID. (default:
-                        None)
-  --output-file OUTPUT_FILE
-                        Output CSV filename for extracted coordinates.
-                        (default: path_coords.csv)
-  --output-suffix OUTPUT_SUFFIX
-                        Arbitrary suffix appended to output filenames.
-                        (default: )
-</pre></div>
-</div>
-</div>
-<div class="section" id="options-common-with-valve">
-<h3>Options common with <em>Valve</em><a class="headerlink" href="#options-common-with-valve" title="Permalink to this headline">¶</a></h3>
-<p>All options related to Molecular Dynamic simulation data, configuration file, and threads have the same meaning as in <em>Valve</em>.</p>
-<p>For detailed explanation of the following options see <a class="reference internal" href="../valve/valve_manual.html"><span class="doc">Valve manual</span></a>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">CONFIG_FILE</span></code> - Configuration file name. <em>Pond</em> and <em>Valve</em> should use the same file.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">-t</span> <span class="pre">THREADS</span></code> - Limits Aqua-Duct calculations to given number of threads.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--debug</span></code> and <code class="docutils literal notranslate"><span class="pre">--debug-file</span></code> - Allows to get debugging information.</p></li>
-</ul>
-</div>
-<div class="section" id="results-directory">
-<h3>Results directory<a class="headerlink" href="#results-directory" title="Permalink to this headline">¶</a></h3>
-<p><em>Pond</em> produces many results files, especially if windows options are used. For the sake of convenience,
-option <code class="docutils literal notranslate"><span class="pre">-r</span></code> allows to provide output directory.
-If provided directory does not exist it will be created without warning.
-Also, <em>Pond</em> will not warn if results files overwrites existing files.</p>
-</div>
-<div class="section" id="pond-calculations-options">
-<h3><em>Pond</em> calculations options<a class="headerlink" href="#pond-calculations-options" title="Permalink to this headline">¶</a></h3>
-<p>Other options are used to start or adjust <em>Pond</em> calculations:</p>
-<ul class="simple">
-<li><dl class="simple">
-<dt><strong>Pockets</strong></dt><dd><p>Option <code class="docutils literal notranslate"><span class="pre">--pockets</span></code> triggers pocket calculations</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>Hot-spots</strong></dt><dd><p>Option <code class="docutils literal notranslate"><span class="pre">--hotspots</span></code> triggers hot-spot calculations but it also requires <code class="docutils literal notranslate"><span class="pre">--pockets</span></code>.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>Energy profiles</strong></dt><dd><p>Option <code class="docutils literal notranslate"><span class="pre">--energy-profile</span></code> triggers free energy profiles calculations for master paths.</p>
-</dd>
-</dl>
-</li>
-</ul>
-<p><em>Pond</em>’s option <code class="docutils literal notranslate"><span class="pre">--paths-types</span></code> allows to limit calculations only to paths of certain molecules. For example, <code class="docutils literal notranslate"><span class="pre">--paths-types</span> <span class="pre">'WAT</span> <span class="pre">OXY'</span></code> loads paths of <code class="docutils literal notranslate"><span class="pre">WAT</span></code> (water molecules) and <code class="docutils literal notranslate"><span class="pre">OXY</span></code> (oxygen) molecules. All other paths (if any) will not be used.</p>
-</div>
-<div class="section" id="free-energy-estimation">
-<h3>Free energy estimation<a class="headerlink" href="#free-energy-estimation" title="Permalink to this headline">¶</a></h3>
-<p><em>Pond</em> can estimate free energy by using calculated density of traced molecules.
-It becomes particularly useful and relevant when traced molecules include solvent.</p>
-<p>Estimation of free energy is done according to Boltzmann inversion. Similar method
-was used in <a class="reference external" href="https://dx.doi.org/10.1080/19336950.2017.1306163">Rao,S. et al.</a>
-(doi:10.1080/19336950.2017.1306163) paper.</p>
-<p>Following equation relates free energy with density of molecules:</p>
-<div class="math notranslate nohighlight">
-\[n(z) = C \cdot e^{\left( \frac {-E(z) }{ kT} \right) }\]</div>
-<p>Where <em>z</em> is point in the space, preferably along some kind of path, <em>n(z)</em> is density of molecules
-in point <em>z</em>, <em>C</em> is a normalization constant, <em>E</em> is free energy, <em>k</em> is Boltzmann’s constant,
-and <em>T</em> is temperature.</p>
-<p>One can easily transform the above equation to calculate energy:</p>
-<div class="math notranslate nohighlight">
-\[E(z) = -kT\ln\left(n(z)\right) -kT\ln\left(C\right)\]</div>
-<p>Term <span class="math notranslate nohighlight">\(kT\ln\left(C\right)\)</span> does not depend on <em>z</em> and can be determined by assumption that
-free energy in the bulk of traced molecules (solvent) is zero.</p>
-<p>Please note that option <code class="docutils literal notranslate"><span class="pre">--temperature</span></code> allows to set desired temperature in Kelvins.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><em>Pond</em> returns energy in kJ/mol SI units.</p>
-</div>
-<div class="section" id="bulk-reference">
-<h4>Bulk reference<a class="headerlink" href="#bulk-reference" title="Permalink to this headline">¶</a></h4>
-<p>Value of reference correction can be directly passed to <em>Pond</em> using <code class="docutils literal notranslate"><span class="pre">--reference-value</span></code> option or can be calculated automatically by analysis of the bulk of traced molecules (solvent) using <code class="docutils literal notranslate"><span class="pre">--reference-calc</span></code> flag. Following additional options influence calculation of bulk reference:</p>
-<ol class="arabic simple">
-<li><dl class="simple">
-<dt>Radius of the bulk around COG.</dt><dd><p>Option <code class="docutils literal notranslate"><span class="pre">--reference-radius</span></code> allows to set the radius of the sphere within which the bulk will be
-scanned. The sphere is centered in COG. Radius should be selected in such a way that the sphere
-does not overlaps with other molecules in the simulated system. Default value is 2.0 Å.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>Density of reference molecules.</dt><dd><p>Once COG if the bulk and radius are setup, <em>Pond</em> scans trajectory and looks for molecules.
-Option <code class="docutils literal notranslate"><span class="pre">--reference-mol</span></code> allows to define molecules for which density should be calculated.</p>
-</dd>
-</dl>
-</li>
-</ol>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If no <code class="docutils literal notranslate"><span class="pre">--reference-value</span></code>  or <code class="docutils literal notranslate"><span class="pre">--reference-calc</span></code> options are used <em>Pond</em> skips estimation of free energy.</p>
-</div>
-</div>
-</div>
-<div class="section" id="raw-data">
-<h3>Raw data<a class="headerlink" href="#raw-data" title="Permalink to this headline">¶</a></h3>
-<p>Two types of data can by used by <em>Pond</em>:</p>
-<ol class="arabic simple">
-<li><p>Separate paths (including passing paths if any), or</p></li>
-<li><p>Raw paths saved at stage II.</p></li>
-</ol>
-<p>By default separate paths are used. Option <code class="docutils literal notranslate"><span class="pre">--raw</span></code> makes <em>Pond</em> to use raw paths in all calculations,
-whereas <code class="docutils literal notranslate"><span class="pre">--raw-master</span></code> makes <em>Pond</em> to use raw paths only in estimation of free energy profiles and
-for pockets and hot-spots separate paths are used.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Best results of pockets calculation can be achieved with separate paths.</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Free energy estimation with separate paths may very likely lead to false results at the borders
-of the scope.</p>
-</div>
-</div>
-<div class="section" id="windows">
-<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
-<p><em>Pond</em> performs calculations for entire trajectory and/or for user defined windows:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">--window-full</span></code> ensures that results will be calculated for the entire trajectory.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--windows</span></code> allows to set number of windows.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--wsize</span></code> allows to change default size of windows.</p></li>
-</ul>
-<p>By default, windows’ sizes are automatically set in such a way that entire trajectory is
-covered and windows do not overlap to each other. Option <code class="docutils literal notranslate"><span class="pre">--wsize</span></code> allows to set size of
-windows (in frames), therefore, windows can also overlap with each other or can span only
-selected sections of the trajectory.</p>
-<p>For example, for 25 000 snapshots long trajectory one can perform calculations in 5000 frames
-long windows where an overlap of a consecutive window with a next window is 4000 frames long - see following picture:</p>
-<img alt="../_images/aafig-ab8be19e708a33d3d84dee40940fce788f40e2c6.png" src="../_images/aafig-ab8be19e708a33d3d84dee40940fce788f40e2c6.png" />
-<p>To calculate proper number of windows evenly spanning trajectory one can use following equation:</p>
-<div class="math notranslate nohighlight">
-\[WINDOWS = \frac{TOTAL - WSIZE}{SHIFT} + 1\]</div>
-<p>Where <em>WINDOWS</em> is a desired number of windows, <em>TOTAL</em> is total length of trajectory, and <em>SHIFT</em> is <em>WSIZE - OVERLAP</em>.</p>
-<p>In the above example <em>TOTAL</em> = 25 000, <em>WSIZE</em> = 5 000, <em>SHIFT</em> = <em>WSIZE</em> - <em>OVERLAP</em> = 5 000 - 4 000 = 1 000. Therefore:</p>
-<div class="math notranslate nohighlight">
-\[WINDOWS = \frac{25 000 - 5000}{1 000} + 1 = 21.\]</div>
-<p>And <em>Pond</em> should be called with <code class="docutils literal notranslate"><span class="pre">--windows</span> <span class="pre">21</span> <span class="pre">--wsize</span> <span class="pre">5000</span></code> options to get above described windows.</p>
-</div>
-</div>
-<div class="section" id="pockets">
-<h2>Pockets<a class="headerlink" href="#pockets" title="Permalink to this headline">¶</a></h2>
-<p>Pockets are calculated by analysis of paths found by <em>Valve</em>. A regular grid is constructed
-spanning all paths. Grid size by default is 1 Å and can be altered with <code class="docutils literal notranslate"><span class="pre">--gsize</span></code> option.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>As for now, it is recommended that multiplicative inverse of grid size is an integer number.
-Therefore, grid size can be safely set to 1, 0.5, 0.25, 0.1 etc.</p>
-</div>
-<p>Next, number of paths crossing each of the grid cells is calculated over the entire trajectory and
-divided by the number of frames. This gives averaged density of traced molecules.</p>
-<p>Cells with null density are removed from the grid and resulted shape corresponds to maximal area
-penetrated by traced molecules.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If no estimation of free energy is performed values returned for pockets and hot-spots
-are density (of traced molecules).</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Estimation of free energy for pockets calculated for non raw data may be unreliable.</p>
-</div>
-<div class="section" id="inner-outer-pocket">
-<h3>Inner &amp; outer pocket<a class="headerlink" href="#inner-outer-pocket" title="Permalink to this headline">¶</a></h3>
-<p>Distribution of densities in the grid has positive skew. This suggest that pocket can be partitioned
-into areas of different overall distribution of traced molecules.</p>
-<p>Indeed, <em>Pond</em> saves two types of pockets depending on the distribution of densities in the grid:</p>
-<ol class="arabic simple">
-<li><dl class="simple">
-<dt><strong>Inner pocket</strong></dt><dd><p>This is part of the pocket for which densities are greater than mean value.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>Outer pocket</strong></dt><dd><p>This is counter part for <strong>Inner pocket</strong>, i.e. the part of the pocket for which densities are less than mean value.</p>
-</dd>
-</dl>
-</li>
-</ol>
-</div>
-<div class="section" id="hot-spots">
-<h3>Hot-spots<a class="headerlink" href="#hot-spots" title="Permalink to this headline">¶</a></h3>
-<p>Further analysis of distribution of densities in the grid allows to select points of the highest densities.
-They are considered as <strong>hot-spots</strong>, i.e. points of particular importance at which traced molecules
-are attracted or trapped and stays for considerably long time.</p>
-<p>Currently <strong>hot-spots</strong> are detected as far right tail of the distribution of densities in the grid.</p>
-</div>
-</div>
-<div class="section" id="energy-profiles">
-<h2>Energy profiles<a class="headerlink" href="#energy-profiles" title="Permalink to this headline">¶</a></h2>
-<p><em>Pond</em> estimates energy profiles of master paths.
-For each point of the master path density of paths of traced molecules is calculated within
-sphere of radius set by <code class="docutils literal notranslate"><span class="pre">--master-radius</span></code> option.</p>
-<p>Option <code class="docutils literal notranslate"><span class="pre">--master-ctypes</span></code> allows to select master paths <em>ctypes</em> for which free energy estimation is
-calculated.</p>
-</div>
-</div>
-
-
-            <div class="clearer"></div>
-          </div>
-        </div>
-      </div>
+    </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/AQUADUCT_LOGO.png" alt="Logo"/>
+              <img class="logo" src="../static/AQUADUCT_LOGO.png" alt="Logo"/>
             </a></p>
   <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
@@ -389,15 +84,317 @@ calculated.</p>
   <p class="topless"><a href="../aquaduct_install.html"
                         title="next chapter">Aqua-Duct installation guide</a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pond-manual">
+<h1><em>Pond</em> manual<a class="headerlink" href="#pond-manual" title="Permalink to this headline">¶</a></h1>
+<p><em>Pond</em> application is a driver that uses <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a> module to perform further analysis of results from <em>Valve</em> calculations.</p>
+<p><em>Pond</em> can calculate pockets present in the protein and free energy profiles of <a class="reference internal" href="../valve/valve_manual.html#master-paths-manual"><span class="std std-ref">Master paths</span></a>.</p>
+<div class="section" id="pond-invocation">
+<h2><em>Pond</em> invocation<a class="headerlink" href="#pond-invocation" title="Permalink to this headline">¶</a></h2>
+<p>Once <a class="reference internal" href="../aquaduct.html#module-aquaduct" title="aquaduct"><code class="xref py py-mod docutils literal notranslate"><span class="pre">aquaduct</span></code></a> module is installed (see <a class="reference internal" href="../aquaduct_install.html"><span class="doc">Aqua-Duct installation guide</span></a>) properly on the machine, <em>Pond</em> is available as <code class="docutils literal notranslate"><span class="pre">pond.py</span></code> command line tool.</p>
+<div class="section" id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
+<p>Basic help of <em>Pond</em> usage can be displayed by following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pond</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+<p>It should display following information:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: pond.py [-h] [-c CONFIG_FILE] [-t THREADS] [-r RESULTS_DIR] [--debug]
+               [--debug-file DEBUG_FILE] [--paths-types PATHS_TYPES] [--raw]
+               [--raw-master] [--raw-discard-singletons RAW_SINGL]
+               [--window-full] [--windows WINDOWS] [--wsize WSIZE]
+               [--reference-value REF] [--reference-calc]
+               [--reference-radius REF_RADIUS] [--reference-mol REF_MOL]
+               [--temperature TEMP] [--gsize GRID_SIZE] [--pockets]
+               [--hotspots] [--energy-profile] [--master]
+               [--master-radius MASTER_RADIUS] [--master-ctypes MASTER_CTYPES]
+               [--io-threshold IO_THRESHOLD] [--path-id PATH_ID]
+               [--path-file PATH_FILE] [--path-radius PATH_RADIUS]
+               [--path-smooth] [--raw-path] [--extract-path EXTRACT_PATH]
+               [--output-file OUTPUT_FILE]
+
+What have I got in my pocket?
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -c CONFIG_FILE        Config file filename. (default: None)
+  -t THREADS            Limit Aqua-Duct calculations to given number of
+                        threads. (default: None)
+  -r RESULTS_DIR        Path to results directory (default: )
+  --debug               Prints debug info. (default: False)
+  --debug-file DEBUG_FILE
+                        Debug log file. (default: None)
+  --paths-types PATHS_TYPES
+                        Limit calculations to given paths types, i.e. given
+                        molecules. (default: )
+  --raw                 Use raw data from paths instead of single paths.
+                        (default: False)
+  --raw-master          Use raw data from paths instead of single paths, only
+                        in master paths calculations. (default: False)
+  --raw-discard-singletons RAW_SINGL
+                        Discard short scope only segments from raw data.
+                        (default: 1)
+  --window-full         Return full window if windows is used. (default:
+                        False)
+  --windows WINDOWS     Number of windows to calculate. (default: 1)
+  --wsize WSIZE         Size of window in frames. (default: None)
+  --reference-value REF
+                        Reference value in [kJ/mol/K]. (default: None)
+  --reference-calc      Calculate reference value with scope and reference
+                        molecules. (default: False)
+  --reference-radius REF_RADIUS
+                        Radius of reference. (default: 2.0)
+  --reference-mol REF_MOL
+                        Selection of reference molecules. (default: resname
+                        WAT)
+  --temperature TEMP    Simulation temperature. (default: 300.0)
+  --gsize GRID_SIZE     Size of grid&#39;s cells. (default: 1.0)
+  --pockets             Calculate pockets. (default: False)
+  --hotspots            Calculates hotspots if pockets are calculated.
+                        (default: False)
+  --energy-profile      Calculates energy profiles for master paths. (default:
+                        False)
+  --master              Enables master paths calculation. (default: False)
+  --master-radius MASTER_RADIUS
+                        Calculate profiles for master paths with given radius.
+                        (default: 2.0)
+  --master-ctypes MASTER_CTYPES
+                        Limit calculations to given ctypes. (default: )
+  --io-threshold IO_THRESHOLD
+                        Percent value of maximal density which will be used to
+                        partition pocket into inner and outer instead of mean
+                        value. (default: None)
+  --path-id PATH_ID     Calculate profiles for specified path ID. (default:
+                        None)
+  --path-file PATH_FILE
+                        Use coordinates from specified CSV file. (default:
+                        None)
+  --path-radius PATH_RADIUS
+                        Calculate profiles for path with given radius.
+                        (default: 2.0)
+  --path-smooth         If used path coordinates will be smoothed. (default:
+                        False)
+  --raw-path            Use raw data from paths instead of single paths. Used
+                        for path energy profiles calculations and for
+                        extracting raw path. (default: False)
+  --extract-path EXTRACT_PATH
+                        Extract path coordinates with specified ID. (default:
+                        None)
+  --output-file OUTPUT_FILE
+                        Output CSV filename for extracted coordinates.
+                        (default: path_coords.csv)
+</pre></div>
+</div>
+</div>
+<div class="section" id="options-common-with-valve">
+<h3>Options common with <em>Valve</em><a class="headerlink" href="#options-common-with-valve" title="Permalink to this headline">¶</a></h3>
+<p>All options related to Molecular Dynamic simulation data, configuration file, and threads have the same meaning as in <em>Valve</em>.</p>
+<p>For detailed explanation of the following options see <a class="reference internal" href="../valve/valve_manual.html"><span class="doc">Valve manual</span></a>:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">CONFIG_FILE</span></code> - Configuration file name. <em>Pond</em> and <em>Valve</em> should use the same file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-t</span> <span class="pre">THREADS</span></code> - Limits Aqua-Duct calculations to given number of threads.</li>
+<li><code class="docutils literal notranslate"><span class="pre">--debug</span></code> and <code class="docutils literal notranslate"><span class="pre">--debug-file</span></code> - Allows to get debugging information.</li>
+</ul>
+</div>
+<div class="section" id="results-directory">
+<h3>Results directory<a class="headerlink" href="#results-directory" title="Permalink to this headline">¶</a></h3>
+<p><em>Pond</em> produces many results files, especially if windows options are used. For the sake of convenience,
+option <code class="docutils literal notranslate"><span class="pre">-r</span></code> allows to provide output directory.
+If provided directory does not exist it will be created without warning.
+Also, <em>Pond</em> will not warn if results files overwrites existing files.</p>
+</div>
+<div class="section" id="pond-calculations-options">
+<h3><em>Pond</em> calculations options<a class="headerlink" href="#pond-calculations-options" title="Permalink to this headline">¶</a></h3>
+<p>Other options are used to start or adjust <em>Pond</em> calculations:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><strong>Pockets</strong></dt>
+<dd>Option <code class="docutils literal notranslate"><span class="pre">--pockets</span></code> triggers pocket calculations</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Hot-spots</strong></dt>
+<dd>Option <code class="docutils literal notranslate"><span class="pre">--hotspots</span></code> triggers hot-spot calculations but it also requires <code class="docutils literal notranslate"><span class="pre">--pockets</span></code>.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Energy profiles</strong></dt>
+<dd>Option <code class="docutils literal notranslate"><span class="pre">--energy-profile</span></code> triggers free energy profiles calculations for master paths.</dd>
+</dl>
+</li>
+</ul>
+<p><em>Pond</em>’s option <code class="docutils literal notranslate"><span class="pre">--paths-types</span></code> allows to limit calculations only to paths of certain molecules. For example, <code class="docutils literal notranslate"><span class="pre">--paths-types</span> <span class="pre">'WAT</span> <span class="pre">OXY'</span></code> loads paths of <code class="docutils literal notranslate"><span class="pre">WAT</span></code> (water molecules) and <code class="docutils literal notranslate"><span class="pre">OXY</span></code> (oxygen) molecules. All other paths (if any) will not be used.</p>
+</div>
+<div class="section" id="free-energy-estimation">
+<h3>Free energy estimation<a class="headerlink" href="#free-energy-estimation" title="Permalink to this headline">¶</a></h3>
+<p><em>Pond</em> can estimate free energy by using calculated density of traced molecules.
+It becomes particularly useful and relevant when traced molecules include solvent.</p>
+<p>Estimation of free energy is done according to Boltzmann inversion. Similar method
+was used in <a class="reference external" href="https://dx.doi.org/10.1080/19336950.2017.1306163">Rao,S. et al.</a>
+(doi:10.1080/19336950.2017.1306163) paper.</p>
+<p>Following equation relates free energy with density of molecules:</p>
+<div class="math notranslate nohighlight">
+\[n(z) = C \cdot e^{\left( \frac {-E(z) }{ kT} \right) }\]</div>
+<p>Where <em>z</em> is point in the space, preferably along some kind of path, <em>n(z)</em> is density of molecules
+in point <em>z</em>, <em>C</em> is a normalization constant, <em>E</em> is free energy, <em>k</em> is Boltzmann’s constant,
+and <em>T</em> is temperature.</p>
+<p>One can easily transform the above equation to calculate energy:</p>
+<div class="math notranslate nohighlight">
+\[E(z) = -kT\ln\left(n(z)\right) -kT\ln\left(C\right)\]</div>
+<p>Term <span class="math notranslate nohighlight">\(kT\ln\left(C\right)\)</span> does not depend on <em>z</em> and can be determined by assumption that
+free energy in the bulk of traced molecules (solvent) is zero.</p>
+<p>Please note that option <code class="docutils literal notranslate"><span class="pre">--temperature</span></code> allows to set desired temperature in Kelvins.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><em>Pond</em> returns energy in kJ/mol SI units.</p>
+</div>
+<div class="section" id="bulk-reference">
+<h4>Bulk reference<a class="headerlink" href="#bulk-reference" title="Permalink to this headline">¶</a></h4>
+<p>Value of reference correction can be directly passed to <em>Pond</em> using <code class="docutils literal notranslate"><span class="pre">--reference-value</span></code> option or can be calculated automatically by analysis of the bulk of traced molecules (solvent) using <code class="docutils literal notranslate"><span class="pre">--reference-calc</span></code> flag. Following additional options influence calculation of bulk reference:</p>
+<ol class="arabic simple">
+<li><dl class="first docutils">
+<dt>Radius of the bulk around COG.</dt>
+<dd>Option <code class="docutils literal notranslate"><span class="pre">--reference-radius</span></code> allows to set the radius of the sphere within which the bulk will be
+scanned. The sphere is centered in COG. Radius should be selected in such a way that the sphere
+does not overlaps with other molecules in the simulated system. Default value is 2.0 Å.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Density of reference molecules.</dt>
+<dd>Once COG if the bulk and radius are setup, <em>Pond</em> scans trajectory and looks for molecules.
+Option <code class="docutils literal notranslate"><span class="pre">--reference-mol</span></code> allows to define molecules for which density should be calculated.</dd>
+</dl>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If no <code class="docutils literal notranslate"><span class="pre">--reference-value</span></code>  or <code class="docutils literal notranslate"><span class="pre">--reference-calc</span></code> options are used <em>Pond</em> skips estimation of free energy.</p>
+</div>
+</div>
+</div>
+<div class="section" id="raw-data">
+<h3>Raw data<a class="headerlink" href="#raw-data" title="Permalink to this headline">¶</a></h3>
+<p>Two types of data can by used by <em>Pond</em>:</p>
+<ol class="arabic simple">
+<li>Separate paths (including passing paths if any), or</li>
+<li>Raw paths saved at stage II.</li>
+</ol>
+<p>By default separate paths are used. Option <code class="docutils literal notranslate"><span class="pre">--raw</span></code> makes <em>Pond</em> to use raw paths in all calculations,
+whereas <code class="docutils literal notranslate"><span class="pre">--raw-master</span></code> makes <em>Pond</em> to use raw paths only in estimation of free energy profiles and
+for pockets and hot-spots separate paths are used.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Best results of pockets calculation can be achieved with separate paths.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Free energy estimation with separate paths may very likely lead to false results at the borders
+of the scope.</p>
+</div>
+</div>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<p><em>Pond</em> performs calculations for entire trajectory and/or for user defined windows:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">--window-full</span></code> ensures that results will be calculated for the entire trajectory.</li>
+<li><code class="docutils literal notranslate"><span class="pre">--windows</span></code> allows to set number of windows.</li>
+<li><code class="docutils literal notranslate"><span class="pre">--wsize</span></code> allows to change default size of windows.</li>
+</ul>
+<p>By default, windows’ sizes are automatically set in such a way that entire trajectory is
+covered and windows do not overlap to each other. Option <code class="docutils literal notranslate"><span class="pre">--wsize</span></code> allows to set size of
+windows (in frames), therefore, windows can also overlap with each other or can span only
+selected sections of the trajectory.</p>
+<p>For example, for 25 000 snapshots long trajectory one can perform calculations in 5000 frames
+long windows where an overlap of a consecutive window with a next window is 4000 frames long - see following picture:</p>
+<img alt="../images/aafig-ad437e9c169711b199ea6a70211c3e50c3528071.png" src="../images/aafig-ad437e9c169711b199ea6a70211c3e50c3528071.png" />
+<p>To calculate proper number of windows evenly spanning trajectory one can use following equation:</p>
+<div class="math notranslate nohighlight">
+\[WINDOWS = \frac{TOTAL - WSIZE}{SHIFT} + 1\]</div>
+<p>Where <em>WINDOWS</em> is a desired number of windows, <em>TOTAL</em> is total length of trajectory, and <em>SHIFT</em> is <em>WSIZE - OVERLAP</em>.</p>
+<p>In the above example <em>TOTAL</em> = 25 000, <em>WSIZE</em> = 5 000, <em>SHIFT</em> = <em>WSIZE</em> - <em>OVERLAP</em> = 5 000 - 4 000 = 1 000. Therefore:</p>
+<div class="math notranslate nohighlight">
+\[WINDOWS = \frac{25 000 - 5000}{1 000} + 1 = 21.\]</div>
+<p>And <em>Pond</em> should be called with <code class="docutils literal notranslate"><span class="pre">--windows</span> <span class="pre">21</span> <span class="pre">--wsize</span> <span class="pre">5000</span></code> options to get above described windows.</p>
+</div>
+</div>
+<div class="section" id="pockets">
+<h2>Pockets<a class="headerlink" href="#pockets" title="Permalink to this headline">¶</a></h2>
+<p>Pockets are calculated by analysis of paths found by <em>Valve</em>. A regular grid is constructed
+spanning all paths. Grid size by default is 1 Å and can be altered with <code class="docutils literal notranslate"><span class="pre">--gsize</span></code> option.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As for now, it is recommended that multiplicative inverse of grid size is an integer number.
+Therefore, grid size can be safely set to 1, 0.5, 0.25, 0.1 etc.</p>
+</div>
+<p>Next, number of paths crossing each of the grid cells is calculated over the entire trajectory and
+divided by the number of frames. This gives averaged density of traced molecules.</p>
+<p>Cells with null density are removed from the grid and resulted shape corresponds to maximal area
+penetrated by traced molecules.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If no estimation of free energy is performed values returned for pockets and hot-spots
+are density (of traced molecules).</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Estimation of free energy for pockets calculated for non raw data may be unreliable.</p>
+</div>
+<div class="section" id="inner-outer-pocket">
+<h3>Inner &amp; outer pocket<a class="headerlink" href="#inner-outer-pocket" title="Permalink to this headline">¶</a></h3>
+<p>Distribution of densities in the grid has positive skew. This suggest that pocket can be partitioned
+into areas of different overall distribution of traced molecules.</p>
+<p>Indeed, <em>Pond</em> saves two types of pockets depending on the distribution of densities in the grid:</p>
+<ol class="arabic simple">
+<li><dl class="first docutils">
+<dt><strong>Inner pocket</strong></dt>
+<dd>This is part of the pocket for which densities are greater than mean value.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Outer pocket</strong></dt>
+<dd>This is counter part for <strong>Inner pocket</strong>, i.e. the part of the pocket for which densities are less than mean value.</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="hot-spots">
+<h3>Hot-spots<a class="headerlink" href="#hot-spots" title="Permalink to this headline">¶</a></h3>
+<p>Further analysis of distribution of densities in the grid allows to select points of the highest densities.
+They are considered as <strong>hot-spots</strong>, i.e. points of particular importance at which traced molecules
+are attracted or trapped and stays for considerably long time.</p>
+<p>Currently <strong>hot-spots</strong> are detected as far right tail of the distribution of densities in the grid.</p>
+</div>
+</div>
+<div class="section" id="energy-profiles">
+<h2>Energy profiles<a class="headerlink" href="#energy-profiles" title="Permalink to this headline">¶</a></h2>
+<p><em>Pond</em> estimates energy profiles of master paths.
+For each point of the master path density of paths of traced molecules is calculated within
+sphere of radius set by <code class="docutils literal notranslate"><span class="pre">--master-radius</span></code> option.</p>
+<p>Option <code class="docutils literal notranslate"><span class="pre">--master-ctypes</span></code> allows to select master paths <em>ctypes</em> for which free energy estimation is
+calculated.</p>
+</div>
+</div>
+
+
+          </div>
         </div>
       </div>
       <div class="clearer"></div>
@@ -417,14 +414,13 @@ calculated.</p>
         <li class="right" >
           <a href="index.html" title="Aqua-Duct’s Pond driver documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >Aqua-Duct’s Pond driver documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href=""><em>Pond</em> manual</a></li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Aqua-Duct’s Pond driver documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018, 2019 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>

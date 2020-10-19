@@ -2,27 +2,27 @@
 
 <!doctype html>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>aquaduct.traj.barber &#8212; Aqua-Duct 1.0.10 documentation</title>
-    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>aquaduct.traj.barber &#8212; Aqua-Duct 1.0.5 documentation</title>
+    <link rel="stylesheet" href="../../../static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
     
-    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script src="../../../_static/bizstyle.js"></script>
-    <link rel="shortcut icon" href="../../../_static/ficon.ico"/>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+    <script type="text/javascript" src="../../../static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../../../static/ficon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script src="_static/css3-mediaqueries.js"></script>
+    <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -34,12 +34,30 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../aquaduct.html" accesskey="U">aquaduct</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">aquaduct.traj.barber</a></li> 
+          <li class="nav-item nav-item-2"><a href="../../aquaduct.html" accesskey="U">aquaduct</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../static/AQUADUCT_LOGO.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -78,23 +96,19 @@
 <span class="kn">from</span> <span class="nn">aquaduct.utils.helpers</span> <span class="k">import</span> <span class="n">listify</span>
 <span class="kn">from</span> <span class="nn">aquaduct.utils.helpers</span> <span class="k">import</span> <span class="n">lind</span><span class="p">,</span> <span class="n">SmartRange</span>
 <span class="kn">from</span> <span class="nn">aquaduct.traj.sandwich</span> <span class="k">import</span> <span class="n">ReaderAccess</span><span class="p">,</span> <span class="n">Reader</span>
-
-
-
 <span class="kn">from</span> <span class="nn">aquaduct.geom</span> <span class="k">import</span> <span class="n">Sphere</span><span class="p">,</span> <span class="n">do_cut_thyself</span>
 <span class="kn">from</span> <span class="nn">aquaduct.utils.multip</span> <span class="k">import</span> <span class="n">optimal_threads</span>
 <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">chain</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">izip</span><span class="p">,</span> <span class="n">imap</span>
 <span class="kn">from</span> <span class="nn">aquaduct.apps.data</span> <span class="k">import</span> <span class="n">CRIC</span>
 
 <span class="n">__mail__</span> <span class="o">=</span> <span class="s1">&#39;info@aquaduct.pl&#39;</span>
 
 
-<span class="nd">@listify</span>
+<div class="viewcode-block" id="spaths2spheres"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.spaths2spheres">[docs]</a><span class="nd">@listify</span>
 <span class="k">def</span> <span class="nf">spaths2spheres</span><span class="p">(</span><span class="n">spaths</span><span class="p">,</span> <span class="n">minmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tovdw</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forceempty</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">mincut</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">,</span> <span class="n">mincut_level</span><span class="p">,</span> <span class="n">maxcut_level</span> <span class="o">=</span> <span class="n">minmax</span>
-
     <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">spaths</span><span class="p">:</span>
 
         <span class="n">traj_reader</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_reader_by_id</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
@@ -144,13 +158,12 @@
             <span class="k">elif</span> <span class="n">forceempty</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius 0&#39;</span><span class="p">)</span>
                 <span class="k">yield</span> <span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="k">yield</span> <span class="n">CRIC</span>
+    <span class="k">yield</span> <span class="n">CRIC</span></div>
 
 
-<span class="nd">@listify</span>
+<div class="viewcode-block" id="inlets2spheres"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.inlets2spheres">[docs]</a><span class="nd">@listify</span>
 <span class="k">def</span> <span class="nf">inlets2spheres</span><span class="p">(</span><span class="n">inlets</span><span class="p">,</span> <span class="n">minmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tovdw</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forceempty</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">mincut</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">,</span> <span class="n">mincut_level</span><span class="p">,</span> <span class="n">maxcut_level</span> <span class="o">=</span> <span class="n">minmax</span>
-
     <span class="k">for</span> <span class="n">inlet</span> <span class="ow">in</span> <span class="n">inlets</span><span class="p">:</span>
 
         <span class="n">traj_reader</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_reader_by_id</span><span class="p">(</span><span class="n">inlet</span><span class="o">.</span><span class="n">reference</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
@@ -192,7 +205,7 @@
         <span class="k">elif</span> <span class="n">forceempty</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius 0&#39;</span><span class="p">)</span>
             <span class="k">yield</span> <span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="k">yield</span> <span class="n">CRIC</span>
+    <span class="k">yield</span> <span class="n">CRIC</span></div>
 
 
 <div class="viewcode-block" id="WhereToCut"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut">[docs]</a><span class="k">class</span> <span class="nc">WhereToCut</span><span class="p">(</span><span class="n">ReaderAccess</span><span class="p">):</span>
@@ -202,7 +215,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="c1"># creates collection of Spheres</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="WhereToCut.__init__"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">spaths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">inlets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">expected_nr_of_spaths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -241,9 +254,9 @@
         <span class="k">if</span> <span class="n">spaths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_spheres_from_spaths</span><span class="p">(</span><span class="n">spaths</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">inlets</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_spheres_from_inlets</span><span class="p">(</span><span class="n">inlets</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_spheres_from_inlets</span><span class="p">(</span><span class="n">inlets</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">check_minmaxcuts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WhereToCut.check_minmaxcuts"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut.check_minmaxcuts">[docs]</a>    <span class="k">def</span> <span class="nf">check_minmaxcuts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">mincut</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">mincut_val</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mincut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -264,9 +277,9 @@
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxcut_level</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">mincut_level</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                         <span class="s1">&#39;Options mincut_level and maxcut_level are set to </span><span class="si">%s</span><span class="s1"> and </span><span class="si">%s</span><span class="s1"> accordingly, some spheres might be retained.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">mincut</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut</span><span class="p">,</span> <span class="n">maxcut_val</span>
+        <span class="k">return</span> <span class="n">mincut</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut</span><span class="p">,</span> <span class="n">maxcut_val</span></div>
 
-    <span class="k">def</span> <span class="nf">add_spheres_from_spaths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spaths</span><span class="p">):</span>
+<div class="viewcode-block" id="WhereToCut.add_spheres_from_spaths"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut.add_spheres_from_spaths">[docs]</a>    <span class="k">def</span> <span class="nf">add_spheres_from_spaths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spaths</span><span class="p">):</span>
         <span class="n">clui</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="s2">&quot;Auto Barber is looking where to cut:&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_nr_of_spaths</span><span class="p">:</span>
             <span class="n">pbar</span> <span class="o">=</span> <span class="n">clui</span><span class="o">.</span><span class="n">pbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expected_nr_of_spaths</span><span class="p">)</span>
@@ -276,17 +289,16 @@
             <span class="n">n_add</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">spaths</span><span class="p">)</span>
         <span class="n">minmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_minmaxcuts</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mincut_level</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxcut_level</span><span class="p">)</span>
 
-
         <span class="n">Reader</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">optimal_threads</span><span class="o">.</span><span class="n">threads_count</span><span class="p">)</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">optimal_threads</span><span class="o">.</span><span class="n">threads_count</span><span class="p">)</span>
-        <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="k">if</span> <span class="n">chunk</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">))))</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="k">if</span> <span class="n">chunk</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">)))</span>
 
         <span class="n">add_function</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">spaths2spheres</span><span class="p">,</span> <span class="n">minmax</span><span class="o">=</span><span class="n">minmax</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">selection</span><span class="p">,</span> <span class="n">tovdw</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tovdw</span><span class="p">,</span>
                                <span class="n">forceempty</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">forceempty</span><span class="p">)</span>
         <span class="n">_spaths</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="n">spaths</span><span class="p">)</span>
         <span class="n">Reader</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="n">spheres_new</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">add_function</span><span class="p">,</span> <span class="p">([</span><span class="nb">next</span><span class="p">(</span><span class="n">_spaths</span><span class="p">)</span> <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">))</span>
+        <span class="n">spheres_new</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">add_function</span><span class="p">,</span> <span class="p">([</span><span class="n">_spaths</span><span class="o">.</span><span class="n">next</span><span class="p">()</span> <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">))</span>
 
         <span class="n">nr</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">spheres</span> <span class="ow">in</span> <span class="n">spheres_new</span><span class="p">:</span>
@@ -303,9 +315,9 @@
                 <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">n_add</span><span class="p">)</span>
         <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-        <span class="n">pbar</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+        <span class="n">pbar</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">add_spheres_from_inlets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inlets</span><span class="p">):</span>
+<div class="viewcode-block" id="WhereToCut.add_spheres_from_inlets"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut.add_spheres_from_inlets">[docs]</a>    <span class="k">def</span> <span class="nf">add_spheres_from_inlets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inlets</span><span class="p">):</span>
         <span class="n">clui</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="s2">&quot;Auto Barber is looking where to cut:&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_nr_of_spaths</span><span class="p">:</span>
             <span class="n">pbar</span> <span class="o">=</span> <span class="n">clui</span><span class="o">.</span><span class="n">pbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expected_nr_of_spaths</span><span class="p">)</span>
@@ -315,17 +327,16 @@
             <span class="n">n_add</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">inlets</span><span class="o">.</span><span class="n">inlets_list</span><span class="p">)</span>
         <span class="n">minmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_minmaxcuts</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mincut_level</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxcut_level</span><span class="p">)</span>
 
-
         <span class="n">Reader</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">optimal_threads</span><span class="o">.</span><span class="n">threads_count</span><span class="p">)</span>
         <span class="c1"># pool = Pool(processes=1)</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">optimal_threads</span><span class="o">.</span><span class="n">threads_count</span><span class="p">)</span>
-        <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="k">if</span> <span class="n">chunk</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">)))</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="k">if</span> <span class="n">chunk</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">)))</span>
 
         <span class="n">add_function</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">inlets2spheres</span><span class="p">,</span> <span class="n">minmax</span><span class="o">=</span><span class="n">minmax</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">selection</span><span class="p">,</span> <span class="n">tovdw</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tovdw</span><span class="p">,</span>
                                <span class="n">forceempty</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">forceempty</span><span class="p">)</span>
         <span class="n">_inlets</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="n">inlets</span><span class="p">)</span>
-        <span class="n">spheres_new</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">add_function</span><span class="p">,</span> <span class="p">[[</span><span class="nb">next</span><span class="p">(</span><span class="n">_inlets</span><span class="p">)</span> <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">])</span>
+        <span class="n">spheres_new</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">add_function</span><span class="p">,</span> <span class="p">[[</span><span class="n">_inlets</span><span class="o">.</span><span class="n">next</span><span class="p">()</span> <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">])</span>
         <span class="c1"># spheres_new = imap(add_function, ([_inlets.next() for cc in xrange(c)] for c in chunks))</span>
 
         <span class="n">nr</span> <span class="o">=</span> <span class="mi">0</span>
@@ -343,9 +354,9 @@
                 <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">n_add</span><span class="p">)</span>
         <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-        <span class="n">pbar</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+        <span class="n">pbar</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">get_current_nr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WhereToCut.get_current_nr"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut.get_current_nr">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_nr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">):</span>
             <span class="c1"># nr = max((sphe.nr for sphe in self.spheres))</span>
             <span class="n">nr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">nr</span>
@@ -353,11 +364,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">nr</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">assert</span> <span class="n">nr</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">),</span> <span class="s2">&quot;Inconsistent number of spheres.&quot;</span>
-        <span class="k">return</span> <span class="n">nr</span>
+        <span class="k">return</span> <span class="n">nr</span></div>
 
-    <span class="k">def</span> <span class="nf">inlet2sphere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inlet</span><span class="p">):</span>
-
-
+<div class="viewcode-block" id="WhereToCut.inlet2sphere"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut.inlet2sphere">[docs]</a>    <span class="k">def</span> <span class="nf">inlet2sphere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inlet</span><span class="p">):</span>
         <span class="n">traj_reader</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_reader_by_id</span><span class="p">(</span><span class="n">inlet</span><span class="o">.</span><span class="n">reference</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
         <span class="n">mincut</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut</span><span class="p">,</span> <span class="n">maxcut_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_minmaxcuts</span><span class="p">()</span>
         <span class="n">barber</span> <span class="o">=</span> <span class="n">traj_reader</span><span class="o">.</span><span class="n">parse_selection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selection</span><span class="p">)</span>
@@ -396,9 +405,9 @@
             <span class="k">return</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">())</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">forceempty</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius 0&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">())</span></div>
 
-    <span class="k">def</span> <span class="nf">spath2spheres</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sp</span><span class="p">):</span>
+<div class="viewcode-block" id="WhereToCut.spath2spheres"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut.spath2spheres">[docs]</a>    <span class="k">def</span> <span class="nf">spath2spheres</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sp</span><span class="p">):</span>
 
         <span class="n">traj_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_reader_by_id</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="n">mincut</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut</span><span class="p">,</span> <span class="n">maxcut_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_minmaxcuts</span><span class="p">()</span>
@@ -446,20 +455,20 @@
                 <span class="k">yield</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">())</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">forceempty</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius 0&#39;</span><span class="p">)</span>
-                <span class="k">yield</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">())</span>
+                <span class="k">yield</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">())</span></div>
 
-    <span class="k">def</span> <span class="nf">cut_thyself</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span> <span class="o">=</span> <span class="n">do_cut_thyself</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<div class="viewcode-block" id="WhereToCut.cut_thyself"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut.cut_thyself">[docs]</a>    <span class="k">def</span> <span class="nf">cut_thyself</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span> <span class="o">=</span> <span class="n">do_cut_thyself</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
-    <span class="k">def</span> <span class="nf">is_overlaping_with_cloud</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sphere</span><span class="p">):</span>
+<div class="viewcode-block" id="WhereToCut.is_overlaping_with_cloud"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut.is_overlaping_with_cloud">[docs]</a>    <span class="k">def</span> <span class="nf">is_overlaping_with_cloud</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sphere</span><span class="p">):</span>
         <span class="n">spheres_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sphe</span><span class="o">.</span><span class="n">center</span> <span class="k">for</span> <span class="n">sphe</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">])</span>
         <span class="n">spheres_radii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sphe</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">sphe</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">])</span>
         <span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">nr</span> <span class="o">=</span> <span class="n">sphere</span>
         <span class="n">distances</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">center</span><span class="p">),</span> <span class="n">spheres_coords</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
         <span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span> <span class="o">-</span> <span class="n">spheres_radii</span> <span class="o">-</span> <span class="n">radius</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">distances</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">distances</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">cloud_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="WhereToCut.cloud_groups"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut.cloud_groups">[docs]</a>    <span class="k">def</span> <span class="nf">cloud_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="c1"># no redundant spheres</span>
         <span class="n">noredundant_spheres</span><span class="p">,</span> <span class="n">redundant_spheres</span> <span class="o">=</span> <span class="n">do_cut_thyself</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="n">progress</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">progress</span><span class="p">:</span>
@@ -478,7 +487,7 @@
             <span class="k">del</span> <span class="n">distances</span>
             <span class="c1"># check if cci overlaps with any of already found clouds</span>
             <span class="n">cloud_id_intersections</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">cloud_id</span><span class="p">,</span> <span class="n">cloud</span> <span class="ow">in</span> <span class="n">clouds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">cloud_id</span><span class="p">,</span> <span class="n">cloud</span> <span class="ow">in</span> <span class="n">clouds</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">current_cloud</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">cloud</span><span class="p">):</span>
                     <span class="c1"># current cloud intersects with cloud</span>
                     <span class="n">cloud_id_intersections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cloud_id</span><span class="p">)</span>
@@ -487,7 +496,7 @@
                 <span class="k">for</span> <span class="n">cii</span> <span class="ow">in</span> <span class="n">cloud_id_intersections</span><span class="p">:</span>
                     <span class="n">current_cloud</span> <span class="o">=</span> <span class="n">current_cloud</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">clouds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">cii</span><span class="p">))</span>
                     <span class="c1"># current id?</span>
-            <span class="n">current_id</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">clouds</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">current_id</span> <span class="o">=</span> <span class="n">clouds</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">current_id</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">cid</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">current_id</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">cid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_id</span><span class="p">:</span>
@@ -501,7 +510,7 @@
 
         <span class="c1"># chnage nrs id to global ids; add redundant spheres</span>
         <span class="n">nrs_gids</span> <span class="o">=</span> <span class="p">[</span><span class="n">nrs</span><span class="o">.</span><span class="n">nr</span> <span class="k">for</span> <span class="n">nrs</span> <span class="ow">in</span> <span class="n">noredundant_spheres</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">cloud_id</span><span class="p">,</span> <span class="n">cloud</span> <span class="ow">in</span> <span class="n">clouds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">cloud_id</span><span class="p">,</span> <span class="n">cloud</span> <span class="ow">in</span> <span class="n">clouds</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
 
             <span class="n">cloud</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">cloud</span><span class="p">))</span>
 
@@ -528,7 +537,7 @@
         <span class="k">if</span> <span class="n">progress</span><span class="p">:</span>
             <span class="n">pbar</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">clouds</span></div>
+        <span class="k">return</span> <span class="n">clouds</span></div></div>
 
 
 <div class="viewcode-block" id="barber_with_spheres"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.barber_with_spheres">[docs]</a><span class="k">def</span> <span class="nf">barber_with_spheres</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">spheres</span><span class="p">):</span>
@@ -544,45 +553,27 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">tokeep</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
 
 
-<span class="k">def</span> <span class="nf">barber_with_spheres_big_matrix</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">spheres</span><span class="p">):</span>
+<div class="viewcode-block" id="barber_with_spheres_big_matrix"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.barber_with_spheres_big_matrix">[docs]</a><span class="k">def</span> <span class="nf">barber_with_spheres_big_matrix</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">spheres</span><span class="p">):</span>
     <span class="c1"># calculate big distance matrix</span>
     <span class="c1"># distances = cdist(self.coords, [s.center for s in spheres],metric=&#39;euclidean&#39;)</span>
     <span class="c1"># compare with radii</span>
     <span class="c1"># tokeep = distances &gt; np.matrix([[s.radius for s in spheres]])</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spheres</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">((</span><span class="n">cdist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">coords</span><span class="p">)),</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">center</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spheres</span><span class="p">],</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
-            <span class="p">[[</span><span class="n">s</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spheres</span><span class="p">]]))</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">A1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="p">[[</span><span class="n">s</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spheres</span><span class="p">]]))</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">A1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
 
 
-<span class="nd">@listify</span>
+<div class="viewcode-block" id="barber_paths"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.barber_paths">[docs]</a><span class="nd">@listify</span>
 <span class="k">def</span> <span class="nf">barber_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">spheres</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">only_for_names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="c1"># cut paths with barber</span>
     <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">(</span><span class="n">pat</span> <span class="k">for</span> <span class="n">pat</span> <span class="ow">in</span> <span class="n">paths</span> <span class="k">if</span> <span class="n">pat</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">only_for_names</span><span class="p">):</span>
         <span class="n">tokeep</span> <span class="o">=</span> <span class="n">barber_with_spheres</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span> <span class="n">spheres</span><span class="p">)</span>
         <span class="n">path</span><span class="o">.</span><span class="n">update_types_frames</span><span class="p">(</span><span class="n">SmartRange</span><span class="p">(</span><span class="n">lind</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">types</span><span class="p">,</span> <span class="n">tokeep</span><span class="p">)),</span> <span class="n">SmartRange</span><span class="p">(</span><span class="n">lind</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">tokeep</span><span class="p">)))</span>
         <span class="k">yield</span> <span class="n">path</span>
-    <span class="k">yield</span> <span class="n">CRIC</span>
+    <span class="k">yield</span> <span class="n">CRIC</span></div>
 </pre></div>
 
-            <div class="clearer"></div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../../../index.html">
-              <img class="logo" src="../../../_static/AQUADUCT_LOGO.png" alt="Logo"/>
-            </a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -596,15 +587,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../aquaduct.html" >aquaduct</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">aquaduct.traj.barber</a></li> 
+          <li class="nav-item nav-item-2"><a href="../../aquaduct.html" >aquaduct</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018, 2019 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>

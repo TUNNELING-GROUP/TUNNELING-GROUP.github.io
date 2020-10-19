@@ -5,7 +5,6 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
 
    aquaduct.traj.barber
    aquaduct.traj.dumps
@@ -17,5 +16,6 @@ Module contents
 ---------------
 
 .. automodule:: aquaduct.traj
-   :members:
-   :show-inheritance:
+    :members:
+    :undoc-members:
+    :show-inheritance:

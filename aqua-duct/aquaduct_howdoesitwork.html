@@ -2,29 +2,29 @@
 
 <!doctype html>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>How does AQUA-DUCT work &#8212; Aqua-Duct 1.0.10 documentation</title>
-    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>How does AQUA-DUCT work &#8212; Aqua-Duct 1.0.5 documentation</title>
+    <link rel="stylesheet" href="static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script src="_static/bizstyle.js"></script>
-    <link rel="shortcut icon" href="_static/ficon.ico"/>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="static/ficon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Aqua-Duct’s Valve driver documentation" href="valve/index.html" />
     <link rel="prev" title="Welcome to Aqua-Duct’s documentation!" href="index.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script src="_static/css3-mediaqueries.js"></script>
+    <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,135 +42,13 @@
         <li class="right" >
           <a href="index.html" title="Welcome to Aqua-Duct’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">How does AQUA-DUCT work</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li> 
       </ul>
-    </div>  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="how-does-aqua-duct-work">
-<h1>How does AQUA-DUCT work<a class="headerlink" href="#how-does-aqua-duct-work" title="Permalink to this headline">¶</a></h1>
-<p>AQUA-DUCT is a tool perfectly capable of tracing molecules that enter defined region of the macromolecule during MD simulation. Detailed statistics and visualization of all traced molecules are available. Moreover, AQUA-DUCT performs clustering of exits/inlets data and groups identified paths according to this clusters - inlet-exit event grouping.</p>
-<p>Following picture illustrates the concept behind AQUA-DUCT. Molecules which flow through the active site are traced. Incoming, outgoing, and active site parts of paths are detected and visualized accordingly. Traced molecules form clusters which allow for further detailed analysis of the flow.
-Optionally, AQ can trace molecules which does not flow through the active site. This can be useful to ilustrate overall flow and can be also used to derive relative number of molecules visiting the active site.</p>
-<div class="figure align-center">
-<img alt="_images/AQ_work.png" src="_images/AQ_work.png" />
-</div>
-<p>AQUA-DUCT performs calculations in 6 stages:</p>
-<ol class="arabic simple">
-<li><p>Traceable residues</p></li>
-<li><p>Raw paths</p></li>
-<li><p>Separate paths</p></li>
-<li><p>Clustering of inlets</p></li>
-<li><p>Analysis</p></li>
-<li><p>Visualization</p></li>
-</ol>
-<p>Following sections briefly explain these stages, detailed description can be found in the AQ documentation.</p>
-<div class="section" id="traceable-residues">
-<h2>Traceable residues<a class="headerlink" href="#traceable-residues" title="Permalink to this headline">¶</a></h2>
-<p>In the first stage of calculation AQ finds all residues that should be traced and appends them to the list of <em>traceable residues</em>. It is done in a loop over all frames. In each frame residues of interest are searched and appended to the list but only if they are not already present on the list. In <em>sandwich</em> mode this is repeated for each layer.</p>
-<p>The search of the residues is done according to user provided definitions. Two requirements have to be met to append residue to the list:</p>
-<ol class="arabic simple">
-<li><p>The residue has to be found according to the <em>Object</em> definition.</p></li>
-<li><p>The residue has to be within the <em>Scope</em> of interest.</p></li>
-</ol>
-<p>The <em>Object</em> definition encompasses usually the active site of the protein. The <em>Scope</em> of interest defines, on the other hand, the boundaries in which residues are traced and is usually defined as protein.</p>
-<p>Since AQUA-DUCT in its current version uses <a class="reference external" href="http://www.mdanalysis.org/">MDAnalysis</a> Python module for reading, parsing and searching of MD trajectory data, definitions of <em>Object</em> and <em>Scope</em> have to be given as its <em>Selection Commands</em>.</p>
-<div class="section" id="object-definition">
-<h3>Object definition<a class="headerlink" href="#object-definition" title="Permalink to this headline">¶</a></h3>
-<p><em>Object</em> definition has to comprise of two elements:</p>
-<ol class="arabic simple">
-<li><p>It has to define residues to trace.</p></li>
-<li><p>It has to define spatial boundaries of the <em>Object</em> site.</p></li>
-</ol>
-<p>For example, proper Object definition could be following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">resname</span> <span class="n">WAT</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sphzone</span> <span class="mf">6.0</span> <span class="p">(</span><span class="n">resnum</span> <span class="mi">99</span> <span class="ow">or</span> <span class="n">resnum</span> <span class="mi">147</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>It defines <code class="docutils literal notranslate"><span class="pre">WAT</span></code> as residues that should be traced and defines spatial constrains of the <em>Object</em> site as spherical zone within 6 Angstroms of the center of masses of residues with number 99 and 147.</p>
-</div>
-<div class="section" id="scope-definition">
-<h3>Scope definition<a class="headerlink" href="#scope-definition" title="Permalink to this headline">¶</a></h3>
-<p><em>Scope</em> can be defined in two ways: as <em>Object</em> but with broader boundaries or as the convex hull of selected molecular object.</p>
-<p>In the first case definition is very similar to <em>Object</em> and it has to follow the same limitations. For example, proper <em>Scope</em> definition could be following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">resname</span> <span class="n">WAT</span> <span class="n">around</span> <span class="mf">2.0</span> <span class="n">protein</span>
-</pre></div>
-</div>
-<p>It consequently has to define <code class="docutils literal notranslate"><span class="pre">WAT</span></code> as residues of interest and defines spatial constrains: all <code class="docutils literal notranslate"><span class="pre">WAT</span></code> residues that are within 2 Angstroms of the protein.</p>
-<p>If the <em>Scope</em> is defined as the convex hull of selected molecular object (which is <strong>recommended</strong>), the definition itself have to comprise of this molecular object only, for example <code class="docutils literal notranslate"><span class="pre">protein</span></code>. In that case the scope is interpreted as the interior of the convex hull of atoms from the definition. Therefore, <em>traceable residues</em> would be in the scope only if they are within the convex hull of atoms of <code class="docutils literal notranslate"><span class="pre">protein</span></code>.</p>
-</div>
-</div>
-<div class="section" id="raw-paths">
-<h2>Raw paths<a class="headerlink" href="#raw-paths" title="Permalink to this headline">¶</a></h2>
-<p>The second stage of calculations uses the list of all traceable residues from the first stage and finds coordinates of center of masses for each residue in each frame. As in the first stage, it is done in a loop over all frames. For each residue in each frame AQUA-DUCT calculates or checks two things:</p>
-<ol class="arabic simple">
-<li><p>Is the residue in the <em>Scope</em> (this is always calculated according to the Scope definition).</p></li>
-<li><p>Is the residue in the <em>Object</em>. This information is partially calculated in the first stage and can be reused in the second. However, it is also possible to recalculate this data according to the new <em>Object</em> definition.</p></li>
-</ol>
-<p>For each of the <em>traceable residues</em> a special <em>Path</em> object is created which stores frames in which a residue is in <em>scope</em> or in <em>object</em>.</p>
-</div>
-<div class="section" id="separate-paths">
-<h2>Separate paths<a class="headerlink" href="#separate-paths" title="Permalink to this headline">¶</a></h2>
-<p>The third stage uses collection of <em>Path</em> objects to create <em>Separate Path</em> objects. Each <em>Path</em> comprise data for one residue. It may happen that the residue enters and leaves the <em>Scope</em> and the <em>Object</em> many times over the entire MD. Each such an event is considered by AQUA-DUCT as a separate path.</p>
-<p>There are two types of <em>Separate Paths</em>:</p>
-<ul class="simple">
-<li><p><em>Object Paths</em></p></li>
-<li><p><em>Passing Paths</em></p></li>
-</ul>
-<p><em>Object Paths</em> are traces of molecules that visited <em>Object</em> area. <em>Passing Paths</em> are traces of molecules that entered <em>Scope</em> but did not entered <em>Object</em> area.</p>
-<p><em>Passing paths</em> comprises of one part only.
-Each <em>object path</em> comprises of three parts:</p>
-<ol class="arabic simple">
-<li><p><em>Incoming</em> - Defined as a path that leads from the point in which residue enters the <em>Scope</em> and enters the object for the firs time.</p></li>
-<li><p><em>Object</em> - Defined as a path that leads from the point in which residue enters the <em>Object</em> for the first time and leaves it for the last time.</p></li>
-<li><p><em>Outgoing</em> - Defined as a path that leads from the point in which residue leaves the <em>Object</em> for the last lime and leaves the <em>Scope</em>.</p></li>
-</ol>
-<p>It is also possible that incoming and/or outgoing part of the separate path is empty.</p>
-<p>After the initial search of <em>Separate Path</em> objects it is possible to run special procedure, Auto Barber, which trims paths down to the approximated surface of the macromolecule or other molecular entity defined by the user.</p>
-<p>Separate paths can be optionally smoothed for visualization purposes. AQUA-DUCT implements several smoothing methods, including Savitzky-Golay filter.</p>
-</div>
-<div class="section" id="clustering-of-inlets">
-<h2>Clustering of inlets<a class="headerlink" href="#clustering-of-inlets" title="Permalink to this headline">¶</a></h2>
-<p>Each of the separate paths has beginning and end. If they are at the boundaries of the <em>Scope</em> they are considered as <em>Inlets</em>, i.e. points that mark where the <em>traceable residues</em> enters or leaves the <em>Scope</em>. Clusters of inlets, on the other hand, mark endings of tunnels or ways in the system which was simulated in the MD.</p>
-<p>Clustering of inlets is performed in following steps:</p>
-<ol class="arabic">
-<li><p><cite>Initial clustering</cite>: All inlets are submitted to selected clustering method and depending on the method and settings, some of the inlets might not be arranged to any cluster and are considered as outliers.</p></li>
-<li><p>[Optional] <cite>Outliers detection</cite>: Arrangement of inlets to clusters is sometimes far from optimal. In this step, <em>inlets</em> that do not fit to cluster are detected and annotated as outliers. This step can be executed in two modes:</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p><cite>Automatic mode</cite>: Inlet is considered to be an outlier if its distance from the centroid is greater then mean distance + 4 * standard deviation of all distances within the cluster.</p></li>
-<li><p><cite>Defined threshold</cite>: Inlet is considered to be an outlier if its minimal distance from any other point in the cluster is greater then the threshold.</p></li>
-</ol>
-</div></blockquote>
-</li>
-<li><p>[Optional] <cite>Reclustering of outliers</cite>: It may happen that the outliers form actually clusters but it was not recognized in initial clustering. In this step clustering is executed for outliers only and found clusters are appended to the clusters identified in the first step. Rest of the inlets are marked as outliers.</p></li>
-</ol>
-<p>At the end of clustering stage it is possible to run procedure for <cite>master path</cite> generation. First, separate paths are grouped according to clusters. Paths that begin and end in particular clusters are grouped together. Next, for each group a <cite>master path</cite> (i.e., average path) is generated.</p>
-</div>
-<div class="section" id="analysis">
-<h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h2>
-<p>Fifth stage of AQUA-DUCT calculations analyses results calculated in stages 1 to 4. Results of the analysis are displayed on the screen or can be save to text file. Detailed description of analysis result file can be found in the AQ documentation.</p>
-</div>
-<div class="section" id="visualization">
-<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
-<p>Sixth stage of AQUA-DUCT calculations visualizes results calculated in stages 1 to 4. Visualization is done with PyMOL. AQUA-DUCT automatically starts PyMOL and loads visualizations in to it.
-Molecule is loaded as PDB file. Other objects like Inlets clusters or paths are loaded as CGO objects.</p>
-</div>
-</div>
-
-
-            <div class="clearer"></div>
-          </div>
-        </div>
-      </div>
+    </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="index.html">
-              <img class="logo" src="_static/AQUADUCT_LOGO.png" alt="Logo"/>
+              <img class="logo" src="static/AQUADUCT_LOGO.png" alt="Logo"/>
             </a></p>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
@@ -196,15 +74,139 @@ Molecule is loaded as PDB file. Other objects like Inlets clusters or paths are 
   <p class="topless"><a href="valve/index.html"
                         title="next chapter">Aqua-Duct’s Valve driver documentation</a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="how-does-aqua-duct-work">
+<h1>How does AQUA-DUCT work<a class="headerlink" href="#how-does-aqua-duct-work" title="Permalink to this headline">¶</a></h1>
+<p>AQUA-DUCT is a tool perfectly capable of tracing molecules that enter defined region of the macromolecule during MD simulation. Detailed statistics and visualization of all traced molecules are available. Moreover, AQUA-DUCT performs clustering of exits/inlets data and groups identified paths according to this clusters - inlet-exit event grouping.</p>
+<p>Following picture illustrates the concept behind AQUA-DUCT. Molecules which flow through the active site are traced. Incoming, outgoing, and active site parts of paths are detected and visualized accordingly. Traced molecules form clusters which allow for further detailed analysis of the flow.
+Optionally, AQ can trace molecules which does not flow through the active site. This can be useful to ilustrate overall flow and can be also used to derive relative number of molecules visiting the active site.</p>
+<div class="figure align-center">
+<img alt="images/AQ_work.png" src="images/AQ_work.png" />
+</div>
+<p>AQUA-DUCT performs calculations in 6 stages:</p>
+<ol class="arabic simple">
+<li>Traceable residues</li>
+<li>Raw paths</li>
+<li>Separate paths</li>
+<li>Clustering of inlets</li>
+<li>Analysis</li>
+<li>Visualization</li>
+</ol>
+<p>Following sections briefly explain these stages, detailed description can be found in the AQ documentation.</p>
+<div class="section" id="traceable-residues">
+<h2>Traceable residues<a class="headerlink" href="#traceable-residues" title="Permalink to this headline">¶</a></h2>
+<p>In the first stage of calculation AQ finds all residues that should be traced and appends them to the list of <em>traceable residues</em>. It is done in a loop over all frames. In each frame residues of interest are searched and appended to the list but only if they are not already present on the list. In <em>sandwich</em> mode this is repeated for each layer.</p>
+<p>The search of the residues is done according to user provided definitions. Two requirements have to be met to append residue to the list:</p>
+<ol class="arabic simple">
+<li>The residue has to be found according to the <em>Object</em> definition.</li>
+<li>The residue has to be within the <em>Scope</em> of interest.</li>
+</ol>
+<p>The <em>Object</em> definition encompasses usually the active site of the protein. The <em>Scope</em> of interest defines, on the other hand, the boundaries in which residues are traced and is usually defined as protein.</p>
+<p>Since AQUA-DUCT in its current version uses <a class="reference external" href="http://www.mdanalysis.org/">MDAnalysis</a> Python module for reading, parsing and searching of MD trajectory data, definitions of <em>Object</em> and <em>Scope</em> have to be given as its <em>Selection Commands</em>.</p>
+<div class="section" id="object-definition">
+<h3>Object definition<a class="headerlink" href="#object-definition" title="Permalink to this headline">¶</a></h3>
+<p><em>Object</em> definition has to comprise of two elements:</p>
+<ol class="arabic simple">
+<li>It has to define residues to trace.</li>
+<li>It has to define spatial boundaries of the <em>Object</em> site.</li>
+</ol>
+<p>For example, proper Object definition could be following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">resname</span> <span class="n">WAT</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sphzone</span> <span class="mf">6.0</span> <span class="p">(</span><span class="n">resnum</span> <span class="mi">99</span> <span class="ow">or</span> <span class="n">resnum</span> <span class="mi">147</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>It defines <code class="docutils literal notranslate"><span class="pre">WAT</span></code> as residues that should be traced and defines spatial constrains of the <em>Object</em> site as spherical zone within 6 Angstroms of the center of masses of residues with number 99 and 147.</p>
+</div>
+<div class="section" id="scope-definition">
+<h3>Scope definition<a class="headerlink" href="#scope-definition" title="Permalink to this headline">¶</a></h3>
+<p><em>Scope</em> can be defined in two ways: as <em>Object</em> but with broader boundaries or as the convex hull of selected molecular object.</p>
+<p>In the first case definition is very similar to <em>Object</em> and it has to follow the same limitations. For example, proper <em>Scope</em> definition could be following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">resname</span> <span class="n">WAT</span> <span class="n">around</span> <span class="mf">2.0</span> <span class="n">protein</span>
+</pre></div>
+</div>
+<p>It consequently has to define <code class="docutils literal notranslate"><span class="pre">WAT</span></code> as residues of interest and defines spatial constrains: all <code class="docutils literal notranslate"><span class="pre">WAT</span></code> residues that are within 2 Angstroms of the protein.</p>
+<p>If the <em>Scope</em> is defined as the convex hull of selected molecular object (which is <strong>recommended</strong>), the definition itself have to comprise of this molecular object only, for example <code class="docutils literal notranslate"><span class="pre">protein</span></code>. In that case the scope is interpreted as the interior of the convex hull of atoms from the definition. Therefore, <em>traceable residues</em> would be in the scope only if they are within the convex hull of atoms of <code class="docutils literal notranslate"><span class="pre">protein</span></code>.</p>
+</div>
+</div>
+<div class="section" id="raw-paths">
+<h2>Raw paths<a class="headerlink" href="#raw-paths" title="Permalink to this headline">¶</a></h2>
+<p>The second stage of calculations uses the list of all traceable residues from the first stage and finds coordinates of center of masses for each residue in each frame. As in the first stage, it is done in a loop over all frames. For each residue in each frame AQUA-DUCT calculates or checks two things:</p>
+<ol class="arabic simple">
+<li>Is the residue in the <em>Scope</em> (this is always calculated according to the Scope definition).</li>
+<li>Is the residue in the <em>Object</em>. This information is partially calculated in the first stage and can be reused in the second. However, it is also possible to recalculate this data according to the new <em>Object</em> definition.</li>
+</ol>
+<p>For each of the <em>traceable residues</em> a special <em>Path</em> object is created which stores frames in which a residue is in <em>scope</em> or in <em>object</em>.</p>
+</div>
+<div class="section" id="separate-paths">
+<h2>Separate paths<a class="headerlink" href="#separate-paths" title="Permalink to this headline">¶</a></h2>
+<p>The third stage uses collection of <em>Path</em> objects to create <em>Separate Path</em> objects. Each <em>Path</em> comprise data for one residue. It may happen that the residue enters and leaves the <em>Scope</em> and the <em>Object</em> many times over the entire MD. Each such an event is considered by AQUA-DUCT as a separate path.</p>
+<p>There are two types of <em>Separate Paths</em>:</p>
+<ul class="simple">
+<li><em>Object Paths</em></li>
+<li><em>Passing Paths</em></li>
+</ul>
+<p><em>Object Paths</em> are traces of molecules that visited <em>Object</em> area. <em>Passing Paths</em> are traces of molecules that entered <em>Scope</em> but did not entered <em>Object</em> area.</p>
+<p><em>Passing paths</em> comprises of one part only.
+Each <em>object path</em> comprises of three parts:</p>
+<ol class="arabic simple">
+<li><em>Incoming</em> - Defined as a path that leads from the point in which residue enters the <em>Scope</em> and enters the object for the firs time.</li>
+<li><em>Object</em> - Defined as a path that leads from the point in which residue enters the <em>Object</em> for the first time and leaves it for the last time.</li>
+<li><em>Outgoing</em> - Defined as a path that leads from the point in which residue leaves the <em>Object</em> for the last lime and leaves the <em>Scope</em>.</li>
+</ol>
+<p>It is also possible that incoming and/or outgoing part of the separate path is empty.</p>
+<p>After the initial search of <em>Separate Path</em> objects it is possible to run special procedure, Auto Barber, which trims paths down to the approximated surface of the macromolecule or other molecular entity defined by the user.</p>
+<p>Separate paths can be optionally smoothed for visualization purposes. AQUA-DUCT implements several smoothing methods, including Savitzky-Golay filter.</p>
+</div>
+<div class="section" id="clustering-of-inlets">
+<h2>Clustering of inlets<a class="headerlink" href="#clustering-of-inlets" title="Permalink to this headline">¶</a></h2>
+<p>Each of the separate paths has beginning and end. If they are at the boundaries of the <em>Scope</em> they are considered as <em>Inlets</em>, i.e. points that mark where the <em>traceable residues</em> enters or leaves the <em>Scope</em>. Clusters of inlets, on the other hand, mark endings of tunnels or ways in the system which was simulated in the MD.</p>
+<p>Clustering of inlets is performed in following steps:</p>
+<ol class="arabic">
+<li><p class="first"><cite>Initial clustering</cite>: All inlets are submitted to selected clustering method and depending on the method and settings, some of the inlets might not be arranged to any cluster and are considered as outliers.</p>
+</li>
+<li><p class="first">[Optional] <cite>Outliers detection</cite>: Arrangement of inlets to clusters is sometimes far from optimal. In this step, <em>inlets</em> that do not fit to cluster are detected and annotated as outliers. This step can be executed in two modes:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><cite>Automatic mode</cite>: Inlet is considered to be an outlier if its distance from the centroid is greater then mean distance + 4 * standard deviation of all distances within the cluster.</li>
+<li><cite>Defined threshold</cite>: Inlet is considered to be an outlier if its minimal distance from any other point in the cluster is greater then the threshold.</li>
+</ol>
+</div></blockquote>
+</li>
+<li><p class="first">[Optional] <cite>Reclustering of outliers</cite>: It may happen that the outliers form actually clusters but it was not recognized in initial clustering. In this step clustering is executed for outliers only and found clusters are appended to the clusters identified in the first step. Rest of the inlets are marked as outliers.</p>
+</li>
+</ol>
+<p>At the end of clustering stage it is possible to run procedure for <cite>master path</cite> generation. First, separate paths are grouped according to clusters. Paths that begin and end in particular clusters are grouped together. Next, for each group a <cite>master path</cite> (i.e., average path) is generated.</p>
+</div>
+<div class="section" id="analysis">
+<h2>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h2>
+<p>Fifth stage of AQUA-DUCT calculations analyses results calculated in stages 1 to 4. Results of the analysis are displayed on the screen or can be save to text file. Detailed description of analysis result file can be found in the AQ documentation.</p>
+</div>
+<div class="section" id="visualization">
+<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
+<p>Sixth stage of AQUA-DUCT calculations visualizes results calculated in stages 1 to 4. Visualization is done with PyMOL. AQUA-DUCT automatically starts PyMOL and loads visualizations in to it.
+Molecule is loaded as PDB file. Other objects like Inlets clusters or paths are loaded as CGO objects.</p>
+</div>
+</div>
+
+
+          </div>
         </div>
       </div>
       <div class="clearer"></div>
@@ -224,13 +226,12 @@ Molecule is loaded as PDB file. Other objects like Inlets clusters or paths are 
         <li class="right" >
           <a href="index.html" title="Welcome to Aqua-Duct’s documentation!"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">How does AQUA-DUCT work</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018, 2019 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>
