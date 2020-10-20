@@ -1,7 +1,0 @@
-aquaduct.traj.barber module
-===========================
-
-.. automodule:: aquaduct.traj.barber
-    :members:
-    :undoc-members:
-    :show-inheritance:

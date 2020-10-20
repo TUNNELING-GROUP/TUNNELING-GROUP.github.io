@@ -2,29 +2,29 @@
 
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>aquaduct.apps.valve.worker module &#8212; Aqua-Duct 1.0.5 documentation</title>
-    <link rel="stylesheet" href="static/bizstyle.css" type="text/css" />
-    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>aquaduct.apps.valve.worker module &#8212; Aqua-Duct 1.0.10 documentation</title>
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
-    <script type="text/javascript" src="static/jquery.js"></script>
-    <script type="text/javascript" src="static/underscore.js"></script>
-    <script type="text/javascript" src="static/doctools.js"></script>
-    <script type="text/javascript" src="static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="static/bizstyle.js"></script>
-    <link rel="shortcut icon" href="static/ficon.ico"/>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="_static/ficon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="aquaduct.apps.valveconfig package" href="aquaduct.apps.valveconfig.html" />
     <link rel="prev" title="aquaduct.apps.valve.spath module" href="aquaduct.apps.valve.spath.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
+    <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,17 +42,47 @@
         <li class="right" >
           <a href="aquaduct.apps.valve.spath.html" title="aquaduct.apps.valve.spath module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.apps.html" >aquaduct.apps package</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="aquaduct.apps.valve.html" accesskey="U">aquaduct.apps.valve package</a> &#187;</li> 
+          <li class="nav-item nav-item-4"><a href="aquaduct.apps.valve.html" accesskey="U">aquaduct.apps.valve package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">aquaduct.apps.valve.worker module</a></li> 
       </ul>
-    </div>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-aquaduct.apps.valve.worker">
+<span id="aquaduct-apps-valve-worker-module"></span><h1>aquaduct.apps.valve.worker module<a class="headerlink" href="#module-aquaduct.apps.valve.worker" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="aquaduct.apps.valve.worker.assign_nonsandwiched_paths">
+<em class="property">class </em><code class="sig-name descname">assign_nonsandwiched_paths</code><a class="reference internal" href="_modules/aquaduct/apps/valve/worker.html#assign_nonsandwiched_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.worker.assign_nonsandwiched_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Worker which assign non-sandwiched paths to object container</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="aquaduct.apps.valve.worker.assign_sandwiched_paths">
+<em class="property">class </em><code class="sig-name descname">assign_sandwiched_paths</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">all_res_ids</span></em>, <em class="sig-param"><span class="n">all_res_names</span></em>, <em class="sig-param"><span class="n">max_pf</span></em>, <em class="sig-param"><span class="n">results</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aquaduct/apps/valve/worker.html#assign_sandwiched_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aquaduct.apps.valve.worker.assign_sandwiched_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Worker which assign sandwiched paths to object container</p>
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="index.html">
-              <img class="logo" src="static/AQUADUCT_LOGO.png" alt="Logo"/>
+              <img class="logo" src="_static/AQUADUCT_LOGO.png" alt="Logo"/>
             </a></p>
   <h4>Previous topic</h4>
   <p class="topless"><a href="aquaduct.apps.valve.spath.html"
@@ -61,31 +91,15 @@
   <p class="topless"><a href="aquaduct.apps.valveconfig.html"
                         title="next chapter">aquaduct.apps.valveconfig package</a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="aquaduct-apps-valve-worker-module">
-<h1>aquaduct.apps.valve.worker module<a class="headerlink" href="#aquaduct-apps-valve-worker-module" title="Permalink to this headline">¶</a></h1>
-</div>
-
-
-          </div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -105,16 +119,17 @@
         <li class="right" >
           <a href="aquaduct.apps.valve.spath.html" title="aquaduct.apps.valve.spath module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >aquaduct</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="aquaduct.html" >aquaduct package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="aquaduct.apps.html" >aquaduct.apps package</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="aquaduct.apps.valve.html" >aquaduct.apps.valve package</a> &#187;</li> 
+          <li class="nav-item nav-item-4"><a href="aquaduct.apps.valve.html" >aquaduct.apps.valve package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">aquaduct.apps.valve.worker module</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018, 2019 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>

@@ -1,7 +1,0 @@
-aquaduct.apps.valveconfig.defaults module
-=========================================
-
-.. automodule:: aquaduct.apps.valveconfig.defaults
-    :members:
-    :undoc-members:
-    :show-inheritance:

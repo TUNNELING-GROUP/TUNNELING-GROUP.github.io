@@ -1,7 +1,0 @@
-aquaduct.visual.helpers module
-==============================
-
-.. automodule:: aquaduct.visual.helpers
-    :members:
-    :undoc-members:
-    :show-inheritance:

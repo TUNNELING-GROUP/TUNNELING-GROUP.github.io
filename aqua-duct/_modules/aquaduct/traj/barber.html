@@ -1,0 +1,610 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>aquaduct.traj.barber &#8212; Aqua-Duct 1.0.10 documentation</title>
+    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../../../_static/ficon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../aquaduct.html" accesskey="U">aquaduct</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">aquaduct.traj.barber</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for aquaduct.traj.barber</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># Aqua-Duct, a tool facilitating analysis of the flow of solvent molecules in molecular dynamic simulations</span>
+<span class="c1"># Copyright (C) 2017-2018  Tomasz Magdziarz, Alicja Płuciennik, Michał Stolarczyk &lt;info@aquaduct.pl&gt;</span>
+<span class="c1"># Copyright (C) 2019  Tomasz Magdziarz &lt;info@aquaduct.pl&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1">#</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module implements AutoBarber generation of spheres.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">aquaduct</span> <span class="k">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="k">import</span> <span class="n">cdist</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">aquaduct.utils</span> <span class="k">import</span> <span class="n">clui</span>
+<span class="kn">from</span> <span class="nn">aquaduct.utils.helpers</span> <span class="k">import</span> <span class="n">listify</span>
+<span class="kn">from</span> <span class="nn">aquaduct.utils.helpers</span> <span class="k">import</span> <span class="n">lind</span><span class="p">,</span> <span class="n">SmartRange</span>
+<span class="kn">from</span> <span class="nn">aquaduct.traj.sandwich</span> <span class="k">import</span> <span class="n">ReaderAccess</span><span class="p">,</span> <span class="n">Reader</span>
+
+
+
+<span class="kn">from</span> <span class="nn">aquaduct.geom</span> <span class="k">import</span> <span class="n">Sphere</span><span class="p">,</span> <span class="n">do_cut_thyself</span>
+<span class="kn">from</span> <span class="nn">aquaduct.utils.multip</span> <span class="k">import</span> <span class="n">optimal_threads</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">chain</span>
+<span class="kn">from</span> <span class="nn">aquaduct.apps.data</span> <span class="k">import</span> <span class="n">CRIC</span>
+
+<span class="n">__mail__</span> <span class="o">=</span> <span class="s1">&#39;info@aquaduct.pl&#39;</span>
+
+
+<span class="nd">@listify</span>
+<span class="k">def</span> <span class="nf">spaths2spheres</span><span class="p">(</span><span class="n">spaths</span><span class="p">,</span> <span class="n">minmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tovdw</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forceempty</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">mincut</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">,</span> <span class="n">mincut_level</span><span class="p">,</span> <span class="n">maxcut_level</span> <span class="o">=</span> <span class="n">minmax</span>
+
+    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">spaths</span><span class="p">:</span>
+
+        <span class="n">traj_reader</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_reader_by_id</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+        <span class="n">barber</span> <span class="o">=</span> <span class="n">traj_reader</span><span class="o">.</span><span class="n">parse_selection</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
+
+        <span class="n">vdwradius</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">centers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># TODO: This is inconsistent with inlets types. Below is equivalent to surface only inlets. Rework this and make it coherent to each other.</span>
+        <span class="c1"># Assume it is already coherent.</span>
+        <span class="k">if</span> <span class="n">sp</span><span class="o">.</span><span class="n">has_in</span><span class="p">:</span>
+            <span class="n">centers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">coords_first_in</span><span class="p">)</span>
+            <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">paths_first_in</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sp</span><span class="o">.</span><span class="n">has_out</span><span class="p">:</span>
+            <span class="n">centers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">coords_last_out</span><span class="p">)</span>
+            <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">paths_last_out</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">center</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">centers</span><span class="p">,</span> <span class="n">frames</span><span class="p">):</span>
+            <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">make_sphere</span><span class="p">:</span>
+                <span class="n">traj_reader</span><span class="o">.</span><span class="n">set_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+                <span class="n">distances</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">center</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">barber</span><span class="o">.</span><span class="n">coords</span><span class="p">())),</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">tovdw</span><span class="p">:</span>
+                    <span class="n">vdwradius</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">barber</span><span class="o">.</span><span class="n">ix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">distances</span><span class="p">))</span><span class="o">.</span><span class="n">vdw</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;VdW correction </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">vdwradius</span><span class="p">)</span>
+                <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span> <span class="o">-</span> <span class="n">vdwradius</span>
+                <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;VdW correction resulted in &lt;= 0 radius.&#39;</span><span class="p">)</span>
+                    <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">mincut</span> <span class="ow">and</span> <span class="n">radius</span> <span class="o">&lt;</span> <span class="n">mincut_val</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">mincut_level</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> is less then mincut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">)</span>
+                        <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> leveled to mincut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">)</span>
+                        <span class="n">radius</span> <span class="o">=</span> <span class="n">mincut_val</span>
+                <span class="k">if</span> <span class="n">maxcut</span> <span class="ow">and</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="n">maxcut_val</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">maxcut_level</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> is greater then maxcut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">)</span>
+                        <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> leveled to maxcut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">)</span>
+                        <span class="n">radius</span> <span class="o">=</span> <span class="n">maxcut_val</span>
+            <span class="k">if</span> <span class="n">make_sphere</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius </span><span class="si">%0.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">radius</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">radius</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">forceempty</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius 0&#39;</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">CRIC</span>
+
+
+<span class="nd">@listify</span>
+<span class="k">def</span> <span class="nf">inlets2spheres</span><span class="p">(</span><span class="n">inlets</span><span class="p">,</span> <span class="n">minmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tovdw</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forceempty</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">mincut</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">,</span> <span class="n">mincut_level</span><span class="p">,</span> <span class="n">maxcut_level</span> <span class="o">=</span> <span class="n">minmax</span>
+
+    <span class="k">for</span> <span class="n">inlet</span> <span class="ow">in</span> <span class="n">inlets</span><span class="p">:</span>
+
+        <span class="n">traj_reader</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_reader_by_id</span><span class="p">(</span><span class="n">inlet</span><span class="o">.</span><span class="n">reference</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+        <span class="n">barber</span> <span class="o">=</span> <span class="n">traj_reader</span><span class="o">.</span><span class="n">parse_selection</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
+
+        <span class="n">vdwradius</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">center</span> <span class="o">=</span> <span class="n">inlet</span><span class="o">.</span><span class="n">coords</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">inlet</span><span class="o">.</span><span class="n">frame</span>
+
+        <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">make_sphere</span><span class="p">:</span>
+            <span class="n">traj_reader</span><span class="o">.</span><span class="n">set_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">center</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">barber</span><span class="o">.</span><span class="n">coords</span><span class="p">())),</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">tovdw</span><span class="p">:</span>
+                <span class="n">vdwradius</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">barber</span><span class="o">.</span><span class="n">ix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">distances</span><span class="p">))</span><span class="o">.</span><span class="n">vdw</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;VdW correction </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">vdwradius</span><span class="p">)</span>
+            <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span> <span class="o">-</span> <span class="n">vdwradius</span>
+            <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;VdW correction resulted in &lt;= 0 radius.&#39;</span><span class="p">)</span>
+                <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">mincut</span> <span class="ow">and</span> <span class="n">radius</span> <span class="o">&lt;</span> <span class="n">mincut_val</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">mincut_level</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> is less then mincut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">)</span>
+                    <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> leveled to mincut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">)</span>
+                    <span class="n">radius</span> <span class="o">=</span> <span class="n">mincut_val</span>
+            <span class="k">if</span> <span class="n">maxcut</span> <span class="ow">and</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="n">maxcut_val</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">maxcut_level</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> is greater then maxcut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">)</span>
+                    <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> leveled to maxcut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">)</span>
+                    <span class="n">radius</span> <span class="o">=</span> <span class="n">maxcut_val</span>
+        <span class="k">if</span> <span class="n">make_sphere</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius </span><span class="si">%0.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">radius</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">radius</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">forceempty</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius 0&#39;</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">CRIC</span>
+
+
+<div class="viewcode-block" id="WhereToCut"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.WhereToCut">[docs]</a><span class="k">class</span> <span class="nc">WhereToCut</span><span class="p">(</span><span class="n">ReaderAccess</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Class implements method for creating (optimal) set of AutoBarber spheres for a collection of spaths;</span>
+<span class="sd">    access to trajectory is also required to read VdW radii.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># creates collection of Spheres</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">spaths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">inlets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">expected_nr_of_spaths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">selection</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">mincut</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">mincut_level</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">maxcut</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">maxcut_level</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">tovdw</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">forceempty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        :param list spaths: List of :class:`aquaduct.traj.paths.SinglePath` objects.</span>
+<span class="sd">        :param int expected_nr_of_spaths: Number of spaths passed. Requilred when length of spaths cannod be calculated, eg when it is a generator.</span>
+<span class="sd">        :param str selection: Selection string of molecular object used for spheres generation.</span>
+<span class="sd">        :param float mincut: Value of *mincut* parameter.</span>
+<span class="sd">        :param float maxcut: Value of *maxcut* parameter.</span>
+<span class="sd">        :param bool mincut_level: Flag of *mincut_level*.</span>
+<span class="sd">        :param bool maxcut_level: Flag of *maxcut_level*.</span>
+<span class="sd">        :param bool tovdw: Flag of to VdW radii correction parameter.</span>
+<span class="sd">        :param bool forceemtpy: If set *True* spheres of radius 0 are returned if no other sphere can be generated.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># force empty means that empty spheres are also returned with radius 0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forceempty</span> <span class="o">=</span> <span class="n">forceempty</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selection</span> <span class="o">=</span> <span class="n">selection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mincut</span> <span class="o">=</span> <span class="n">mincut</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxcut</span> <span class="o">=</span> <span class="n">maxcut</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mincut_level</span> <span class="o">=</span> <span class="n">mincut_level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxcut_level</span> <span class="o">=</span> <span class="n">maxcut_level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tovdw</span> <span class="o">=</span> <span class="n">tovdw</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">expected_nr_of_spaths</span> <span class="o">=</span> <span class="n">expected_nr_of_spaths</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">spaths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_spheres_from_spaths</span><span class="p">(</span><span class="n">spaths</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">inlets</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_spheres_from_inlets</span><span class="p">(</span><span class="n">inlets</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_minmaxcuts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">mincut</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">mincut_val</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mincut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mincut</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">mincut_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mincut</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;mincut set to </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">)</span>
+        <span class="n">maxcut</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">maxcut_val</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxcut</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">maxcut</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">maxcut_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxcut</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;maxcut set to </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mincut</span> <span class="ow">and</span> <span class="n">maxcut</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">maxcut_val</span> <span class="o">&lt;</span> <span class="n">mincut_val</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s1">&#39;Values of mincut </span><span class="si">%0.2f</span><span class="s1"> and maxcut </span><span class="si">%0.2f</span><span class="s1"> are mutually exclusive. No spheres will be used in Auto Barber.&#39;</span><span class="p">,</span>
+                    <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxcut_level</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">mincut_level</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s1">&#39;Options mincut_level and maxcut_level are set to </span><span class="si">%s</span><span class="s1"> and </span><span class="si">%s</span><span class="s1"> accordingly, some spheres might be retained.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mincut</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut</span><span class="p">,</span> <span class="n">maxcut_val</span>
+
+    <span class="k">def</span> <span class="nf">add_spheres_from_spaths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spaths</span><span class="p">):</span>
+        <span class="n">clui</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="s2">&quot;Auto Barber is looking where to cut:&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_nr_of_spaths</span><span class="p">:</span>
+            <span class="n">pbar</span> <span class="o">=</span> <span class="n">clui</span><span class="o">.</span><span class="n">pbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expected_nr_of_spaths</span><span class="p">)</span>
+            <span class="n">n_add</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_nr_of_spaths</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pbar</span> <span class="o">=</span> <span class="n">clui</span><span class="o">.</span><span class="n">pbar</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spaths</span><span class="p">))</span>
+            <span class="n">n_add</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">spaths</span><span class="p">)</span>
+        <span class="n">minmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_minmaxcuts</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mincut_level</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxcut_level</span><span class="p">)</span>
+
+
+        <span class="n">Reader</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">optimal_threads</span><span class="o">.</span><span class="n">threads_count</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">optimal_threads</span><span class="o">.</span><span class="n">threads_count</span><span class="p">)</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="k">if</span> <span class="n">chunk</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">))))</span>
+
+        <span class="n">add_function</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">spaths2spheres</span><span class="p">,</span> <span class="n">minmax</span><span class="o">=</span><span class="n">minmax</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">selection</span><span class="p">,</span> <span class="n">tovdw</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tovdw</span><span class="p">,</span>
+                               <span class="n">forceempty</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">forceempty</span><span class="p">)</span>
+        <span class="n">_spaths</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="n">spaths</span><span class="p">)</span>
+        <span class="n">Reader</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="n">spheres_new</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">add_function</span><span class="p">,</span> <span class="p">([</span><span class="nb">next</span><span class="p">(</span><span class="n">_spaths</span><span class="p">)</span> <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">))</span>
+
+        <span class="n">nr</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">spheres</span> <span class="ow">in</span> <span class="n">spheres_new</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">center_radius_or_cric</span> <span class="ow">in</span> <span class="n">spheres</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">center_radius_or_cric</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                    <span class="n">center</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="n">center_radius_or_cric</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">nr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">()))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">CRIC</span><span class="o">.</span><span class="n">update_cric</span><span class="p">(</span><span class="n">center_radius_or_cric</span><span class="p">)</span>
+            <span class="n">nr</span> <span class="o">+=</span> <span class="n">n</span>
+            <span class="k">if</span> <span class="n">nr</span> <span class="o">&lt;</span> <span class="n">n_add</span><span class="p">:</span>
+                <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nr</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">n_add</span><span class="p">)</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="n">pbar</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">add_spheres_from_inlets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inlets</span><span class="p">):</span>
+        <span class="n">clui</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="s2">&quot;Auto Barber is looking where to cut:&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_nr_of_spaths</span><span class="p">:</span>
+            <span class="n">pbar</span> <span class="o">=</span> <span class="n">clui</span><span class="o">.</span><span class="n">pbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expected_nr_of_spaths</span><span class="p">)</span>
+            <span class="n">n_add</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_nr_of_spaths</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pbar</span> <span class="o">=</span> <span class="n">clui</span><span class="o">.</span><span class="n">pbar</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inlets</span><span class="o">.</span><span class="n">inlets_list</span><span class="p">))</span>
+            <span class="n">n_add</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">inlets</span><span class="o">.</span><span class="n">inlets_list</span><span class="p">)</span>
+        <span class="n">minmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_minmaxcuts</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mincut_level</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxcut_level</span><span class="p">)</span>
+
+
+        <span class="n">Reader</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">optimal_threads</span><span class="o">.</span><span class="n">threads_count</span><span class="p">)</span>
+        <span class="c1"># pool = Pool(processes=1)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">optimal_threads</span><span class="o">.</span><span class="n">threads_count</span><span class="p">)</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="k">if</span> <span class="n">chunk</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_add</span> <span class="o">/</span> <span class="n">n</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">n_add</span> <span class="o">%</span> <span class="n">n</span><span class="p">)))</span>
+
+        <span class="n">add_function</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">inlets2spheres</span><span class="p">,</span> <span class="n">minmax</span><span class="o">=</span><span class="n">minmax</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">selection</span><span class="p">,</span> <span class="n">tovdw</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tovdw</span><span class="p">,</span>
+                               <span class="n">forceempty</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">forceempty</span><span class="p">)</span>
+        <span class="n">_inlets</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="n">inlets</span><span class="p">)</span>
+        <span class="n">spheres_new</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">add_function</span><span class="p">,</span> <span class="p">[[</span><span class="nb">next</span><span class="p">(</span><span class="n">_inlets</span><span class="p">)</span> <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">])</span>
+        <span class="c1"># spheres_new = imap(add_function, ([_inlets.next() for cc in xrange(c)] for c in chunks))</span>
+
+        <span class="n">nr</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">spheres</span> <span class="ow">in</span> <span class="n">spheres_new</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">center_radius_or_cric</span> <span class="ow">in</span> <span class="n">spheres</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">center_radius_or_cric</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                    <span class="n">center</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="n">center_radius_or_cric</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">nr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">()))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">CRIC</span><span class="o">.</span><span class="n">update_cric</span><span class="p">(</span><span class="n">center_radius_or_cric</span><span class="p">)</span>
+            <span class="n">nr</span> <span class="o">+=</span> <span class="n">n</span>
+            <span class="k">if</span> <span class="n">nr</span> <span class="o">&lt;</span> <span class="n">n_add</span><span class="p">:</span>
+                <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nr</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">n_add</span><span class="p">)</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="n">pbar</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_current_nr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">):</span>
+            <span class="c1"># nr = max((sphe.nr for sphe in self.spheres))</span>
+            <span class="n">nr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">nr</span>
+            <span class="n">nr</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nr</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">assert</span> <span class="n">nr</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">),</span> <span class="s2">&quot;Inconsistent number of spheres.&quot;</span>
+        <span class="k">return</span> <span class="n">nr</span>
+
+    <span class="k">def</span> <span class="nf">inlet2sphere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inlet</span><span class="p">):</span>
+
+
+        <span class="n">traj_reader</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_reader_by_id</span><span class="p">(</span><span class="n">inlet</span><span class="o">.</span><span class="n">reference</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+        <span class="n">mincut</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut</span><span class="p">,</span> <span class="n">maxcut_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_minmaxcuts</span><span class="p">()</span>
+        <span class="n">barber</span> <span class="o">=</span> <span class="n">traj_reader</span><span class="o">.</span><span class="n">parse_selection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selection</span><span class="p">)</span>
+        <span class="n">vdwradius</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">center</span> <span class="o">=</span> <span class="n">inlet</span><span class="o">.</span><span class="n">coords</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">inlet</span><span class="o">.</span><span class="n">frame</span>
+
+        <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">make_sphere</span><span class="p">:</span>
+            <span class="n">traj_reader</span><span class="o">.</span><span class="n">set_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">center</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">barber</span><span class="o">.</span><span class="n">coords</span><span class="p">())),</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tovdw</span><span class="p">:</span>
+                <span class="n">vdwradius</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">barber</span><span class="o">.</span><span class="n">ix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">distances</span><span class="p">))</span><span class="o">.</span><span class="n">vdw</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;VdW correction </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">vdwradius</span><span class="p">)</span>
+            <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span> <span class="o">-</span> <span class="n">vdwradius</span>
+            <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;VdW correction resulted in &lt;= 0 radius.&#39;</span><span class="p">)</span>
+                <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">mincut</span> <span class="ow">and</span> <span class="n">radius</span> <span class="o">&lt;</span> <span class="n">mincut_val</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mincut_level</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> is less then mincut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">)</span>
+                    <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> leveled to mincut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">)</span>
+                    <span class="n">radius</span> <span class="o">=</span> <span class="n">mincut_val</span>
+            <span class="k">if</span> <span class="n">maxcut</span> <span class="ow">and</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="n">maxcut_val</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxcut_level</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> is greater then maxcut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">)</span>
+                    <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> leveled to maxcut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">)</span>
+                    <span class="n">radius</span> <span class="o">=</span> <span class="n">maxcut_val</span>
+        <span class="k">if</span> <span class="n">make_sphere</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius </span><span class="si">%0.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">radius</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">forceempty</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius 0&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">spath2spheres</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sp</span><span class="p">):</span>
+
+        <span class="n">traj_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_reader_by_id</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">mincut</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">,</span> <span class="n">maxcut</span><span class="p">,</span> <span class="n">maxcut_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_minmaxcuts</span><span class="p">()</span>
+        <span class="n">barber</span> <span class="o">=</span> <span class="n">traj_reader</span><span class="o">.</span><span class="n">parse_selection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selection</span><span class="p">)</span>
+        <span class="n">vdwradius</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">centers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># TODO: This is inconsistent with inlets types. Below is equivalent to surface only inlets. Rework this and make it coherent to each other.</span>
+        <span class="c1"># Assume it is already coherent.</span>
+        <span class="k">if</span> <span class="n">sp</span><span class="o">.</span><span class="n">has_in</span><span class="p">:</span>
+            <span class="n">centers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">coords_first_in</span><span class="p">)</span>
+            <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">paths_first_in</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sp</span><span class="o">.</span><span class="n">has_out</span><span class="p">:</span>
+            <span class="n">centers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">coords_last_out</span><span class="p">)</span>
+            <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">paths_last_out</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">center</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">centers</span><span class="p">,</span> <span class="n">frames</span><span class="p">):</span>
+            <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">make_sphere</span><span class="p">:</span>
+                <span class="n">traj_reader</span><span class="o">.</span><span class="n">set_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+                <span class="n">distances</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">center</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">barber</span><span class="o">.</span><span class="n">coords</span><span class="p">())),</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tovdw</span><span class="p">:</span>
+                    <span class="n">vdwradius</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">barber</span><span class="o">.</span><span class="n">ix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">distances</span><span class="p">))</span><span class="o">.</span><span class="n">vdw</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;VdW correction </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">vdwradius</span><span class="p">)</span>
+                <span class="n">radius</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span> <span class="o">-</span> <span class="n">vdwradius</span>
+                <span class="k">if</span> <span class="n">radius</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;VdW correction resulted in &lt;= 0 radius.&#39;</span><span class="p">)</span>
+                    <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">mincut</span> <span class="ow">and</span> <span class="n">radius</span> <span class="o">&lt;</span> <span class="n">mincut_val</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mincut_level</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> is less then mincut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">)</span>
+                        <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> leveled to mincut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">mincut_val</span><span class="p">)</span>
+                        <span class="n">radius</span> <span class="o">=</span> <span class="n">mincut_val</span>
+                <span class="k">if</span> <span class="n">maxcut</span> <span class="ow">and</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="n">maxcut_val</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxcut_level</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> is greater then maxcut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">)</span>
+                        <span class="n">make_sphere</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Sphere radius </span><span class="si">%0.2f</span><span class="s1"> leveled to maxcut </span><span class="si">%0.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">maxcut_val</span><span class="p">)</span>
+                        <span class="n">radius</span> <span class="o">=</span> <span class="n">maxcut_val</span>
+            <span class="k">if</span> <span class="n">make_sphere</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius </span><span class="si">%0.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">radius</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">forceempty</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Added sphere of radius 0&#39;</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_nr</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">cut_thyself</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span> <span class="o">=</span> <span class="n">do_cut_thyself</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">is_overlaping_with_cloud</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sphere</span><span class="p">):</span>
+        <span class="n">spheres_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sphe</span><span class="o">.</span><span class="n">center</span> <span class="k">for</span> <span class="n">sphe</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">])</span>
+        <span class="n">spheres_radii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sphe</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">sphe</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">])</span>
+        <span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">nr</span> <span class="o">=</span> <span class="n">sphere</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">center</span><span class="p">),</span> <span class="n">spheres_coords</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span> <span class="o">-</span> <span class="n">spheres_radii</span> <span class="o">-</span> <span class="n">radius</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">distances</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">cloud_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># no redundant spheres</span>
+        <span class="n">noredundant_spheres</span><span class="p">,</span> <span class="n">redundant_spheres</span> <span class="o">=</span> <span class="n">do_cut_thyself</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="n">progress</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">progress</span><span class="p">:</span>
+            <span class="n">clui</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="s2">&quot;Barber, clouds clusters:&quot;</span><span class="p">)</span>
+            <span class="n">pbar</span> <span class="o">=</span> <span class="n">clui</span><span class="o">.</span><span class="n">pbar</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spheres</span><span class="p">))</span>
+
+        <span class="n">noredundant_spheres_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sphe</span><span class="o">.</span><span class="n">center</span> <span class="k">for</span> <span class="n">sphe</span> <span class="ow">in</span> <span class="n">noredundant_spheres</span><span class="p">])</span>
+        <span class="n">noredundant_spheres_radii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sphe</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">sphe</span> <span class="ow">in</span> <span class="n">noredundant_spheres</span><span class="p">])</span>
+        <span class="n">clouds</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">nrs</span> <span class="ow">in</span> <span class="n">noredundant_spheres</span><span class="p">:</span>
+            <span class="c1"># calculate distance</span>
+            <span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">nr</span> <span class="o">=</span> <span class="n">nrs</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">center</span><span class="p">),</span> <span class="n">noredundant_spheres_coords</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span> <span class="o">-</span> <span class="n">noredundant_spheres_radii</span> <span class="o">-</span> <span class="n">radius</span>
+            <span class="n">current_cloud</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">distances</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+            <span class="k">del</span> <span class="n">distances</span>
+            <span class="c1"># check if cci overlaps with any of already found clouds</span>
+            <span class="n">cloud_id_intersections</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">cloud_id</span><span class="p">,</span> <span class="n">cloud</span> <span class="ow">in</span> <span class="n">clouds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">current_cloud</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">cloud</span><span class="p">):</span>
+                    <span class="c1"># current cloud intersects with cloud</span>
+                    <span class="n">cloud_id_intersections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cloud_id</span><span class="p">)</span>
+            <span class="c1"># does it intersects?</span>
+            <span class="k">if</span> <span class="n">cloud_id_intersections</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">cii</span> <span class="ow">in</span> <span class="n">cloud_id_intersections</span><span class="p">:</span>
+                    <span class="n">current_cloud</span> <span class="o">=</span> <span class="n">current_cloud</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">clouds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">cii</span><span class="p">))</span>
+                    <span class="c1"># current id?</span>
+            <span class="n">current_id</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">clouds</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">current_id</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">cid</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">current_id</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">cid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_id</span><span class="p">:</span>
+                        <span class="n">current_id</span> <span class="o">=</span> <span class="n">cid</span>
+                        <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">current_id</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">clouds</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">current_id</span><span class="p">:</span> <span class="n">current_cloud</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">progress</span><span class="p">:</span>
+                <span class="n">pbar</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+
+        <span class="c1"># chnage nrs id to global ids; add redundant spheres</span>
+        <span class="n">nrs_gids</span> <span class="o">=</span> <span class="p">[</span><span class="n">nrs</span><span class="o">.</span><span class="n">nr</span> <span class="k">for</span> <span class="n">nrs</span> <span class="ow">in</span> <span class="n">noredundant_spheres</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">cloud_id</span><span class="p">,</span> <span class="n">cloud</span> <span class="ow">in</span> <span class="n">clouds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="n">cloud</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">cloud</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">redundant_spheres</span><span class="p">):</span>
+                <span class="n">cloud_coords</span> <span class="o">=</span> <span class="n">noredundant_spheres_coords</span><span class="p">[</span><span class="n">cloud</span><span class="p">]</span>
+                <span class="n">cloud_radii</span> <span class="o">=</span> <span class="n">noredundant_spheres_radii</span><span class="p">[</span><span class="n">cloud</span><span class="p">]</span>
+
+            <span class="n">cloud</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">nrs_gids</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cloud</span><span class="p">])</span>
+            <span class="c1"># clouds.update({cloud_id:cloud})</span>
+
+            <span class="k">for</span> <span class="n">rs_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">redundant_spheres</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">nr</span> <span class="o">=</span> <span class="n">redundant_spheres</span><span class="p">[</span><span class="n">rs_id</span><span class="p">]</span>
+                <span class="n">distances</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">center</span><span class="p">),</span> <span class="n">cloud_coords</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                <span class="n">distances</span> <span class="o">=</span> <span class="n">distances</span> <span class="o">-</span> <span class="n">cloud_radii</span> <span class="o">-</span> <span class="n">radius</span>
+                <span class="n">current_cloud</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">distances</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">current_cloud</span><span class="p">:</span>
+                    <span class="n">cloud</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nr</span><span class="p">)</span>
+                    <span class="n">redundant_spheres</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">rs_id</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">progress</span><span class="p">:</span>
+                        <span class="n">pbar</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+
+            <span class="n">clouds</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">cloud_id</span><span class="p">:</span> <span class="n">cloud</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">progress</span><span class="p">:</span>
+            <span class="n">pbar</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">clouds</span></div>
+
+
+<div class="viewcode-block" id="barber_with_spheres"><a class="viewcode-back" href="../../../aquaduct.traj.barber.html#aquaduct.traj.barber.barber_with_spheres">[docs]</a><span class="k">def</span> <span class="nf">barber_with_spheres</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">spheres</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    param numpy.ndarray coords: Path&#39;s coordinates subjected to barber procedure.</span>
+<span class="sd">    param spheres: Spheres used to cut input coordinates.</span>
+<span class="sd">    rtype: :class:`numpy.ndarray`.</span>
+<span class="sd">    return: List of indices to be kept.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">tokeep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coords</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">spheres</span><span class="p">:</span>
+        <span class="n">tokeep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">tokeep</span><span class="p">,</span> <span class="n">cdist</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">center</span><span class="p">]),</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">sp</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">tokeep</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
+
+
+<span class="k">def</span> <span class="nf">barber_with_spheres_big_matrix</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">spheres</span><span class="p">):</span>
+    <span class="c1"># calculate big distance matrix</span>
+    <span class="c1"># distances = cdist(self.coords, [s.center for s in spheres],metric=&#39;euclidean&#39;)</span>
+    <span class="c1"># compare with radii</span>
+    <span class="c1"># tokeep = distances &gt; np.matrix([[s.radius for s in spheres]])</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spheres</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">((</span><span class="n">cdist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">coords</span><span class="p">)),</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">center</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spheres</span><span class="p">],</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+            <span class="p">[[</span><span class="n">s</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spheres</span><span class="p">]]))</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">A1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+
+<span class="nd">@listify</span>
+<span class="k">def</span> <span class="nf">barber_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">spheres</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">only_for_names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># cut paths with barber</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">(</span><span class="n">pat</span> <span class="k">for</span> <span class="n">pat</span> <span class="ow">in</span> <span class="n">paths</span> <span class="k">if</span> <span class="n">pat</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">only_for_names</span><span class="p">):</span>
+        <span class="n">tokeep</span> <span class="o">=</span> <span class="n">barber_with_spheres</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span> <span class="n">spheres</span><span class="p">)</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">update_types_frames</span><span class="p">(</span><span class="n">SmartRange</span><span class="p">(</span><span class="n">lind</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">types</span><span class="p">,</span> <span class="n">tokeep</span><span class="p">)),</span> <span class="n">SmartRange</span><span class="p">(</span><span class="n">lind</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">tokeep</span><span class="p">)))</span>
+        <span class="k">yield</span> <span class="n">path</span>
+    <span class="k">yield</span> <span class="n">CRIC</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/AQUADUCT_LOGO.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../aquaduct.html" >aquaduct</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">aquaduct.traj.barber</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, 2017, 2018, 2019 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>

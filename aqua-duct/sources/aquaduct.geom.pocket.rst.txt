@@ -1,7 +1,0 @@
-aquaduct.geom.pocket module
-===========================
-
-.. automodule:: aquaduct.geom.pocket
-    :members:
-    :undoc-members:
-    :show-inheritance:

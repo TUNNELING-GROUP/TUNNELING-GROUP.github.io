@@ -1,0 +1,6 @@
+aquaduct.geom.smooth\_available\_methods module
+===============================================
+
+.. automodule:: aquaduct.geom.smooth_available_methods
+   :members:
+   :show-inheritance:

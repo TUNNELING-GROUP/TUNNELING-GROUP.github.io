@@ -1,0 +1,21 @@
+aquaduct.visual package
+=======================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aquaduct.visual.cmaps
+   aquaduct.visual.helpers
+   aquaduct.visual.pymol_cgo
+   aquaduct.visual.pymol_connector
+   aquaduct.visual.quickplot
+
+Module contents
+---------------
+
+.. automodule:: aquaduct.visual
+   :members:
+   :show-inheritance:

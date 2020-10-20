@@ -1,0 +1,6 @@
+aquaduct.geom.cluster\_available\_methods module
+================================================
+
+.. automodule:: aquaduct.geom.cluster_available_methods
+   :members:
+   :show-inheritance:

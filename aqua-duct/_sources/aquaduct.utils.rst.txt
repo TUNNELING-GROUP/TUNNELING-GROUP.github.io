@@ -1,0 +1,23 @@
+aquaduct.utils package
+======================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aquaduct.utils.clui
+   aquaduct.utils.filecache
+   aquaduct.utils.helpers
+   aquaduct.utils.maths
+   aquaduct.utils.multip
+   aquaduct.utils.sets
+   aquaduct.utils.sr
+
+Module contents
+---------------
+
+.. automodule:: aquaduct.utils
+   :members:
+   :show-inheritance:

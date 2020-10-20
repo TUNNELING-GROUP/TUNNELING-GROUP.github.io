@@ -1,0 +1,21 @@
+aquaduct.traj package
+=====================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   aquaduct.traj.barber
+   aquaduct.traj.dumps
+   aquaduct.traj.inlets
+   aquaduct.traj.paths
+   aquaduct.traj.sandwich
+
+Module contents
+---------------
+
+.. automodule:: aquaduct.traj
+   :members:
+   :show-inheritance:

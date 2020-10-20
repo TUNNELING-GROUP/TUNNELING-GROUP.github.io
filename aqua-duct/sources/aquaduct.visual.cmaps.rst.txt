@@ -1,7 +1,0 @@
-aquaduct.visual.cmaps module
-============================
-
-.. automodule:: aquaduct.visual.cmaps
-    :members:
-    :undoc-members:
-    :show-inheritance:

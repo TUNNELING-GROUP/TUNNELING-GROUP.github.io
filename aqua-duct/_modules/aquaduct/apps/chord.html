@@ -1,0 +1,473 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>aquaduct.apps.chord &#8212; Aqua-Duct 1.0.10 documentation</title>
+    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../../../_static/ficon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../aquaduct.html" accesskey="U">aquaduct</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">aquaduct.apps.chord</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for aquaduct.apps.chord</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python2.7</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># Aqua-Duct, a tool facilitating analysis of the flow of solvent molecules in molecular dynamic simulations</span>
+<span class="c1"># Copyright (C) 2018-2019  Michał Banas</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">import</span> <span class="nn">colorsys</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
+<span class="kn">import</span> <span class="nn">matplotlib.path</span> <span class="k">as</span> <span class="nn">mpath</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">color_gen</span><span class="p">():</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#e6194b&quot;</span><span class="p">,</span> <span class="s2">&quot;#3cb44b&quot;</span><span class="p">,</span> <span class="s2">&quot;#ffe119&quot;</span><span class="p">,</span> <span class="s2">&quot;#4363d8&quot;</span><span class="p">,</span> <span class="s2">&quot;#f58231&quot;</span><span class="p">,</span> <span class="s2">&quot;#911eb4&quot;</span><span class="p">,</span> <span class="s2">&quot;#46f0f0&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;#f032e6&quot;</span><span class="p">,</span> <span class="s2">&quot;#bcf60c&quot;</span><span class="p">,</span> <span class="s2">&quot;#fabebe&quot;</span><span class="p">,</span> <span class="s2">&quot;#008080&quot;</span><span class="p">,</span> <span class="s2">&quot;#e6beff&quot;</span><span class="p">,</span> <span class="s2">&quot;#9a6324&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;#800000&quot;</span><span class="p">,</span> <span class="s2">&quot;#aaffc3&quot;</span><span class="p">,</span> <span class="s2">&quot;#808000&quot;</span><span class="p">,</span> <span class="s2">&quot;#ffd8b1&quot;</span><span class="p">,</span> <span class="s2">&quot;#000075&quot;</span><span class="p">,</span> <span class="s2">&quot;#808080&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">cycle</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">color</span>
+
+
+<div class="viewcode-block" id="hex2rgb"><a class="viewcode-back" href="../../../aquaduct.apps.chord.html#aquaduct.apps.chord.hex2rgb">[docs]</a><span class="k">def</span> <span class="nf">hex2rgb</span><span class="p">(</span><span class="n">color</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert HEX color to RGB format.</span>
+<span class="sd">    :param color: String hex color.</span>
+<span class="sd">    :return: Tuple with RGB values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># https://stackoverflow.com/questions/29643352/converting-hex-to-rgb-value-in-python</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="polar2point"><a class="viewcode-back" href="../../../aquaduct.apps.chord.html#aquaduct.apps.chord.polar2point">[docs]</a><span class="k">def</span> <span class="nf">polar2point</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform polar coordinates to cartesian coordinates.</span>
+<span class="sd">    :param angle: Angle.</span>
+<span class="sd">    :param r: Radius.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rad</span><span class="p">(</span><span class="n">angle</span><span class="p">)),</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rad</span><span class="p">(</span><span class="n">angle</span><span class="p">))])</span></div>
+
+
+<div class="viewcode-block" id="generate_arc"><a class="viewcode-back" href="../../../aquaduct.apps.chord.html#aquaduct.apps.chord.generate_arc">[docs]</a><span class="k">def</span> <span class="nf">generate_arc</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">sa</span><span class="p">,</span> <span class="n">ea</span><span class="p">,</span> <span class="n">max_angle</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">reversed_</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate arc vertrices with control points for quadratic Bezier curve.</span>
+
+<span class="sd">    :param r: Radius</span>
+<span class="sd">    :param sa: Start angle.</span>
+<span class="sd">    :param ea: End angle</span>
+<span class="sd">    :param max_angle: Max. angle for which control point will be calculated. If &gt; 90 curves will be significantly distorted.</span>
+<span class="sd">    :param reversed_: If True vertices will start from ea.</span>
+
+<span class="sd">    If `ea - sa &gt; max_angle`, then `ea - sa` will be divided by `max_angle` into parts and control point will be calculated for each part.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vertices</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">angles</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">ea</span> <span class="o">-</span> <span class="n">sa</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">-</span> <span class="n">max_angle</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">angles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_angle</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">n</span> <span class="o">-</span> <span class="n">max_angle</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="n">n</span> <span class="o">-=</span> <span class="n">max_angle</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">angles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="n">max_angle</span><span class="p">)</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">reversed_</span><span class="p">:</span>
+        <span class="n">sa</span> <span class="o">=</span> <span class="o">-</span><span class="n">ea</span>
+        <span class="n">angles</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
+
+    <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">polar2point</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sa</span><span class="p">),</span> <span class="n">r</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="n">angles</span><span class="p">:</span>
+        <span class="n">cp_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sa</span> <span class="o">+</span> <span class="n">angle</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span>
+        <span class="c1"># https://stackoverflow.com/questions/1734745/how-to-create-circle-with-b%C3%A9zier-curves</span>
+        <span class="n">cp_length</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="nb">pow</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mf">90.</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">polar2point</span><span class="p">(</span><span class="n">cp_angle</span><span class="p">,</span> <span class="n">cp_length</span><span class="p">))</span>
+        <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">polar2point</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sa</span> <span class="o">+</span> <span class="n">angle</span><span class="p">),</span> <span class="n">r</span><span class="p">))</span>
+
+        <span class="n">sa</span> <span class="o">+=</span> <span class="n">angle</span>
+
+    <span class="k">return</span> <span class="n">vertices</span></div>
+
+
+<div class="viewcode-block" id="Node"><a class="viewcode-back" href="../../../aquaduct.apps.chord.html#aquaduct.apps.chord.Node">[docs]</a><span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">PathPatch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sa</span><span class="p">,</span> <span class="n">ea</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represent data on Chord circle.</span>
+
+<span class="sd">        :param r: Radius.</span>
+<span class="sd">        :param sa: Start angle.</span>
+<span class="sd">        :param ea: End angle.</span>
+<span class="sd">        :param color: Node color in HEX or matplotlib tuple format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sa</span> <span class="o">=</span> <span class="n">sa</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ea</span> <span class="o">=</span> <span class="n">ea</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+
+        <span class="c1"># Remembers when last link was added</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_link_angle</span> <span class="o">=</span> <span class="n">sa</span>
+
+        <span class="n">vertices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">codes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># # Outer arc</span>
+        <span class="n">outer_arc</span> <span class="o">=</span> <span class="n">generate_arc</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">sa</span><span class="p">,</span> <span class="n">ea</span><span class="p">)</span>
+        <span class="n">vertices</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">outer_arc</span><span class="p">)</span>
+
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">MOVETO</span><span class="p">)</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CURVE3</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">outer_arc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Inner arc</span>
+        <span class="n">inner_arc</span> <span class="o">=</span> <span class="n">generate_arc</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">r</span><span class="p">,</span> <span class="n">sa</span><span class="p">,</span> <span class="n">ea</span><span class="p">,</span> <span class="n">reversed_</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">vertices</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">inner_arc</span><span class="p">)</span>
+
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">)</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CURVE3</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inner_arc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Closing poly</span>
+        <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CLOSEPOLY</span><span class="p">)</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">Node</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">reserve_arc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="c1"># Only if scaling is an optional</span>
+        <span class="c1"># if self._link_angle + angle - self.sa &gt; self.ea - self.sa:</span>
+        <span class="c1">#     raise RuntimeError(&quot;Too much data for node. Use scaling option.&quot;)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_link_angle</span> <span class="o">+=</span> <span class="n">angle</span>
+
+    <span class="k">def</span> <span class="nf">get_arc_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_link_angle</span></div>
+
+
+<div class="viewcode-block" id="Link"><a class="viewcode-back" href="../../../aquaduct.apps.chord.html#aquaduct.apps.chord.Link">[docs]</a><span class="k">class</span> <span class="nc">Link</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">PathPatch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sa0</span><span class="p">,</span> <span class="n">sa1</span><span class="p">,</span> <span class="n">ea0</span><span class="p">,</span> <span class="n">ea1</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represent connection between two nodes.</span>
+
+<span class="sd">        :param r: Radius.</span>
+<span class="sd">        :param sa0: Source start angle.</span>
+<span class="sd">        :param sa1: Source end angle.</span>
+<span class="sd">        :param ea0: Destination start angle.</span>
+<span class="sd">        :param ea1: Destination end angle.</span>
+<span class="sd">        :param color: Link color in HEX or matplotlib tuple format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">codes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Source arc</span>
+        <span class="n">source_arc</span> <span class="o">=</span> <span class="n">generate_arc</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">sa0</span><span class="p">,</span> <span class="n">sa1</span><span class="p">)</span>
+        <span class="n">vertices</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source_arc</span><span class="p">)</span>
+
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">MOVETO</span><span class="p">)</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CURVE3</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">source_arc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Connection line</span>
+        <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">polar2point</span><span class="p">(</span><span class="n">sa1</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">)</span>
+
+        <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CURVE3</span><span class="p">)</span>
+
+        <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">polar2point</span><span class="p">(</span><span class="n">ea0</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CURVE3</span><span class="p">)</span>
+
+        <span class="c1"># Dest arc</span>
+        <span class="n">dest_arc</span> <span class="o">=</span> <span class="n">generate_arc</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">ea0</span><span class="p">,</span> <span class="n">ea1</span><span class="p">)</span>
+        <span class="n">vertices</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">dest_arc</span><span class="p">)</span>
+
+        <span class="n">codes</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CURVE3</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dest_arc</span><span class="p">))</span>
+
+        <span class="c1"># Connection line</span>
+        <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">polar2point</span><span class="p">(</span><span class="n">ea1</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">)</span>
+
+        <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CURVE3</span><span class="p">)</span>
+
+        <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">polar2point</span><span class="p">(</span><span class="n">sa0</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CURVE3</span><span class="p">)</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Link</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Arrow"><a class="viewcode-back" href="../../../aquaduct.apps.chord.html#aquaduct.apps.chord.Arrow">[docs]</a><span class="k">class</span> <span class="nc">Arrow</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">PathPatch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sa</span><span class="p">,</span> <span class="n">ea</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">max_angle</span><span class="o">=</span><span class="mi">45</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Arrow patch for links.</span>
+
+<span class="sd">        :param r: Radius.</span>
+<span class="sd">        :param sa: Start angle.</span>
+<span class="sd">        :param ea: End angle.</span>
+<span class="sd">        :param color: Arrow color in HEX or matplotlib tuple format.</span>
+<span class="sd">        :param max_angle:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">codes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">c</span> <span class="o">=</span> <span class="n">sa</span> <span class="o">+</span> <span class="p">(</span><span class="n">ea</span> <span class="o">-</span> <span class="n">sa</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="n">ea</span> <span class="o">-</span> <span class="n">sa</span> <span class="o">&lt;</span> <span class="n">max_angle</span><span class="p">:</span>
+            <span class="n">max_angle</span> <span class="o">=</span> <span class="n">ea</span> <span class="o">-</span> <span class="n">sa</span>
+
+        <span class="n">arc</span> <span class="o">=</span> <span class="n">generate_arc</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">-</span> <span class="n">max_angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="n">max_angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">vertices</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span>
+
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">MOVETO</span><span class="p">)</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CURVE3</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">polar2point</span><span class="p">(</span><span class="n">sa</span> <span class="o">+</span> <span class="p">(</span><span class="n">ea</span> <span class="o">-</span> <span class="n">sa</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">r</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">)</span>
+
+        <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">codes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CLOSEPOLY</span><span class="p">)</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">mpath</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Arrow</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">Chord</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">nodes_sizes</span><span class="p">,</span> <span class="n">links</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        :param ax:</span>
+<span class="sd">        :param r:</span>
+<span class="sd">        :param nodes_sizes:</span>
+<span class="sd">        :param links:</span>
+<span class="sd">        :param labels:</span>
+<span class="sd">        :param colors:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">colors</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="n">colors</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cg</span> <span class="o">=</span> <span class="n">color_gen</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">cg</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes_sizes</span><span class="p">))]</span>
+
+        <span class="n">sizes_sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nodes_sizes</span><span class="p">)</span>
+
+        <span class="c1"># Nodes</span>
+        <span class="n">legend_node_index</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Keeps indexes of nodes which will be in legend</span>
+        <span class="n">sa</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes_sizes</span><span class="p">):</span>
+            <span class="n">ea</span> <span class="o">=</span> <span class="n">sa</span> <span class="o">+</span> <span class="n">size</span> <span class="o">*</span> <span class="mf">360.</span> <span class="o">/</span> <span class="n">sizes_sum</span>
+
+            <span class="k">if</span> <span class="n">ea</span> <span class="o">-</span> <span class="n">sa</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">angle</span> <span class="o">=</span> <span class="n">sa</span> <span class="o">+</span> <span class="p">(</span><span class="n">ea</span> <span class="o">-</span> <span class="n">sa</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="n">polar2point</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="mf">1.05</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> (</span><span class="si">{:.2f}</span><span class="s2">%)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">size</span> <span class="o">/</span> <span class="n">sizes_sum</span><span class="p">),</span>
+                        <span class="n">verticalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                        <span class="n">horizontalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                        <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                        <span class="n">rotation</span><span class="o">=</span><span class="mi">360</span> <span class="o">-</span> <span class="n">angle</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">legend_node_index</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+            <span class="n">node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">sa</span><span class="p">,</span> <span class="n">ea</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+            <span class="n">sa</span> <span class="o">=</span> <span class="n">ea</span>
+
+        <span class="c1"># Create legend</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">legend_node_index</span><span class="p">],</span>
+                  <span class="p">[</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> (</span><span class="si">{:.2f}</span><span class="s2">%)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">nodes_sizes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">sizes_sum</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">legend_node_index</span><span class="p">],</span>
+                  <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Scales</span>
+        <span class="n">links_sum</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes_sizes</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+            <span class="n">links_sum</span><span class="p">[</span><span class="n">link</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">link</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="n">links_sum</span><span class="p">[</span><span class="n">link</span><span class="p">[</span><span class="s2">&quot;dest&quot;</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">link</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+
+        <span class="n">scales</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">link_sum</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">nodes_sizes</span><span class="p">,</span> <span class="n">links_sum</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">size</span> <span class="o">&lt;</span> <span class="n">link_sum</span><span class="p">:</span>
+                <span class="n">scales</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.9999</span> <span class="o">*</span> <span class="n">size</span> <span class="o">/</span> <span class="n">link_sum</span><span class="p">)</span>  <span class="c1"># Scale is reduced to 99% due to float precision</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">scales</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+
+        <span class="c1"># Links</span>
+        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+            <span class="n">source_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">link</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]]</span>
+            <span class="n">dest_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">link</span><span class="p">[</span><span class="s2">&quot;dest&quot;</span><span class="p">]]</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">link</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="n">sa0</span> <span class="o">=</span> <span class="n">source_node</span><span class="o">.</span><span class="n">get_arc_offset</span><span class="p">()</span>
+            <span class="n">slink_arc</span> <span class="o">=</span> <span class="n">scales</span><span class="p">[</span><span class="n">link</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]]</span> <span class="o">*</span> <span class="n">value</span> <span class="o">*</span> <span class="mf">360.</span> <span class="o">/</span> <span class="n">sizes_sum</span>
+            <span class="n">sa1</span> <span class="o">=</span> <span class="n">sa0</span> <span class="o">+</span> <span class="n">slink_arc</span>
+
+            <span class="n">source_node</span><span class="o">.</span><span class="n">reserve_arc</span><span class="p">(</span><span class="n">slink_arc</span><span class="p">)</span>
+
+            <span class="n">ea0</span> <span class="o">=</span> <span class="n">dest_node</span><span class="o">.</span><span class="n">get_arc_offset</span><span class="p">()</span>
+            <span class="n">elink_arc</span> <span class="o">=</span> <span class="n">scales</span><span class="p">[</span><span class="n">link</span><span class="p">[</span><span class="s2">&quot;dest&quot;</span><span class="p">]]</span> <span class="o">*</span> <span class="n">value</span> <span class="o">*</span> <span class="mf">360.</span> <span class="o">/</span> <span class="n">sizes_sum</span>
+            <span class="n">ea1</span> <span class="o">=</span> <span class="n">ea0</span> <span class="o">+</span> <span class="n">elink_arc</span>
+
+            <span class="n">dest_node</span><span class="o">.</span><span class="n">reserve_arc</span><span class="p">(</span><span class="n">elink_arc</span><span class="p">)</span>
+
+            <span class="n">l</span> <span class="o">=</span> <span class="n">Link</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">r</span><span class="p">,</span> <span class="n">sa0</span><span class="p">,</span> <span class="n">sa1</span><span class="p">,</span> <span class="n">ea0</span><span class="p">,</span> <span class="n">ea1</span><span class="p">,</span> <span class="n">source_node</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">Arrow</span><span class="p">(</span><span class="mf">0.81</span> <span class="o">*</span> <span class="n">r</span><span class="p">,</span> <span class="n">sa0</span><span class="p">,</span> <span class="n">sa1</span><span class="p">,</span> <span class="n">source_node</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">sa1</span> <span class="o">-</span> <span class="n">sa0</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">:</span>
+                <span class="c1"># Complimentary color</span>
+                <span class="n">rgb_color</span> <span class="o">=</span> <span class="n">hex2rgb</span><span class="p">(</span><span class="n">source_node</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">))</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source_node</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+                                                                                 <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">source_node</span><span class="o">.</span><span class="n">color</span>
+                <span class="n">hsl_color</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">colorsys</span><span class="o">.</span><span class="n">rgb_to_hls</span><span class="p">(</span><span class="o">*</span><span class="n">rgb_color</span><span class="p">))</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">hsl_color</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="mi">138</span> <span class="o">&gt;=</span> <span class="n">hsl_color</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">118</span><span class="p">:</span>  <span class="c1"># For gray color automatically set white</span>
+                        <span class="n">hsl_color</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">hsl_color</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">hsl_color</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">255</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mf">1.0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">hsl_color</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.5</span>
+
+                <span class="n">complimentary_color</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="o">/</span> <span class="mi">255</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colorsys</span><span class="o">.</span><span class="n">hls_to_rgb</span><span class="p">(</span><span class="o">*</span><span class="n">hsl_color</span><span class="p">)]</span>
+
+                <span class="c1"># Arrow text</span>
+                <span class="n">angle</span> <span class="o">=</span> <span class="n">sa0</span> <span class="o">+</span> <span class="p">(</span><span class="n">sa1</span> <span class="o">-</span> <span class="n">sa0</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="n">polar2point</span><span class="p">(</span><span class="n">sa0</span> <span class="o">+</span> <span class="p">(</span><span class="n">sa1</span> <span class="o">-</span> <span class="n">sa0</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.86</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="n">link</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">],</span>
+                        <span class="n">verticalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                        <span class="n">horizontalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                        <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+                        <span class="n">rotation</span><span class="o">=</span><span class="mi">180</span> <span class="o">-</span> <span class="n">angle</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;aspect&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">110</span><span class="p">,</span> <span class="mi">110</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">110</span><span class="p">,</span> <span class="mi">110</span><span class="p">)</span>
+
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Data #1&quot;</span><span class="p">,</span> <span class="s2">&quot;Data #2&quot;</span><span class="p">,</span> <span class="s2">&quot;Data #3&quot;</span><span class="p">,</span> <span class="s2">&quot;Data #4&quot;</span><span class="p">]</span>
+
+    <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">6000</span><span class="p">,</span> <span class="mi">7000</span><span class="p">]</span>
+
+    <span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">2000</span><span class="p">),</span>
+             <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">2000</span><span class="p">),</span>
+             <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">4600</span><span class="p">),</span>
+             <span class="nb">dict</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1000</span><span class="p">)]</span>
+
+    <span class="n">Chord</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">sizes</span><span class="p">,</span> <span class="n">links</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;chord.png&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">2</span> <span class="o">**</span> <span class="mi">7</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/AQUADUCT_LOGO.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../aquaduct.html" >aquaduct</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">aquaduct.apps.chord</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, 2017, 2018, 2019 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>

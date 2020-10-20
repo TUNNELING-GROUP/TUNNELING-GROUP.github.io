@@ -1,7 +1,0 @@
-aquaduct.utils.sr module
-========================
-
-.. automodule:: aquaduct.utils.sr
-    :members:
-    :undoc-members:
-    :show-inheritance:

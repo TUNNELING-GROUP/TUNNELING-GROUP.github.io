@@ -2,29 +2,29 @@
 
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Valve tutorial &#8212; Aqua-Duct 1.0.5 documentation</title>
-    <link rel="stylesheet" href="../static/bizstyle.css" type="text/css" />
-    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valve tutorial &#8212; Aqua-Duct 1.0.10 documentation</title>
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../static/documentation_options.js"></script>
-    <script type="text/javascript" src="../static/jquery.js"></script>
-    <script type="text/javascript" src="../static/underscore.js"></script>
-    <script type="text/javascript" src="../static/doctools.js"></script>
-    <script type="text/javascript" src="../static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="../static/bizstyle.js"></script>
-    <link rel="shortcut icon" href="../static/ficon.ico"/>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../_static/ficon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Aqua-Duct’s Pond driver documentation" href="../pond/index.html" />
     <link rel="prev" title="Configuration file options" href="valve_config.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="static/css3-mediaqueries.js"></script>
+    <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,57 +42,11 @@
         <li class="right" >
           <a href="valve_config.html" title="Configuration file options"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Aqua-Duct’s Valve driver documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Aqua-Duct’s Valve driver documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><em>Valve</em> tutorial</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../static/AQUADUCT_LOGO.png" alt="Logo"/>
-            </a></p>
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#"><em>Valve</em> tutorial</a><ul>
-<li><a class="reference internal" href="#valve-invocation"><em>Valve</em> invocation</a></li>
-<li><a class="reference internal" href="#test-data">Test data</a></li>
-<li><a class="reference internal" href="#inspect-your-system">Inspect your system</a><ul>
-<li><a class="reference internal" href="#create-object-definition">Create <em>Object definition</em></a></li>
-<li><a class="reference internal" href="#create-scope-definition">Create <em>Scope definition</em></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#prepare-config-file">Prepare config file</a></li>
-<li><a class="reference internal" href="#run-valve">Run <em>Valve</em></a><ul>
-<li><a class="reference internal" href="#visual-inspection">Visual inspection</a></li>
-<li><a class="reference internal" href="#clustering">Clustering</a></li>
-<li><a class="reference internal" href="#analysis-tables">Analysis tables</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#feedback">Feedback</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="valve_config.html"
-                        title="previous chapter">Configuration file options</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../pond/index.html"
-                        title="next chapter">Aqua-Duct’s Pond driver documentation</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -128,13 +82,13 @@
 <h3>Create <em>Object definition</em><a class="headerlink" href="#create-object-definition" title="Permalink to this headline">¶</a></h3>
 <p>Leti’s load another structure. Open file <code class="docutils literal notranslate"><span class="pre">1cqz_sample_topology.pdb</span></code> (see <a class="reference internal" href="#test-data"><span class="std std-ref">Test data</span></a>). It is a first frame of the MD simulation and it is an example of how the frame of MD looks like. In order to create <a class="reference internal" href="valve_manual.html#object-definition"><span class="std std-ref">Object definition</span></a> you have to discover following things:</p>
 <ol class="arabic simple">
-<li>What is the name of water molecules?</li>
-<li>What are numbers of residues in the active site?</li>
-<li>What size the active site is of?</li>
+<li><p>What is the name of water molecules?</p></li>
+<li><p>What are numbers of residues in the active site?</p></li>
+<li><p>What size the active site is of?</p></li>
 </ol>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">It is also a good idea to open <code class="docutils literal notranslate"><span class="pre">.pdb</span></code> file in your favorite text editor and look at residue numbers and names.</p>
+<p class="admonition-title">Note</p>
+<p>It is also a good idea to open <code class="docutils literal notranslate"><span class="pre">.pdb</span></code> file in your favorite text editor and look at residue numbers and names.</p>
 </div>
 </div>
 <div class="section" id="create-scope-definition">
@@ -149,9 +103,9 @@
 If you have troubles look at <a class="reference internal" href="valve_config.html"><span class="doc">Configuration file options</span></a> (and <a class="reference internal" href="valve_manual.html"><span class="doc">Valve manual</span></a>).</p>
 <p>Things to remember:</p>
 <ol class="arabic simple">
-<li>Provide correct paths to topology and trajectory data.</li>
-<li>Enter correct <a class="reference internal" href="valve_manual.html#object-definition"><span class="std std-ref">Object</span></a> and <a class="reference internal" href="valve_manual.html#scope-definition"><span class="std std-ref">Scope</span></a> definitions.</li>
-<li>Make sure visualization is switched on.</li>
+<li><p>Provide correct paths to topology and trajectory data.</p></li>
+<li><p>Enter correct <a class="reference internal" href="valve_manual.html#object-definition"><span class="std std-ref">Object</span></a> and <a class="reference internal" href="valve_manual.html#scope-definition"><span class="std std-ref">Scope</span></a> definitions.</p></li>
+<li><p>Make sure visualization is switched on.</p></li>
 </ol>
 </div>
 <div class="section" id="run-valve">
@@ -179,16 +133,62 @@ If you have troubles look at <a class="reference internal" href="valve_config.ht
 <p>Give us your opinion. Send your questions, inquires, anything to developer(s): <a class="reference external" href="mailto:info&#37;&#52;&#48;aquaduct&#46;pl">info<span>&#64;</span>aquaduct<span>&#46;</span>pl</a>.
 There are couple of questions that might be useful to form your opinion.</p>
 <ol class="arabic simple">
-<li>What do you like in <em>Valve</em> and <em>Aqua-Duct</em>?</li>
-<li>What do you do not like in <em>Valve</em> or <em>Aqua-Duct</em>?</li>
-<li>What is missing?</li>
-<li>Do you find it useful?</li>
+<li><p>What do you like in <em>Valve</em> and <em>Aqua-Duct</em>?</p></li>
+<li><p>What do you do not like in <em>Valve</em> or <em>Aqua-Duct</em>?</p></li>
+<li><p>What is missing?</p></li>
+<li><p>Do you find it useful?</p></li>
 </ol>
 </div>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/AQUADUCT_LOGO.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><em>Valve</em> tutorial</a><ul>
+<li><a class="reference internal" href="#valve-invocation"><em>Valve</em> invocation</a></li>
+<li><a class="reference internal" href="#test-data">Test data</a></li>
+<li><a class="reference internal" href="#inspect-your-system">Inspect your system</a><ul>
+<li><a class="reference internal" href="#create-object-definition">Create <em>Object definition</em></a></li>
+<li><a class="reference internal" href="#create-scope-definition">Create <em>Scope definition</em></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#prepare-config-file">Prepare config file</a></li>
+<li><a class="reference internal" href="#run-valve">Run <em>Valve</em></a><ul>
+<li><a class="reference internal" href="#visual-inspection">Visual inspection</a></li>
+<li><a class="reference internal" href="#clustering">Clustering</a></li>
+<li><a class="reference internal" href="#analysis-tables">Analysis tables</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#feedback">Feedback</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="valve_config.html"
+                        title="previous chapter">Configuration file options</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../pond/index.html"
+                        title="next chapter">Aqua-Duct’s Pond driver documentation</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -208,13 +208,14 @@ There are couple of questions that might be useful to form your opinion.</p>
         <li class="right" >
           <a href="valve_config.html" title="Configuration file options"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >Aqua-Duct’s Valve driver documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Aqua-Duct’s Valve driver documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><em>Valve</em> tutorial</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, 2017, 2018, 2019 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>

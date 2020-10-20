@@ -1,0 +1,6 @@
+aquaduct.geom.hdr\_contour module
+=================================
+
+.. automodule:: aquaduct.geom.hdr_contour
+   :members:
+   :show-inheritance:

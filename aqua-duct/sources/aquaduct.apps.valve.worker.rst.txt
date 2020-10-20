@@ -1,7 +1,0 @@
-aquaduct.apps.valve.worker module
-=================================
-
-.. automodule:: aquaduct.apps.valve.worker
-    :members:
-    :undoc-members:
-    :show-inheritance:

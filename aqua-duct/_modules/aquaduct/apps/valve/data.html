@@ -1,0 +1,838 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>aquaduct.apps.valve.data &#8212; Aqua-Duct 1.0.10 documentation</title>
+    <link rel="stylesheet" href="../../../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="../../../../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/ficon.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../../aquaduct.html" accesskey="U">aquaduct</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">aquaduct.apps.valve.data</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for aquaduct.apps.valve.data</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># Aqua-Duct, a tool facilitating analysis of the flow of solvent molecules in molecular dynamic simulations</span>
+<span class="c1"># Copyright (C) 2018-2019  Tomasz Magdziarz, Michał Banas &lt;info@aquaduct.pl&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License</span>
+<span class="c1"># along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span> <span class="nn">aquaduct</span> <span class="k">import</span> <span class="n">logger</span>
+<span class="c1"># import logging</span>
+<span class="c1"># logger = logging.getLogger(__name__)</span>
+
+<span class="kn">from</span> <span class="nn">aquaduct.utils.clui</span> <span class="k">import</span> <span class="n">SimpleTree</span>
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">from</span> <span class="nn">aquaduct.apps.data</span> <span class="k">import</span> <span class="n">GCS</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">GCS</span><span class="o">.</span><span class="n">nc4</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">netCDF4</span> <span class="k">as</span> <span class="nn">netcdf</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;NetCDF AQ format: Imported netCDF4&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">scipy.io</span> <span class="k">import</span> <span class="n">netcdf</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;NetCDF AQ format: Imported scipy.io.netcdf&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">aquaduct</span> <span class="k">import</span> <span class="n">version</span>
+<span class="kn">from</span> <span class="nn">aquaduct.utils.helpers</span> <span class="k">import</span> <span class="n">dictify</span>
+
+<span class="kn">from</span> <span class="nn">aquaduct.traj.sandwich</span> <span class="k">import</span> <span class="n">ResidueSelection</span>
+<span class="kn">from</span> <span class="nn">aquaduct.traj.paths</span> <span class="k">import</span> <span class="n">GenericPaths</span><span class="p">,</span> <span class="n">SinglePath</span><span class="p">,</span> <span class="n">PassingPath</span><span class="p">,</span> <span class="n">SinglePathID</span><span class="p">,</span> <span class="n">GenericPathTypeCodes</span><span class="p">,</span> <span class="n">MasterPath</span>
+<span class="kn">from</span> <span class="nn">aquaduct.utils.helpers</span> <span class="k">import</span> <span class="n">SmartRange</span>
+<span class="kn">from</span> <span class="nn">aquaduct.traj.inlets</span> <span class="k">import</span> <span class="n">InletClusterExtendedType</span><span class="p">,</span> <span class="n">InletClusterGenericType</span><span class="p">,</span> <span class="n">Inlet</span><span class="p">,</span> <span class="n">Inlets</span>
+<span class="kn">from</span> <span class="nn">aquaduct.traj.barber</span> <span class="k">import</span> <span class="n">Sphere</span>
+<span class="kn">from</span> <span class="nn">aquaduct.geom.master</span> <span class="k">import</span> <span class="n">FakeSingleResidueSelection</span>
+
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">chain</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+
+<span class="c1">################################################################################</span>
+<span class="c1"># Version checking</span>
+
+<span class="k">def</span> <span class="nf">check_version_compliance</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">loaded</span><span class="p">,</span> <span class="n">what</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Loaded data has </span><span class="si">%s</span><span class="s1"> major version lower then the application.&#39;</span> <span class="o">%</span> <span class="n">what</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Loaded data has </span><span class="si">%s</span><span class="s1"> major version higher then the application.&#39;</span> <span class="o">%</span> <span class="n">what</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Possible problems with API compliance.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Loaded data has </span><span class="si">%s</span><span class="s1"> minor version lower then the application.&#39;</span> <span class="o">%</span> <span class="n">what</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Loaded data has </span><span class="si">%s</span><span class="s1"> minor version higher then the application.&#39;</span> <span class="o">%</span> <span class="n">what</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Possible problems with API compliance.&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">check_versions</span><span class="p">(</span><span class="n">version_dict</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">version_dict</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">OrderedDict</span><span class="p">)),</span> <span class="s2">&quot;File is corrupted, cannot read version data.&quot;</span>
+    <span class="k">assert</span> <span class="s1">&#39;version&#39;</span> <span class="ow">in</span> <span class="n">version_dict</span><span class="p">,</span> <span class="s2">&quot;File is corrupted, cannot read version data.&quot;</span>
+    <span class="k">assert</span> <span class="s1">&#39;aquaduct_version&#39;</span> <span class="ow">in</span> <span class="n">version_dict</span><span class="p">,</span> <span class="s2">&quot;File is corrupted, cannot read version data.&quot;</span>
+    <span class="n">check_version_compliance</span><span class="p">(</span><span class="n">version</span><span class="p">(),</span> <span class="n">version_dict</span><span class="p">[</span><span class="s1">&#39;aquaduct_version&#39;</span><span class="p">],</span> <span class="s1">&#39;Aqua-Duct&#39;</span><span class="p">)</span>
+    <span class="n">check_version_compliance</span><span class="p">(</span><span class="n">version</span><span class="p">(),</span> <span class="n">version_dict</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">],</span> <span class="s1">&#39;Valve&#39;</span><span class="p">)</span>
+
+
+<span class="c1">################################################################################</span>
+
+<span class="k">def</span> <span class="nf">get_vda_reader</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;.dump&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">ValveDataAccess_pickle</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">data_file_name</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;.npaq&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">ValveDataAccess_numpy</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">data_file_name</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;.nc&#39;</span><span class="p">,</span> <span class="s1">&#39;.aqnc&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">ValveDataAccess_nc</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">data_file_name</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown file type of </span><span class="si">%s</span><span class="s1"> file&#39;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
+
+
+<span class="c1">################################################################################</span>
+
+
+<span class="k">class</span> <span class="nc">ValveDataAccess</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">unknown_names</span> <span class="o">=</span> <span class="s1">&#39;UNK&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Opening file </span><span class="si">%s</span><span class="s1"> in mode </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">data_file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_file_name</span> <span class="o">=</span> <span class="n">data_file_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="n">mode</span> <span class="ow">in</span> <span class="s1">&#39;rw&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>  <span class="c1"># r, w</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+
+<span class="c1">################################################################################</span>
+
+
+<div class="viewcode-block" id="ValveDataCodec"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.data.html#aquaduct.apps.valve.data.ValveDataCodec">[docs]</a><span class="k">class</span> <span class="nc">ValveDataCodec</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Class defines format of encoding AQ objects into NetCDF format.</span>
+<span class="sd">    Encoding defined here can be also used to store AQ objects as NumPy arrays.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># this is in fact definition of data format</span>
+    <span class="c1"># it assumes data is dictionary with scipy netcdf variables, would it work with netcdf4?</span>
+
+    <span class="n">version</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Current version of :class:`ValveDataCodec`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="ValveDataCodec.varname"><a class="viewcode-back" href="../../../../aquaduct.apps.valve.data.html#aquaduct.apps.valve.data.ValveDataCodec.varname">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">suffix</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Name of variable made by combining base name and suffixes (if any).</span>
+<span class="sd">        Base name and suffixes are joined with dot &#39;.&#39;.</span>
+
+<span class="sd">        :param name: Base for variable name.</span>
+<span class="sd">        :param suffix: Optional suffixes.</span>
+<span class="sd">        :return: Name of variable made by combining base name and suffixes (if any).</span>
+<span class="sd">        Base name and suffixes are joined with dot &#39;.&#39;.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">):</span>
+            <span class="n">suff</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">suffix</span><span class="p">))</span>
+            <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">suff</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">name</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;center_of_system&#39;</span><span class="p">:</span>
+            <span class="c1"># center_of_system: (3,)*float</span>
+
+            <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;all_res&#39;</span><span class="p">:</span>
+            <span class="c1"># all_res.layers: (L,)*int</span>
+            <span class="c1">#   L is a number of layers</span>
+            <span class="c1"># all_res.layer.N: (S,)*int</span>
+            <span class="c1">#   N is a consecutive layer number</span>
+            <span class="c1">#   S is a number of traced molecules in N layer</span>
+
+            <span class="c1"># save layers</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">selected</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layers&#39;</span><span class="p">),</span> <span class="n">layers</span>
+            <span class="c1"># save each layer as separate array</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">l</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">selected</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;number_frame_rid_in_object&#39;</span><span class="p">:</span>
+            <span class="c1"># number_frame_rid_in_object.layers: (1,)*int</span>
+            <span class="c1">#   number of layers</span>
+            <span class="c1"># number_frame_rid_in_object.layer.N.sizes: (F,)*int</span>
+            <span class="c1">#   N is a consecutive layer number</span>
+            <span class="c1">#   F is a number of frames in layer N</span>
+            <span class="c1"># number_frame_rid_in_object.layer.N: (Q,)*int</span>
+            <span class="c1">#   Q is a number of molecules in in object in all frames,</span>
+            <span class="c1">#   it is a sum of number_frame_rid_in_object.layer.N.sizes</span>
+
+            <span class="c1"># TODO It can be further improved because there is no sense to store repeated information for frames.</span>
+            <span class="c1"># number of layers</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layers&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">layers</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">nr</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                <span class="c1"># for each layer make sizes array</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">nr</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">layer</span><span class="p">),</span>
+                                                                                      <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+                <span class="c1"># then save layer</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">nr</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">layer</span><span class="p">)),</span>
+                                                                             <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;paths&#39;</span><span class="p">:</span>
+            <span class="c1"># paths.layers:  (L,)*int</span>
+            <span class="c1">#   L is a number of layers</span>
+            <span class="c1"># paths.layer.N.names: (P,3)*str</span>
+            <span class="c1">#   N is a consecutive layer number</span>
+            <span class="c1">#   P is a number of paths in N layer</span>
+            <span class="c1"># paths.layer.N.ids: (P,)*int</span>
+            <span class="c1">#   N is a consecutive layer number</span>
+            <span class="c1">#   P is a number of paths in N layer</span>
+            <span class="c1"># paths.layer.N.min_max_frames: (1,2)*int</span>
+            <span class="c1"># paths.layer.N.object.sizes: (P,)*int</span>
+            <span class="c1">#   P is a number of paths in N layer</span>
+            <span class="c1"># paths.layer.N.scope.sizes: (P,)*int</span>
+            <span class="c1">#   P is a number of paths in N layer</span>
+            <span class="c1"># paths.layer.N.object: (PO*2,)*int</span>
+            <span class="c1">#   PO is a number of pairs (start,times) decoding object paths for all paths in N layer</span>
+            <span class="c1"># paths.layer.N.scope: (PS*2,)*int</span>
+            <span class="c1">#   PO is a number of pairs (start,times) decoding scope paths for all paths in N layer</span>
+
+            <span class="c1"># get all layers</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)))</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layers&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
+                <span class="n">P</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="mi">1</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">))</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;names&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;ids&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+                <span class="n">mmf</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">))</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;min_max_frames&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">mmf</span><span class="o">.</span><span class="n">min_possible_frame</span><span class="p">,</span> <span class="n">mmf</span><span class="o">.</span><span class="n">max_possible_frame</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+                <span class="n">oors</span> <span class="o">=</span> <span class="p">[</span><span class="n">SmartRange</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">frames_of_object</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">]</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw_increment</span><span class="p">))</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">oors</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw2sequence</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw_increment</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">oors</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+                <span class="n">oors</span> <span class="o">=</span> <span class="p">[</span><span class="n">SmartRange</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">frames_of_scope</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">]</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;scope&#39;</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw_increment</span><span class="p">))</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">oors</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;scope&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw2sequence</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw_increment</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">oors</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;spaths&#39;</span><span class="p">:</span>
+            <span class="c1"># spaths.layers:  (L,)*int</span>
+            <span class="c1">#   L is a number of layers</span>
+            <span class="c1"># spaths.layer.N.names: (P,3)*str</span>
+            <span class="c1">#   N is a consecutive layer number</span>
+            <span class="c1">#   P is a number of paths in N layer</span>
+            <span class="c1"># spaths.layer.N.ids: (P,2)*int</span>
+            <span class="c1">#   N is a consecutive layer number</span>
+            <span class="c1">#   P is a number of paths in N layer</span>
+            <span class="c1"># spaths.layer.N.single: (P,)*int</span>
+            <span class="c1">#   P is a number of paths in N layer</span>
+            <span class="c1"># spaths.layer.N.frames: (P,5)*int</span>
+            <span class="c1">#   P is a number of paths in N layer</span>
+            <span class="c1">#   table of (begining,end,in,object,out)</span>
+            <span class="c1"># spaths.layer.N.object.sizes: (PSO,)*int</span>
+            <span class="c1">#   PSO is a number of paths in N layer that are not PassingPaths</span>
+            <span class="c1"># spaths.layer.N.object: (PSOS*2,)*int</span>
+            <span class="c1">#   PSOS is a number of pairs (start,times) decoding strict obejct frames of non PassingPaths for all paths in N layer</span>
+
+            <span class="n">layers</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)))</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layers&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
+                <span class="n">P</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="mi">1</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">))</span>  <span class="c1"># number of paths in N</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;names&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;ids&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">nr</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;single&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">is_single</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;i1&#39;</span><span class="p">)</span>  <span class="c1"># i1 instead of bool</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;frames&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">begins</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">ends</span><span class="p">)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">sizes</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">)),</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+                <span class="n">osf</span> <span class="o">=</span> <span class="p">[</span><span class="n">SmartRange</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">path_object_strict</span><span class="p">())</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">is_single</span><span class="p">()]</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw_increment</span><span class="p">))</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">osf</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                    <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw2sequence</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw_increment</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">osf</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;ctypes&#39;</span><span class="p">:</span>
+            <span class="c1"># ctypes: (P,4)*int</span>
+            <span class="c1">#   None is replaced by -1</span>
+
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ct</span><span class="o">.</span><span class="n">clusters</span><span class="p">]</span> <span class="k">for</span> <span class="n">ct</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;master_paths&#39;</span><span class="p">,</span> <span class="s1">&#39;master_paths_smooth&#39;</span><span class="p">]:</span>
+            <span class="c1"># master_paths*.keys: (M,2)*int</span>
+            <span class="c1">#   M is a number of master paths</span>
+            <span class="c1">#   keys are ctypes generic</span>
+            <span class="c1"># master_paths*.names: (M,3)*str</span>
+            <span class="c1">#   M is a number of master paths</span>
+            <span class="c1"># master_paths*.ids: (M,3)*int</span>
+            <span class="c1">#   M is a number of master paths</span>
+            <span class="c1"># master_paths*.frames: (M,5)*int</span>
+            <span class="c1">#   M is a number of master paths</span>
+            <span class="c1">#   table of (begining,end,in,object,out)</span>
+            <span class="c1"># master_paths*.widths: (MS,)*float</span>
+            <span class="c1">#   MS is a sum of lenghts of all master paths</span>
+            <span class="c1"># master_paths*.coords: (MS,3)*int</span>
+            <span class="c1">#   MS is a sum of lenghts of all master paths</span>
+            <span class="c1"># master_paths*.object.sizes: (M,)*int</span>
+            <span class="c1">#   M is a number of master paths</span>
+            <span class="c1"># master_paths*.object: (MOS*2,)*int</span>
+            <span class="c1">#   MOS is a number of pairs (start,times) decoding strict obejct frames of master paths</span>
+
+            <span class="n">M</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;keys&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ct</span><span class="o">.</span><span class="n">clusters</span><span class="p">]</span> <span class="k">for</span> <span class="n">ct</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">keys</span><span class="p">()))),</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;names&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">()))),</span>
+                                                                     <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;ids&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">nr</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">()))),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;frames&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">begins</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">ends</span><span class="p">)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">sizes</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">()))),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;widths&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">width_cont</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">()))),</span>
+                                                                      <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="n">MS</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">())))</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;coords&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">coords_cont</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">())))),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">MS</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">osf</span> <span class="o">=</span> <span class="p">[</span><span class="n">SmartRange</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">path_object_strict</span><span class="p">())</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">())]</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw_increment</span><span class="p">))</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">osf</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw2sequence</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">raw_increment</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">osf</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;inls&#39;</span><span class="p">:</span>
+            <span class="c1"># inls is a complicated object</span>
+            <span class="c1">#</span>
+            <span class="c1"># inls.center_of_system: (3,)*float</span>
+            <span class="c1"># inls.onlytype: (1,)*str</span>
+            <span class="c1"># inls.inlets_list.coords: (I,3)*float</span>
+            <span class="c1"># inls.inlets_list.frame: (I,)*int</span>
+            <span class="c1"># inls.inlets_list.type: (I,)*int</span>
+            <span class="c1">#   it references onlytype</span>
+            <span class="c1"># inls.inlets_list.reference.ids: (I,3)*int</span>
+            <span class="c1"># inls.inlets_list.reference.name: (I,3)*str</span>
+            <span class="c1"># inls.inlets_ids: (I,)*int</span>
+            <span class="c1">#   I is a number of inlets</span>
+            <span class="c1"># inls.clusters: (I,)*int</span>
+            <span class="c1">#   I is a number of inlets</span>
+            <span class="c1"># inls.number_of_clustered_inlets: (1,)*int</span>
+            <span class="c1"># inls.spheres: (I,4)*float</span>
+            <span class="c1">#   I is a number of inlets</span>
+            <span class="c1"># inls.spheres.nr: (I,)*int</span>
+            <span class="c1">#   I is a number of inlets</span>
+            <span class="c1"># inls.passing: (1,)*int</span>
+            <span class="c1"># inls.tree: (1,)*str</span>
+
+            <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">center_of_system</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;center_of_system&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">center_of_system</span><span class="p">)</span>
+            <span class="c1"># yield ValveDataCodec.varname(name, &#39;onlytype&#39;), np.fromiter(json.dumps(value.onlytype),dtype=&#39;S1&#39;)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_list&#39;</span><span class="p">,</span> <span class="s1">&#39;coords&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">coords</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">inlets_list</span><span class="p">])</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_list&#39;</span><span class="p">,</span> <span class="s1">&#39;frame&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">frame</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">inlets_list</span><span class="p">],</span>
+                                                                                 <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_list&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">onlytype</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">type</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">inlets_list</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_list&#39;</span><span class="p">,</span> <span class="s1">&#39;reference&#39;</span><span class="p">,</span> <span class="s1">&#39;ids&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">reference</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">reference</span><span class="o">.</span><span class="n">nr</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">inlets_list</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="n">I</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">inlets_ids</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_list&#39;</span><span class="p">,</span> <span class="s1">&#39;reference&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+                <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">reference</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">inlets_list</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_ids&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">inlets_ids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;clusters&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">clusters</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;number_of_clustered_inlets&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">number_of_clustered_inlets</span><span class="p">],</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;spheres&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">radius</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">spheres</span><span class="p">])</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;spheres&#39;</span><span class="p">,</span> <span class="s1">&#39;nr&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">nr</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">spheres</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;passing&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">value</span><span class="o">.</span><span class="n">passing</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;i1&#39;</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;tree&#39;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">tree</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;S1&#39;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;center_of_system&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;all_res&#39;</span><span class="p">:</span>
+            <span class="c1"># create empty all_res object</span>
+            <span class="c1"># read layers</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layers&#39;</span><span class="p">)][:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">ResidueSelection</span><span class="p">(((</span><span class="n">l</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">l</span><span class="p">)])</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;number_frame_rid_in_object&#39;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># number of layers</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layers&#39;</span><span class="p">)][:]</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">nr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">layers</span><span class="p">):</span>
+                <span class="n">out_</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">sizes</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">nr</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">)]</span>
+                <span class="n">layer</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">nr</span><span class="p">)]</span>
+                <span class="n">seek</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sizes</span><span class="p">:</span>
+                    <span class="n">out_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">layer</span><span class="p">[</span><span class="n">seek</span><span class="p">:</span><span class="n">seek</span> <span class="o">+</span> <span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+                    <span class="n">seek</span> <span class="o">+=</span> <span class="n">s</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">out</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;paths&#39;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layers&#39;</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
+                <span class="n">names</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;names&#39;</span><span class="p">)]</span>
+                <span class="n">ids</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;ids&#39;</span><span class="p">)]</span>
+                <span class="n">mmf</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;min_max_frames&#39;</span><span class="p">)]</span>
+                <span class="n">object_sizes</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">)]</span>
+                <span class="n">object_frames</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">)]</span>
+                <span class="n">scope_sizes</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;scope&#39;</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">)]</span>
+                <span class="n">scope_frames</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;scope&#39;</span><span class="p">)]</span>
+                <span class="n">seek_object</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">seek_scope</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">osize</span><span class="p">,</span> <span class="n">ssize</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">pid</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">object_sizes</span><span class="p">,</span> <span class="n">scope_sizes</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">ids</span><span class="p">):</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="n">GenericPaths</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">pid</span><span class="p">))),</span> <span class="n">name_of_res</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">tostring</span><span class="p">()),</span> <span class="n">min_pf</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">mmf</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                                     <span class="n">max_pf</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">mmf</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+                    <span class="n">foo</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">SmartRange</span><span class="p">(</span><span class="n">fast_minc_seq</span><span class="o">=</span><span class="n">object_frames</span><span class="p">[</span><span class="n">seek_object</span><span class="p">:</span><span class="n">seek_object</span> <span class="o">+</span> <span class="n">osize</span><span class="p">])</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+                    <span class="n">seek_object</span> <span class="o">+=</span> <span class="n">osize</span>
+                    <span class="n">fos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">SmartRange</span><span class="p">(</span><span class="n">fast_minc_seq</span><span class="o">=</span><span class="n">scope_frames</span><span class="p">[</span><span class="n">seek_scope</span><span class="p">:</span><span class="n">seek_scope</span> <span class="o">+</span> <span class="n">ssize</span><span class="p">])</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+                    <span class="n">seek_scope</span> <span class="o">+=</span> <span class="n">ssize</span>
+                    <span class="n">out</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">add_foos</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">fos</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">out</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;spaths&#39;</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layers&#39;</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">:</span>
+                <span class="n">names</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;names&#39;</span><span class="p">)]</span>
+                <span class="n">ids</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;ids&#39;</span><span class="p">)]</span>
+                <span class="n">is_single</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;single&#39;</span><span class="p">)]</span>
+                <span class="n">frames_table</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;frames&#39;</span><span class="p">)]</span>
+                <span class="n">object_strict</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">)]</span>
+                <span class="n">single_path_nr</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">seek_object</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">ft</span><span class="p">,</span> <span class="n">iss</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">frames_table</span><span class="p">,</span> <span class="n">is_single</span><span class="p">):</span>
+                    <span class="n">spid</span> <span class="o">=</span> <span class="n">SinglePathID</span><span class="p">(</span><span class="n">path_id</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">pid</span><span class="p">[</span><span class="mi">0</span><span class="p">]))),</span> <span class="n">nr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">pid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">tostring</span><span class="p">()))</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ft</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">iss</span><span class="p">:</span>
+                        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SinglePath</span><span class="p">(</span><span class="n">spid</span><span class="p">,</span> <span class="p">[[],</span> <span class="p">[],</span> <span class="p">[]],</span> <span class="p">[[],</span> <span class="p">[],</span> <span class="p">[]]))</span>
+                        <span class="n">seek</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="n">path_in</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">seek</span><span class="p">:</span><span class="n">seek</span> <span class="o">+</span> <span class="n">ft</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+                        <span class="n">seek</span> <span class="o">+=</span> <span class="n">ft</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                        <span class="n">path_object</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">seek</span><span class="p">:</span><span class="n">seek</span> <span class="o">+</span> <span class="n">ft</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+                        <span class="n">seek</span> <span class="o">+=</span> <span class="n">ft</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                        <span class="n">path_out</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">seek</span><span class="p">:</span><span class="n">seek</span> <span class="o">+</span> <span class="n">ft</span><span class="p">[</span><span class="mi">4</span><span class="p">]]</span>
+                        <span class="n">seek</span> <span class="o">+=</span> <span class="n">ft</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                        <span class="n">path_object_strict_size</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">)][</span>
+                            <span class="n">single_path_nr</span><span class="p">]</span>
+                        <span class="n">single_path_nr</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">path_object_strict</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">SmartRange</span><span class="p">(</span>
+                            <span class="n">fast_minc_seq</span><span class="o">=</span><span class="n">object_strict</span><span class="p">[</span><span class="n">seek_object</span><span class="p">:</span><span class="n">seek_object</span> <span class="o">+</span> <span class="n">path_object_strict_size</span><span class="p">])</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+                        <span class="n">seek_object</span> <span class="o">+=</span> <span class="n">path_object_strict_size</span>
+                        <span class="n">out</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">add_paths4</span><span class="p">(</span><span class="n">path_in</span><span class="p">,</span> <span class="n">path_object</span><span class="p">,</span> <span class="n">path_object_strict</span><span class="p">,</span> <span class="n">path_out</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PassingPath</span><span class="p">(</span><span class="n">spid</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="p">[</span><span class="n">GenericPathTypeCodes</span><span class="o">.</span><span class="n">scope_name</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)))</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;ctypes&#39;</span><span class="p">:</span>
+            <span class="n">ctypes</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">InletClusterExtendedType</span><span class="p">(</span><span class="n">cc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cc</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">cc</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">cc</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="p">([</span><span class="kc">None</span> <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ct</span><span class="p">]</span> <span class="k">for</span> <span class="n">ct</span> <span class="ow">in</span> <span class="n">ctypes</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;master_paths&#39;</span><span class="p">,</span> <span class="s1">&#39;master_paths_smooth&#39;</span><span class="p">]:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;keys&#39;</span><span class="p">)]</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;names&#39;</span><span class="p">)]</span>
+            <span class="n">ids</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;ids&#39;</span><span class="p">)]</span>
+            <span class="n">frames_table</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;frames&#39;</span><span class="p">)]</span>
+            <span class="n">widths</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;widths&#39;</span><span class="p">)]</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;coords&#39;</span><span class="p">)]</span>  <span class="c1"># corrds use the same seek as widths</span>
+            <span class="n">object_strict</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">)]</span>
+            <span class="n">seek_widths</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">seek_object</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">mpnr</span><span class="p">,</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">ft</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">frames_table</span><span class="p">)):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">InletClusterGenericType</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="kc">None</span> <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">k</span><span class="p">])</span>
+                <span class="n">spid</span> <span class="o">=</span> <span class="n">SinglePathID</span><span class="p">(</span><span class="n">path_id</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">pid</span><span class="p">[:</span><span class="mi">2</span><span class="p">])),</span> <span class="n">nr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">pid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">tostring</span><span class="p">()))</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ft</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+                <span class="n">mp</span> <span class="o">=</span> <span class="n">SinglePath</span><span class="p">(</span><span class="n">spid</span><span class="p">,</span> <span class="p">[[],</span> <span class="p">[],</span> <span class="p">[]],</span> <span class="p">[[],</span> <span class="p">[],</span> <span class="p">[]])</span>
+                <span class="n">seek</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">path_in</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">seek</span><span class="p">:</span><span class="n">seek</span> <span class="o">+</span> <span class="n">ft</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+                <span class="n">seek</span> <span class="o">+=</span> <span class="n">ft</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">path_object</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">seek</span><span class="p">:</span><span class="n">seek</span> <span class="o">+</span> <span class="n">ft</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+                <span class="n">seek</span> <span class="o">+=</span> <span class="n">ft</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                <span class="n">path_out</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">seek</span><span class="p">:</span><span class="n">seek</span> <span class="o">+</span> <span class="n">ft</span><span class="p">[</span><span class="mi">4</span><span class="p">]]</span>
+                <span class="n">seek</span> <span class="o">+=</span> <span class="n">ft</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+                <span class="n">path_object_strict_size</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="s1">&#39;sizes&#39;</span><span class="p">)][</span><span class="n">mpnr</span><span class="p">]</span>
+                <span class="n">path_object_strict</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                    <span class="n">SmartRange</span><span class="p">(</span><span class="n">fast_minc_seq</span><span class="o">=</span><span class="n">object_strict</span><span class="p">[</span><span class="n">seek_object</span><span class="p">:</span><span class="n">seek_object</span> <span class="o">+</span> <span class="n">path_object_strict_size</span><span class="p">])</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+                <span class="n">seek_object</span> <span class="o">+=</span> <span class="n">path_object_strict_size</span>
+
+                <span class="n">fsrs</span> <span class="o">=</span> <span class="n">FakeSingleResidueSelection</span><span class="p">(</span><span class="n">spid</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">ft</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                                                  <span class="n">coords</span><span class="p">[</span><span class="n">seek_widths</span><span class="p">:</span><span class="n">seek_widths</span> <span class="o">+</span> <span class="n">ft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+                <span class="n">mp</span> <span class="o">=</span> <span class="n">SinglePath</span><span class="p">(</span><span class="n">spid</span><span class="p">,</span> <span class="p">[[],</span> <span class="p">[],</span> <span class="p">[]],</span> <span class="p">[[],</span> <span class="p">[],</span> <span class="p">[]],</span> <span class="n">single_res_selection</span><span class="o">=</span><span class="n">fsrs</span><span class="p">)</span>
+
+                <span class="n">mp</span><span class="o">.</span><span class="n">add_paths4</span><span class="p">(</span><span class="n">path_in</span><span class="p">,</span> <span class="n">path_object</span><span class="p">,</span> <span class="n">path_object_strict</span><span class="p">,</span> <span class="n">path_out</span><span class="p">)</span>
+                <span class="n">mp</span> <span class="o">=</span> <span class="n">MasterPath</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span>
+                <span class="n">mp</span><span class="o">.</span><span class="n">add_width</span><span class="p">(</span><span class="n">widths</span><span class="p">[</span><span class="n">seek_widths</span><span class="p">:</span><span class="n">seek_widths</span> <span class="o">+</span> <span class="n">ft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+                <span class="n">seek_widths</span> <span class="o">+=</span> <span class="p">(</span><span class="n">ft</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="n">out</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">key</span><span class="p">:</span> <span class="n">mp</span><span class="p">})</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;inls&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;center_of_system&#39;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">center_of_system</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;center_of_system&#39;</span><span class="p">)][:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">center_of_system</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1"># onlytype = data[ValveDataCodec.varname(name, &#39;onlytype&#39;)][:].copy()</span>
+            <span class="c1"># onlytype = json.loads(str(onlytype.tostring()))</span>
+            <span class="c1"># onlytype = [tuple(ot) for ot in onlytype]</span>
+            <span class="n">passing</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;passing&#39;</span><span class="p">)][:]</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+            <span class="n">inls</span> <span class="o">=</span> <span class="n">Inlets</span><span class="p">([],</span> <span class="n">center_of_system</span><span class="o">=</span><span class="n">center_of_system</span><span class="p">,</span> <span class="n">passing</span><span class="o">=</span><span class="n">passing</span><span class="p">,</span> <span class="n">onlytype</span><span class="o">=</span><span class="n">onlytype</span><span class="p">)</span>
+
+            <span class="n">coords</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_list&#39;</span><span class="p">,</span> <span class="s1">&#39;coords&#39;</span><span class="p">)]</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_list&#39;</span><span class="p">,</span> <span class="s1">&#39;frame&#39;</span><span class="p">)]</span>
+            <span class="n">type_</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_list&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">)]</span>
+            <span class="n">ref_ids</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_list&#39;</span><span class="p">,</span> <span class="s1">&#39;reference&#39;</span><span class="p">,</span> <span class="s1">&#39;ids&#39;</span><span class="p">)]</span>
+            <span class="n">ref_name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_list&#39;</span><span class="p">,</span> <span class="s1">&#39;reference&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">type_</span><span class="p">,</span> <span class="n">ref_ids</span><span class="p">,</span> <span class="n">ref_name</span><span class="p">):</span>
+                <span class="n">spid</span> <span class="o">=</span> <span class="n">SinglePathID</span><span class="p">(</span><span class="n">path_id</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">pid</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">())),</span> <span class="n">nr</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">pid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()),</span>
+                                    <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">tostring</span><span class="p">()))</span>
+                <span class="c1"># inls.inlets_list.append(Inlet(coords=c.copy(), type=onlytype[t.copy()], reference=spid, frame=f.copy()))</span>
+                <span class="n">inls</span><span class="o">.</span><span class="n">inlets_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Inlet</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">reference</span><span class="o">=</span><span class="n">spid</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">copy</span><span class="p">()))</span>
+
+            <span class="n">inls</span><span class="o">.</span><span class="n">inlets_ids</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;inlets_ids&#39;</span><span class="p">)][:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">inls</span><span class="o">.</span><span class="n">clusters</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;clusters&#39;</span><span class="p">)][:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">inls</span><span class="o">.</span><span class="n">number_of_clustered_inlets</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;number_of_clustered_inlets&#39;</span><span class="p">)][:]</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+            <span class="n">spheres</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;spheres&#39;</span><span class="p">)]</span>
+            <span class="n">spheres_nr</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;spheres&#39;</span><span class="p">,</span> <span class="s1">&#39;nr&#39;</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">nr</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">spheres</span><span class="p">,</span> <span class="n">spheres_nr</span><span class="p">):</span>
+                <span class="n">inls</span><span class="o">.</span><span class="n">spheres</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Sphere</span><span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">nr</span><span class="o">.</span><span class="n">copy</span><span class="p">()))</span>
+
+            <span class="n">inls</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">SimpleTree</span><span class="p">(</span><span class="n">treestr</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;tree&#39;</span><span class="p">)][:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">tostring</span><span class="p">()))</span>
+
+            <span class="k">return</span> <span class="n">inls</span></div>
+
+
+<span class="k">class</span> <span class="nc">ValveDataAccess_nc</span><span class="p">(</span><span class="n">ValveDataAccess</span><span class="p">):</span>
+    <span class="n">not_variable</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="s1">&#39;aquaduct_version&#39;</span><span class="p">,</span> <span class="s1">&#39;ValveDataCodec&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">netcdf</span><span class="p">,</span> <span class="s1">&#39;Dataset&#39;</span><span class="p">):</span>
+            <span class="c1"># netcdf4</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span> <span class="o">=</span> <span class="n">netcdf</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># scipy</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span> <span class="o">=</span> <span class="n">netcdf</span><span class="o">.</span><span class="n">netcdf_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;w&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">version</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;aquaduct_version&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">version</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="s1">&#39;ValveDataCodec&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">version</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">))</span>  <span class="c1"># not used right now</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
+            <span class="n">versions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">k</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="s1">&#39;aquaduct_version&#39;</span><span class="p">],</span>
+                                                           <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;version&#39;</span><span class="p">),</span>
+                                                            <span class="bp">self</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;aquaduct_version&#39;</span><span class="p">)))])</span>
+            <span class="n">check_versions</span><span class="p">(</span><span class="n">versions</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="c1"># print name</span>
+        <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">][:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="c1"># print name, value</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;w&quot;</span>
+        <span class="c1"># value has to be ndarray</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="c1"># create dimensions</span>
+        <span class="n">dimensions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">nr</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
+            <span class="n">dimensions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">nr</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="n">dimensions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">d</span><span class="p">)</span>
+        <span class="c1"># create variable</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">netcdf</span><span class="p">,</span> <span class="s1">&#39;Dataset&#39;</span><span class="p">):</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">dimensions</span><span class="p">),</span> <span class="n">zlib</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">dimensions</span><span class="p">))</span>
+        <span class="c1"># fill variable</span>
+        <span class="n">v</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">nname</span><span class="p">,</span> <span class="n">vvalue</span> <span class="ow">in</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">nname</span><span class="p">,</span> <span class="n">vvalue</span><span class="p">)</span>
+
+    <span class="nd">@dictify</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># names of data objects</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">set</span><span class="p">([</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_variable</span><span class="p">]))</span>
+        <span class="n">all_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">not_variable</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="c1"># if &#39;inls&#39; in name: continue</span>
+            <span class="c1"># read all parts of object and decode</span>
+            <span class="n">this_object</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(((</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">all_names</span> <span class="k">if</span>
+                                <span class="n">name</span> <span class="o">==</span> <span class="n">n</span> <span class="ow">or</span> <span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+            <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">ValveDataCodec</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">this_object</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">this_object</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">this_object</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)[:]</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;copy&#39;</span><span class="p">):</span>
+                    <span class="n">v</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="k">del</span> <span class="n">v</span>
+
+
+<span class="c1">################################################################################</span>
+
+<span class="k">class</span> <span class="nc">ValveDataAccess_numpy</span><span class="p">(</span><span class="n">ValveDataAccess</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="c1">################################################################################</span>
+
+<span class="k">class</span> <span class="nc">ValveDataAccess_pickle</span><span class="p">(</span><span class="n">ValveDataAccess</span><span class="p">):</span>
+    <span class="n">mimic_old_var_name</span> <span class="o">=</span> <span class="s1">&#39;aq_data_to_save&#39;</span>
+    <span class="n">unknown_names</span> <span class="o">=</span> <span class="s1">&#39;UNK&#39;</span>
+
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># open file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file_name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">compresslevel</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+        <span class="c1"># if mode is w save header with version etc</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;w&#39;</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">version</span><span class="p">(),</span>
+                         <span class="s1">&#39;aquaduct_version&#39;</span><span class="p">:</span> <span class="n">version</span><span class="p">()},</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span>
+            <span class="n">versions</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="p">)</span>
+            <span class="n">check_versions</span><span class="p">(</span><span class="n">versions</span><span class="p">)</span>
+            <span class="c1"># loaded data!</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">loaded_data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">loaded_data</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>  <span class="c1"># TODO: remove it!</span>
+                <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># this is to mimic v0.3 behaviour</span>
+        <span class="k">for</span> <span class="n">_name</span><span class="p">,</span> <span class="n">_value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">_name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">mimic_old_var_name</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">_value</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                    if isinstance(value, CompactSelectionMDA):</span>
+<span class="sd">                        value = value.toSelectionMDA(self.reader)</span>
+<span class="sd">                        # with self.reader.get() as traj_reader:</span>
+<span class="sd">                        #    value = value.toSelectionMDA(traj_reader)</span>
+<span class="sd">                    &#39;&#39;&#39;</span>
+                    <span class="c1"># TODO: following is to overcome problems with missing names when data is &lt;0.4</span>
+                    <span class="c1">################################################################################</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;paths&#39;</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">path_name</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
+                                <span class="n">path</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_names</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;spaths&#39;</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">spath</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">spath</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
+                                <span class="n">spath</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_names</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;inls&#39;</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;spheres&#39;</span><span class="p">):</span>
+                            <span class="n">value</span><span class="o">.</span><span class="n">spheres</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">refs</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
+                                    <span class="n">r</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_names</span>
+                    <span class="c1">################################################################################</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                    if isinstance(value, CompactSelectionMDA):</span>
+<span class="sd">                        value = value.toSelectionMDA(self.reader)</span>
+<span class="sd">                        # with self.reader.get() as traj_reader:</span>
+<span class="sd">                        #    value = value.toSelectionMDA(traj_reader)</span>
+<span class="sd">                    &#39;&#39;&#39;</span>
+                    <span class="c1"># TODO: following is to overcome problems with missing names when data is &lt;0.4</span>
+                    <span class="c1">################################################################################</span>
+                    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                    if name == &#39;paths&#39;:</span>
+<span class="sd">                        for path_name,path in value.iteritems():</span>
+<span class="sd">                            if not hasattr(path,&#39;name&#39;):</span>
+<span class="sd">                                path.name = self.unknown_names</span>
+<span class="sd">                    if name == &#39;spaths&#39;:</span>
+<span class="sd">                        for spath in value:</span>
+<span class="sd">                            if not hasattr(spath.id,&#39;name&#39;):</span>
+<span class="sd">                                spath.id.name = self.unknown_names</span>
+<span class="sd">                    if name == &#39;inls&#39;:</span>
+<span class="sd">                        if not hasattr(value,&#39;spheres&#39;):</span>
+<span class="sd">                            value.spheres = []</span>
+<span class="sd">                        if hasattr(value,&#39;refs&#39;):</span>
+<span class="sd">                            for r in value.refs:</span>
+<span class="sd">                                if not hasattr(r, &#39;name&#39;):</span>
+<span class="sd">                                    r.name = self.unknown_names</span>
+<span class="sd">                    &#39;&#39;&#39;</span>
+                    <span class="c1">################################################################################</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;r&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;w&quot;</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        if isinstance(value, SelectionMDA):</span>
+<span class="sd">            value = CompactSelectionMDA(value)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># options are passed as dictionaries already</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        if &#39;options&#39; in name:</span>
+<span class="sd">            value = value._asdict()</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="kc">False</span><span class="p">:</span>  <span class="c1"># hasattr(value,&#39;simple_dump&#39;):</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">simple_dump</span><span class="p">()},</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">value</span><span class="p">},</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="p">)</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/AQUADUCT_LOGO.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Aqua-Duct 1.0.10 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../../aquaduct.html" >aquaduct</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">aquaduct.apps.valve.data</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, 2017, 2018, 2019 Tomasz Magdziarz, Karolina Mitusińska, Agata Raczyńska, Artur Góra.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>

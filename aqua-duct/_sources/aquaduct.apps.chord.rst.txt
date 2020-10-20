@@ -1,0 +1,6 @@
+aquaduct.apps.chord module
+==========================
+
+.. automodule:: aquaduct.apps.chord
+   :members:
+   :show-inheritance:
